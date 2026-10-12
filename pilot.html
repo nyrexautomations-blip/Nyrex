@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
+<script>document.documentElement.classList.add('js');window.__rt=setTimeout(function(){document.documentElement.classList.add('reveal-all')},4000)</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -31,16 +32,16 @@
   <nav id="nav" aria-label="Main"><a href="/how-it-works.html">How it works</a><a href="/industries.html">Who it's for</a><a href="/pilot.html" aria-current="page">Free pilot</a><a href="/faq.html">FAQ</a><a class="btn" href="/pilot.html">Get a free demo</a></nav>
 </div></header>
 <main id="main">
-<div class="wrap pagehead">
+<div class="pagehead"><div class="wrap">
   <h1>Try it free for 14 days.</h1>
   <p class="lead">We're looking for our first local businesses to pilot with. You get the assistant running on your own business, with no contract.</p>
   <div class="row">
-    <a class="btn" href="mailto:nyrexautomations@gmail.com?subject=Nyrex%20pilot&body=Business%20name%3A%0AType%20of%20business%3A%0ACity%3A%0AThe%20WhatsApp%20number%20customers%20message%20now%3A">Email us your business details</a>
+    <a class="btn" href="#request">Request a free demo</a>
     <a class="btn line" href="https://instagram.com/nyrexai">Message @nyrexai on Instagram</a>
   </div>
-</div>
+</div></div>
 
-<section style="padding-top:0"><div class="wrap">
+<section><div class="wrap">
   <h2>How the 14 days go.</h2>
   <ol class="days">
     <li><b>Before you start</b><span>We show you a 30-second demo of the assistant answering questions about your business, using the details you send us. You decide whether to go ahead.</span></li>
@@ -74,7 +75,30 @@
   </div>
 </div></section>
 
-<section class="lampband"><div class="wrap">
+<section id="request"><div class="wrap split">
+  <div>
+    <h2>Request your free demo.</h2>
+    <p class="lead" style="margin-top:16px">Tell us a little about your business. We'll come back with a 30-second demo on your own details.</p>
+    <ul class="rules" style="margin-top:28px">
+      <li><b>Takes a minute.</b><span>Five short fields, and only the first one is required.</span></li>
+      <li><b>Nothing is sent until you press send.</b><span>The form opens your email app with your answers filled in.</span></li>
+    </ul>
+  </div>
+  <form class="form" id="pilot-form" aria-label="Request a free demo">
+    <label>Business name<input name="biz" type="text" required autocomplete="organization" placeholder="For example, Glow Studio"></label>
+    <div class="two">
+      <label>Type of business<select name="type"><option>Salon or spa</option><option>Clinic or dentist</option><option>Tuition or coaching</option><option>Restaurant or cafe</option><option>Repair shop</option><option>Something else</option></select></label>
+      <label>City<input name="city" type="text" autocomplete="address-level2" placeholder="Where you are"></label>
+    </div>
+    <label>WhatsApp number customers message now <span class="hint">Optional</span><input name="phone" type="tel" autocomplete="tel" placeholder="+91"></label>
+    <label>What do customers ask most? <span class="hint">Optional</span><textarea name="asks" placeholder="Hours, prices, bookings, directions"></textarea></label>
+    <button class="btn" type="submit">Open my email with these details</button>
+    <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    <p class="form-note">Prefer not to use a form? Email <a href="mailto:nyrexautomations@gmail.com">nyrexautomations@gmail.com</a> or message <a href="https://instagram.com/nyrexai">@nyrexai</a> on Instagram.</p>
+  </form>
+</div></section>
+
+<section class="cta-band"><div class="wrap">
   <h2>Ready to see it on your business?</h2>
   <p class="lead" style="margin-top:16px">Send us your business name and what you do. We'll come back with a demo.</p>
   <div class="row">
