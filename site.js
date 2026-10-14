@@ -253,3 +253,13 @@
     });
   }
 })();
+
+/* the embedded ad plays only while it is on screen */
+(function(){
+  var f=document.querySelector('.adframe iframe');
+  if(!f||!('IntersectionObserver' in window)) return;
+  var vis=false;
+  function send(){try{f.contentWindow.postMessage({type:'nyrex-ad',visible:vis},location.origin)}catch(e){}}
+  new IntersectionObserver(function(en){vis=en[0].isIntersecting&&en[0].intersectionRatio>=0.35;send()},{threshold:[0,.35,.6]}).observe(f);
+  f.addEventListener('load',send);
+})();

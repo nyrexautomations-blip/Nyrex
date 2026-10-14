@@ -600,8 +600,22 @@ html.embed .controls { width: 100%; }
     toggle.textContent = v ? 'Pause' : 'Play';
   }
 
-  document.getElementById('replay').addEventListener('click', function () { t = 0; prevT = 0; setPlaying(true); });
-  toggle.addEventListener('click', function () { setPlaying(!playing); });
+  var embed = document.documentElement.classList.contains('embed');
+  var userPaused = false, visibleKnown = false;
+  document.getElementById('replay').addEventListener('click', function () { t = 0; prevT = 0; userPaused = false; setPlaying(true); });
+  toggle.addEventListener('click', function () { setPlaying(!playing); userPaused = !playing; });
+  // when embedded in a page, the page tells the ad when it is on screen so it only plays then
+  window.addEventListener('message', function (e) {
+    if (e.origin !== location.origin) return;
+    var d = e.data;
+    if (!d || d.type !== 'nyrex-ad') return;
+    visibleKnown = true;
+    if (d.visible) { if (!userPaused) setPlaying(true); } else { setPlaying(false); }
+  });
+  if (embed) {
+    setPlaying(false);
+    setTimeout(function () { if (!visibleKnown && !userPaused) setPlaying(true); }, 1500);
+  }
   scrub.addEventListener('input', function () { t = parseFloat(scrub.value) || 0; prevT = t; });
   snd.addEventListener('click', function () { setSound(true); });
   soundbtn.addEventListener('click', function () { setSound(!soundOn); });
