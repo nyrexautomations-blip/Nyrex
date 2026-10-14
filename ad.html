@@ -140,6 +140,7 @@ html.embed .stage { width: min(100%, calc((100svh - 54px) * 16 / 9)); border-rad
 
 /* scene 2 */
 .clock { flex: none; width: 36cqw; height: 36cqw; }
+.clock svg { width: 100%; height: 100%; display: block; }
 .readout { display: flex; align-items: baseline; gap: 1.6cqw; }
 .readout .big { font-size: 17cqw; font-variant-numeric: tabular-nums; }
 .readout em { font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 5cqw; }
@@ -191,7 +192,8 @@ html.embed .stage { width: min(100%, calc((100svh - 54px) * 16 / 9)); border-rad
 .kw > div { min-width: 0; display: flex; flex-direction: column; gap: 2cqw; }
 .kw .h2 { font-size: 10cqw; }
 .kw p { font-size: 2.8cqw; opacity: .92; max-width: 34ch; }
-.kw svg { flex: none; width: 20cqw; height: 20cqw; fill: none; stroke: var(--g5); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.kw > .ico { flex: none; display: block; width: 20cqw; height: 20cqw; }
+.ico svg { width: 100%; height: 100%; display: block; fill: none; stroke: var(--g5); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .s5 .eyebrow { position: absolute !important; left: 8cqw; top: 6cqw; z-index: 2; }
 .dots { position: absolute !important; left: 8cqw; bottom: 6cqw; display: flex; gap: .9cqw; z-index: 2; }
 .dots i { width: 1cqw; height: 1cqw; border-radius: 50%; background: rgba(255,255,255,.3); transition: background .2s, width .3s; }
@@ -239,17 +241,17 @@ html.embed .controls { width: 100%; }
 
   <!-- 1. Hook -->
   <section class="scene white" data-in="0" data-out="2.8">
-    <div class="cam" data-cam="[[0,1.0,2,0],[2.2,1.1,-1,0],[2.8,1.3,-2,0]]">
+    <div class="cam" data-shots='[[0.5,0.25,1.4,"#big1"],[0.9,0.28,1.55,"#c1"],[1.25,0.25,1.55,"#c2"],[1.6,0.25,1.55,"#c3"],[2.05,0.3,1,null]]'>
       <div class="grid"></div>
       <div class="col">
         <div class="a eyebrow l" data-in="0.05">Glow Studio · 11:48 PM</div>
         <div class="h1" data-words="0.15" data-gap="0.16">They text at</div>
-        <div class="big accent a slam" data-in="0.65">11 PM.</div>
+        <div class="big accent a slam" id="big1" data-in="0.65">11 PM.</div>
       </div>
       <div class="col chips">
-        <div class="chip a r" data-in="0.9"><div class="av">A</div><div><b>Aisha</b><span>Are you open Sunday?</span></div><small>now</small></div>
-        <div class="chip a r" data-in="1.25"><div class="av">R</div><div><b>Rohan</b><span>Price for a haircut?</span></div><small>now</small></div>
-        <div class="chip a r" data-in="1.6"><div class="av">M</div><div><b>Meera</b><span>Can I book 4 pm?</span></div><small>now</small></div>
+        <div class="chip a r" id="c1" data-in="0.9"><div class="av">A</div><div><b>Aisha</b><span>Are you open Sunday?</span></div><small>now</small></div>
+        <div class="chip a r" id="c2" data-in="1.25"><div class="av">R</div><div><b>Rohan</b><span>Price for a haircut?</span></div><small>now</small></div>
+        <div class="chip a r" id="c3" data-in="1.6"><div class="av">M</div><div><b>Meera</b><span>Can I book 4 pm?</span></div><small>now</small></div>
       </div>
       <div class="badge a pop" data-in="0.7" id="badge">0</div>
     </div>
@@ -257,41 +259,41 @@ html.embed .controls { width: 100%; }
 
   <!-- 2. The silence -->
   <section class="scene green glow" data-in="2.8" data-out="6.6">
-    <div class="cam" data-cam="[[2.8,1.8,47,0],[4.9,1.0,0,0],[5.0,1.1,-2,0],[6.1,1.03,0,0],[6.6,1.4,0,0]]">
+    <div class="cam" data-shots='[[2.95,0.3,1.5,"#clk"],[3.9,0.3,1.45,"#rd"],[4.92,0.16,1.5,"#nr"],[5.5,0.25,1.4,"#bk"],[6.1,0.3,1,null]]'>
       <div class="grid"></div>
-      <svg class="clock a pop" data-in="3.0" viewBox="0 0 100 100" aria-hidden="true">
+      <div class="clock a pop" id="clk" data-in="3.0"><svg viewBox="0 0 100 100" aria-hidden="true">
         <circle cx="50" cy="50" r="46" fill="none" stroke="#fff" stroke-width="3"/>
         <circle cx="50" cy="50" r="38" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="1.2 18.7" transform="rotate(-90 50 50)"/>
         <line id="hh" x1="50" y1="50" x2="50" y2="30" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
         <line id="mm" x1="50" y1="50" x2="50" y2="15" stroke="#E4F3EB" stroke-width="3" stroke-linecap="round"/>
         <circle cx="50" cy="50" r="3.6" fill="#0F9468"/>
-      </svg>
+      </svg></div>
       <div class="col">
-        <div class="readout a" data-in="3.2"><span class="big" id="hrs">0</span><em>hours</em></div>
-        <div class="big a slam" data-in="5.0" style="font-size:8.6cqw">No reply.</div>
-        <p class="a" data-in="5.55">They booked the shop next door.</p>
+        <div class="readout a" id="rd" data-in="3.2"><span class="big" id="hrs">0</span><em>hours</em></div>
+        <div class="big a slam" id="nr" data-in="5.0" style="font-size:8.6cqw">No reply.</div>
+        <p class="a" id="bk" data-in="5.55">They booked the shop next door.</p>
       </div>
     </div>
   </section>
 
   <!-- 3. Reveal -->
   <section class="scene green glow" data-in="6.6" data-out="8.8">
-    <div class="cam s3" data-cam="[[6.6,2.6,0,0],[8.0,1.0,0,0],[8.8,1.12,0,0]]">
+    <div class="cam s3" data-shots='[[6.7,0.28,1.7,"#lg"],[7.2,0.25,1.4,"#meet"],[7.85,0.25,1.3,"#sub3"],[8.3,0.3,1,null]]'>
       <div class="grid"></div>
-      <div class="logo a pop" data-in="6.8"><i class="ring"></i><i class="ring"></i><i class="ring"></i><div class="mark">N</div></div>
-      <div class="h2" data-words="7.25" data-gap="0.2" style="font-size:9cqw">Meet Nyrex.</div>
-      <p class="a" data-in="7.9">Instant WhatsApp replies for your business.</p>
+      <div class="logo a pop" id="lg" data-in="6.8"><i class="ring"></i><i class="ring"></i><i class="ring"></i><div class="mark">N</div></div>
+      <div class="h2" id="meet" data-words="7.25" data-gap="0.2" style="font-size:9cqw">Meet Nyrex.</div>
+      <p class="a" id="sub3" data-in="7.9">Instant WhatsApp replies for your business.</p>
     </div>
   </section>
 
   <!-- 4. Demo -->
   <section class="scene white s4" data-in="8.8" data-out="16.0">
-    <div class="cam" data-cam="[[8.8,1.0,0,0],[10.0,1.0,0,0],[11.0,1.28,-40,0],[13.5,1.3,-41,0],[14.9,1.0,0,0],[16.0,1.08,0,0]]">
+    <div class="cam" data-shots='[[9.0,0.28,1.35,"#h4"],[9.8,0.28,1.5,"#b1"],[10.4,0.22,1.6,"#b2"],[11.72,0.2,2.0,"#pl"],[12.55,0.22,1.65,"#b3"],[13.35,0.22,1.65,"#b4"],[13.85,0.28,1.45,"#al"],[14.45,0.28,1.35,"#cl4"],[15.0,0.3,1,null]]'>
       <div class="grid"></div>
       <div class="col">
-        <div class="h1" data-words="9.0" data-gap="0.18" data-out="13.7">Watch it work.</div>
-        <div class="alert a drop" data-in="13.9" data-out="15.95"><div class="mark">N</div><div><b>Handoff alert</b><span>A customer wants a 4 pm slot</span></div></div>
-        <p class="a" data-in="14.4" style="font-weight:600; font-size:2.6cqw">You step in only when it matters.</p>
+        <div class="h1" id="h4" data-words="9.0" data-gap="0.18" data-out="13.7">Watch it work.</div>
+        <div class="alert a drop" id="al" data-in="13.9" data-out="15.95"><div class="mark">N</div><div><b>Handoff alert</b><span>A customer wants a 4 pm slot</span></div></div>
+        <p class="a" id="cl4" data-in="14.4" style="font-weight:600; font-size:2.6cqw">You step in only when it matters.</p>
       </div>
       <div class="phonewrap">
         <div class="float">
@@ -299,12 +301,12 @@ html.embed .controls { width: 100%; }
             <div class="screen">
               <div class="shead"><div class="av">G</div><div><b>Glow Studio</b><small>online</small></div></div>
               <div class="msgs">
-                <div class="bub in a l" data-in="9.9">Hi! Are you open Sunday? How much is keratin?</div>
+                <div class="bub in a l" id="b1" data-in="9.9">Hi! Are you open Sunday? How much is keratin?</div>
                 <div class="typing a" data-in="10.5" data-out="11.3"><span></span><span></span><span></span></div>
-                <div class="bub out a r" data-in="11.3">Hi! Yes, we're open Sunday, 10 am to 7 pm. Keratin starts from ₹2,500. Want me to request a 4 pm slot?</div>
-                <div class="pill a pop" data-in="11.75">Replied in seconds</div>
-                <div class="bub in a l" data-in="12.6">Yes, 4 pm works.</div>
-                <div class="bub out a r" data-in="13.4">Noted. I've passed it to the team. They'll confirm shortly.</div>
+                <div class="bub out a r" id="b2" data-in="11.3">Hi! Yes, we're open Sunday, 10 am to 7 pm. Keratin starts from ₹2,500. Want me to request a 4 pm slot?</div>
+                <div class="pill a pop" id="pl" data-in="11.75">Replied in seconds</div>
+                <div class="bub in a l" id="b3" data-in="12.6">Yes, 4 pm works.</div>
+                <div class="bub out a r" id="b4" data-in="13.4">Noted. I've passed it to the team. They'll confirm shortly.</div>
               </div>
             </div>
           </div>
@@ -315,21 +317,21 @@ html.embed .controls { width: 100%; }
 
   <!-- 5. Kinetic benefits -->
   <section class="scene green glow s5" data-in="16.0" data-out="20.0">
-    <div class="cam" data-cam="[[16.0,1.12,2,0],[17.3,1.0,0,0],[17.5,1.12,-2,0],[18.7,1.0,0,0],[18.8,1.12,2,0],[20.0,1.0,0,0]]">
+    <div class="cam" data-shots='[[16.1,0.2,1.3,"#k1"],[17.45,0.18,1.3,"#k2"],[18.75,0.18,1.3,"#k3"],[19.55,0.3,1,null]]'>
       <div class="grid"></div>
       <div class="eyebrow a" data-in="16.1">Why owners switch it on</div>
       <div class="kin">
         <div class="kw a slam" data-in="16.2" data-out="17.5">
-          <div><div class="h2">Instant.</div><p>Replies in seconds, not hours.</p></div>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="26" r="15"/><path d="M24 17v9l6 4M19 5h10M24 5v6"/></svg>
+          <div><div class="h2" id="k1">Instant.</div><p>Replies in seconds, not hours.</p></div>
+          <div class="ico" id="i1"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="26" r="15"/><path d="M24 17v9l6 4M19 5h10M24 5v6"/></svg></div>
         </div>
         <div class="kw a slam" data-in="17.5" data-out="18.8">
-          <div><div class="h2">Always on.</div><p>Nights, Sundays, festivals.</p></div>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M36 30A15 15 0 0 1 18 12a15 15 0 1 0 18 18z"/><path d="M34 8v6M31 11h6"/></svg>
+          <div><div class="h2" id="k2">Always on.</div><p>Nights, Sundays, festivals.</p></div>
+          <div class="ico" id="i2"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M36 30A15 15 0 0 1 18 12a15 15 0 1 0 18 18z"/><path d="M34 8v6M31 11h6"/></svg></div>
         </div>
         <div class="kw a slam" data-in="18.8" data-out="20.0">
-          <div><div class="h2">You stay in control.</div><p>It hands the chat to you when a person is needed.</p></div>
-          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 33V21a11 11 0 0122 0v12l3 3H10zM20 41h8"/></svg>
+          <div><div class="h2" id="k3">You stay in control.</div><p>It hands the chat to you when a person is needed.</p></div>
+          <div class="ico" id="i3"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 33V21a11 11 0 0122 0v12l3 3H10zM20 41h8"/></svg></div>
         </div>
       </div>
       <div class="dots" aria-hidden="true"><i data-in="16.2" data-out="17.5"></i><i data-in="17.5" data-out="18.8"></i><i data-in="18.8" data-out="20.0"></i></div>
@@ -338,17 +340,17 @@ html.embed .controls { width: 100%; }
 
   <!-- 6. Call to action -->
   <section class="scene white s6" data-in="20.0" data-out="24.1">
-    <div class="cam" data-cam="[[20.0,1.15,0,0],[24.0,1.0,0,0]]">
+    <div class="cam" data-shots='[[20.35,0.25,1.4,"#br6"],[20.6,0.3,1.2,"#try6"],[21.6,0.25,1.45,"#nc6"],[21.9,0.25,1.5,"#mk6"],[22.2,0.2,1.7,"#url6"],[22.65,0.3,1.35,"#ig6"],[23.2,0.45,1,null]]'>
       <div class="grid"></div>
       <div class="col">
-        <div class="brandrow a l" data-in="20.3"><div class="mark">N</div><div class="word">Nyrex</div></div>
-        <div class="big" data-words="20.6" data-gap="0.16">Try it free for 14 days.</div>
-        <p class="a" data-in="21.6" style="font-size:3.2cqw; font-weight:600">No contract.</p>
+        <div class="brandrow a l" id="br6" data-in="20.3"><div class="mark">N</div><div class="word">Nyrex</div></div>
+        <div class="big" id="try6" data-words="20.6" data-gap="0.16">Try it free for 14 days.</div>
+        <p class="a" id="nc6" data-in="21.6" style="font-size:3.2cqw; font-weight:600">No contract.</p>
       </div>
       <div class="col right">
-        <div class="mark a pop" data-in="21.9">N</div>
-        <div class="url a pop" data-in="22.2" style="--s:.6">nyrex.pages.dev</div>
-        <p class="a" data-in="22.6" style="opacity:.8">Instagram @nyrexai</p>
+        <div class="mark a pop" id="mk6" data-in="21.9">N</div>
+        <div class="url a pop" id="url6" data-in="22.2" style="--s:.6">nyrex.pages.dev</div>
+        <p class="a" id="ig6" data-in="22.6" style="opacity:.8">Instagram @nyrexai</p>
       </div>
     </div>
   </section>
@@ -405,8 +407,8 @@ html.embed .controls { width: 100%; }
     e._out = e.dataset.out ? parseFloat(e.dataset.out) : Infinity;
     e._on = null;
   });
-  var cams = Array.prototype.slice.call(document.querySelectorAll('[data-cam]')).map(function (e, i) {
-    return { el: e, kf: JSON.parse(e.dataset.cam), i: i };
+  var cams = Array.prototype.slice.call(document.querySelectorAll('[data-shots]')).map(function (e) {
+    return { el: e, shots: JSON.parse(e.dataset.shots), foci: null, w: -1 };
   });
   var bar = document.getElementById('bar');
   var hrs = document.getElementById('hrs');
@@ -421,19 +423,34 @@ html.embed .controls { width: 100%; }
   function ease(x) { return 1 - Math.pow(1 - x, 3); }
   function inOut(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
 
-  // virtual camera: interpolate scale and pan between keyframes [time, scale, x, y]
-  function camPose(kf, tm) {
-    if (tm <= kf[0][0]) return kf[0];
-    var n = kf.length;
-    if (tm >= kf[n - 1][0]) return kf[n - 1];
-    for (var i = 0; i < n - 1; i++) {
-      if (tm >= kf[i][0] && tm < kf[i + 1][0]) {
-        var p = inOut((tm - kf[i][0]) / (kf[i + 1][0] - kf[i][0]));
-        return [tm, kf[i][1] + (kf[i + 1][1] - kf[i][1]) * p, kf[i][2] + (kf[i + 1][2] - kf[i][2]) * p, kf[i][3] + (kf[i + 1][3] - kf[i][3]) * p];
-      }
-    }
-    return kf[n - 1];
+  // virtual camera: fast snap-zooms onto the element that just appeared, then back out
+  function easeOutExpo(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }
+  function center(el, cam) {
+    var x = el.offsetWidth / 2, y = el.offsetHeight / 2, n = el;
+    while (n && n !== cam) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+    var u = (cam.offsetWidth / 100) || 1;
+    return [(x - cam.offsetWidth / 2) / u, (y - cam.offsetHeight / 2) / u];
   }
+  function measureCam(c) {
+    c.foci = c.shots.map(function (sh) {
+      var el = sh[3] ? document.querySelector(sh[3]) : null;
+      var p = el ? center(el, c.el) : [0, 0];
+      var sc = el ? sh[2] : 1;
+      return [-p[0] * sc, -p[1] * sc, sc];
+    });
+  }
+  function camPose(c, tm) {
+    var px = 0, py = 0, ps = 1;
+    for (var i = 0; i < c.shots.length; i++) {
+      var sh = c.shots[i], f = c.foci[i];
+      if (tm < sh[0]) break;
+      var k = easeOutExpo(Math.min(1, (tm - sh[0]) / sh[1]));
+      if (k < 1) return [px + (f[0] - px) * k, py + (f[1] - py) * k, ps + (f[2] - ps) * k];
+      px = f[0]; py = f[1]; ps = f[2];
+    }
+    return [px, py, ps];
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { cams.forEach(function (c) { c.w = -1; }); });
 
   function render() {
     els.forEach(function (e) {
@@ -441,9 +458,9 @@ html.embed .controls { width: 100%; }
       if (on !== e._on) { e._on = on; e.classList.toggle('show', on); }
     });
     cams.forEach(function (c) {
-      var p = camPose(c.kf, t);
-      var rot = Math.sin(t * 0.9 + c.i * 1.7) * 0.35;
-      c.el.style.transform = 'translate(' + p[2].toFixed(2) + 'cqw,' + p[3].toFixed(2) + 'cqw) scale(' + p[1].toFixed(3) + ') rotate(' + rot.toFixed(2) + 'deg)';
+      if (c.w !== c.el.offsetWidth) { c.w = c.el.offsetWidth; measureCam(c); }
+      var p = camPose(c, t);
+      c.el.style.transform = 'translate(' + p[0].toFixed(2) + 'cqw,' + p[1].toFixed(2) + 'cqw) scale(' + p[2].toFixed(3) + ')';
     });
     bar.style.transform = 'scaleX(' + (t / DUR) + ')';
     badge.textContent = Math.round(clamp((t - 0.7) / 1.6) * 7);
