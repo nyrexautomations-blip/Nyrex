@@ -387,3 +387,15 @@ button.btn{font-family:var(--body);cursor:pointer}
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .js .reveal{opacity:1;transform:none}
 }
+
+/* ad band: embedded film */
+.adband{background:var(--g900);color:#fff}
+.adband h2{color:#fff}
+.adband .lead{color:#C6E8D7}
+.adband .note{color:#9FD5BA;font-size:.9rem;margin-top:18px}
+.adband .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:clamp(28px,5vw,64px);align-items:center}
+.adtext{display:flex;flex-direction:column;gap:16px;min-width:0}
+.adtext .row{margin-top:8px}
+.adframe{position:relative;width:100%;padding-bottom:calc(56.25% + 54px);border-radius:18px;overflow:hidden;background:#05382A;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.adframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+@media(max-width:860px){.adband .wrap{grid-template-columns:minmax(0,1fr)}}
