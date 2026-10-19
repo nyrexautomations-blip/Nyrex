@@ -129,6 +129,43 @@
   }</script>
 </div></section>
 
+<section class="try" id="try"><div class="wrap">
+  <h2>Try it with your own business.</h2>
+  <p class="lead">Type a few details, then tap a customer question. You'll see the kind of reply your customers would get. This is a quick preview built from your answers, not the live assistant.</p>
+  <div class="try-grid">
+    <form class="try-in" id="try-form" onsubmit="return false" aria-label="Your business details">
+      <label for="t-name">Business name</label>
+      <input id="t-name" type="text" value="Sharma Salon" maxlength="40" autocomplete="off">
+      <label for="t-service">One service you offer</label>
+      <input id="t-service" type="text" value="haircut" maxlength="30" autocomplete="off">
+      <label for="t-price">Its price <small>(leave empty if you'd rather your team quotes it)</small></label>
+      <input id="t-price" type="text" value="" placeholder="e.g. 300" maxlength="12" inputmode="numeric" autocomplete="off">
+      <div class="t-row">
+        <div><label for="t-open">Opens</label><select id="t-open"></select></div>
+        <div><label for="t-close">Closes</label><select id="t-close"></select></div>
+      </div>
+      <label for="t-off">Weekly day off</label>
+      <select id="t-off"><option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option value="">None</option></select>
+      <p class="t-ask" id="t-ask-label">Customer asks:</p>
+      <div class="tabs t-chips" role="group" aria-labelledby="t-ask-label">
+        <button type="button" data-q="hours">Are you open?</button>
+        <button type="button" data-q="off">Open on your day off?</button>
+        <button type="button" data-q="service">Do you do this service?</button>
+        <button type="button" data-q="price">How much?</button>
+        <button type="button" data-q="book">I want to book</button>
+        <button type="button" data-q="person">Can I talk to a person?</button>
+      </div>
+    </form>
+    <div class="phone demo-phone" aria-label="Preview of the reply">
+      <div class="screen">
+        <div class="chat-bar"><div class="avatar" id="t-av">S</div><div><b id="t-title">Sharma Salon</b><small>replies in seconds</small></div></div>
+        <div class="msgs" id="t-msgs" aria-live="polite"></div>
+        <div class="chat-label">Preview from your details</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
 <section class="adband" id="film"><div class="wrap">
   <div class="adtext">
     <h2>The 24&#8209;second version.</h2>
@@ -279,10 +316,12 @@
     <ul>
       <li><a href="https://instagram.com/nyrexai">Instagram @nyrexai</a></li>
       <li><a href="mailto:nyrexautomations@gmail.com">nyrexautomations@gmail.com</a></li>
+      <li><a href="#" id="share-wa" rel="noopener">Share this site on WhatsApp</a></li>
     </ul>
   </div>
   <div class="legal">Nyrex is an independent business. It is not affiliated with or endorsed by WhatsApp or Meta. WhatsApp is a trademark of Meta Platforms, Inc.</div>
 </div></footer>
+<button class="totop" type="button" aria-label="Back to top">&#8593;</button>
 <a class="dock" href="/pilot.html">Get a free demo</a>
 <script src="/site.js" defer></script>
 </body>

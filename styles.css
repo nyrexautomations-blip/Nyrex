@@ -406,3 +406,21 @@ button.btn{font-family:var(--body);cursor:pointer}
   .reveal{opacity:1!important;transform:none!important}
   a[href^="http"]::after{content:" (" attr(href) ")";font-size:.8em}
 }
+
+/* try-it preview, back to top */
+.try{background:var(--g50);border-block:1px solid var(--line);padding-block:clamp(56px,8vw,104px)}
+.try-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,64px);align-items:start;margin-top:40px}
+.try-in{display:grid;gap:6px;padding:clamp(22px,3vw,36px);border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 30px 60px -44px rgba(6,42,33,.6)}
+.try-in label{font-weight:700;color:var(--g900);margin-top:12px}
+.try-in label small{font-weight:500;color:var(--muted)}
+.try-in input,.try-in select{width:100%;font:500 1rem var(--body);padding:12px 14px;border-radius:12px;border:2px solid var(--g200);background:#fff;color:var(--ink)}
+.try-in input:focus,.try-in select:focus{outline:none;border-color:var(--g600)}
+.t-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.t-ask{margin:22px 0 0;font-weight:700;color:var(--g900)}
+.t-chips{margin-top:10px}
+.try .demo-phone{justify-self:center;width:100%;max-width:340px}
+.totop{position:fixed;right:18px;bottom:18px;z-index:40;width:46px;height:46px;border-radius:50%;border:0;background:var(--g700);color:#fff;font:700 1.3rem/1 var(--body);cursor:pointer;box-shadow:0 12px 24px -10px rgba(6,42,33,.6);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .25s,transform .25s,background .2s}
+.totop.show{opacity:1;pointer-events:auto;transform:none}
+.totop:hover{background:var(--g800)}
+@media(max-width:860px){.try-grid{grid-template-columns:1fr}.totop{bottom:84px}}
+@media print{.totop,.try{display:none!important}}

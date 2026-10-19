@@ -233,6 +233,66 @@
     calc();
   }
 
+  /* try it with your own business: a rule-based preview built from the visitor's answers */
+  var tf=document.getElementById('try-form');
+  if(tf){
+    var tName=document.getElementById('t-name'),tSvc=document.getElementById('t-service'),tPrice=document.getElementById('t-price'),tOpen=document.getElementById('t-open'),tClose=document.getElementById('t-close'),tOff=document.getElementById('t-off'),tMsgs=document.getElementById('t-msgs');
+    var fmt=function(h){var s=h<12?'am':'pm',x=h%12||12;return x+' '+s};
+    for(var h=6;h<=23;h++){
+      [tOpen,tClose].forEach(function(sel){var o=document.createElement('option');o.value=h;o.textContent=fmt(h);sel.appendChild(o)});
+    }
+    tOpen.value='10';tClose.value='19';
+    var clean=function(v,d){v=(v||'').replace(/[<>]/g,'').trim();return v||d};
+    var tbusy=null;
+    var say=function(who,text){var d=document.createElement('div');d.className='m '+who+' pop';d.textContent=text;var t=document.createElement('time');t.textContent='now';d.appendChild(t);tMsgs.appendChild(d);tMsgs.scrollTop=tMsgs.scrollHeight;return d};
+    var reply=function(q){
+      var name=clean(tName.value,'our business'),svc=clean(tSvc.value,'this service').toLowerCase(),pr=(tPrice.value||'').replace(/[^\d]/g,''),off=tOff.value;
+      var hrs=fmt(+tOpen.value)+' to '+fmt(+tClose.value),days=off?'every day except '+off:'every day';
+      if(q==='hours') return ['Are you open?','Hi! Welcome to '+name+'. We\'re open '+days+', '+hrs+'. Anything I can help you with?'];
+      if(q==='off') return off?['Are you open on '+off+'?',off+' is our day off. We\'re open '+hrs+' on the other days. Shall I note a booking for another day?']:['Are you open on Sunday?','Yes, we\'re open every day, '+hrs+'. Shall I note a booking for you?'];
+      if(q==='service') return ['Do you do '+svc+'?','Yes, we do '+svc+'. Would you like to book it? I just need your name, the day and the time.'];
+      if(q==='price') return ['How much is '+svc+'?',pr?'Our '+svc+' is ₹'+Number(pr).toLocaleString('en-IN')+'. Would you like to book it?':'I don\'t have a price I can quote for '+svc+'. Our team will message you the exact price shortly. Anything else I can note down?'];
+      if(q==='book') return ['I want to book '+svc,'Sure! Which day and time suit you, and may I have your name? Our team will confirm the slot.'];
+      return ['Can I talk to a person?','Of course. I\'ve told the team at '+name+' and someone will message you shortly.'];
+    };
+    var refresh=function(){var n=clean(tName.value,'Your business');document.getElementById('t-title').textContent=n;document.getElementById('t-av').textContent=n.charAt(0).toUpperCase()};
+    [tName,tSvc,tPrice,tOpen,tClose,tOff].forEach(function(el){el.addEventListener('input',refresh);el.addEventListener('change',refresh)});
+    Array.prototype.forEach.call(tf.querySelectorAll('.t-chips button'),function(b){
+      b.addEventListener('click',function(){
+        if(tbusy)clearTimeout(tbusy);
+        var r=reply(b.getAttribute('data-q'));
+        while(tMsgs.children.length>6)tMsgs.removeChild(tMsgs.firstChild);
+        if(window.innerWidth<=860){var ph=tMsgs.closest('.phone'),rc=ph.getBoundingClientRect();if(rc.top<80||rc.bottom>window.innerHeight)ph.scrollIntoView({block:'center',behavior:reduce?'auto':'smooth'})}
+        say('me',r[0]);
+        var tp=document.createElement('div');tp.className='typing';tp.innerHTML='<span></span><span></span><span></span>';tMsgs.appendChild(tp);
+        tbusy=setTimeout(function(){tp.remove();say('bot',r[1])},reduce?0:800);
+      });
+    });
+    refresh();
+  }
+
+  /* back to top, WhatsApp share, pilot form draft */
+  var tt=document.querySelector('.totop');
+  if(tt){
+    tt.addEventListener('click',function(){window.scrollTo({top:0,behavior:reduce?'auto':'smooth'})});
+    var tick=function(){tt.classList.toggle('show',(window.scrollY||0)>900)};
+    window.addEventListener('scroll',tick,{passive:true});tick();
+  }
+  var sh=document.getElementById('share-wa');
+  if(sh){sh.href='https://wa.me/?text='+encodeURIComponent('Nyrex answers your WhatsApp customers in seconds, any hour. Free 14-day pilot: https://nyrex.pages.dev/');sh.target='_blank'}
+  var pf=document.getElementById('pilot-form');
+  if(pf){
+    var KEY='nyrex-pilot-draft';
+    try{
+      var saved=JSON.parse(localStorage.getItem(KEY)||'{}');
+      Array.prototype.forEach.call(pf.elements,function(el){if(el.name&&saved[el.name]&&!el.value)el.value=saved[el.name]});
+      pf.addEventListener('input',function(){
+        var o={};Array.prototype.forEach.call(pf.elements,function(el){if(el.name&&el.value)o[el.name]=el.value});
+        try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}
+      });
+    }catch(e){}
+  }
+
   /* copy the info checklist as a message the owner can paste into WhatsApp or email */
   var copyBtn=document.getElementById('copy-sheet');
   if(copyBtn){
