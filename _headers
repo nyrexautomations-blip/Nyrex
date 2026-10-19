@@ -12,3 +12,9 @@
 
 /favicon.svg
   Cache-Control: public, max-age=86400
+
+/*.html
+  Cache-Control: public, max-age=300, must-revalidate
+
+/og-image.png
+  Cache-Control: public, max-age=86400
