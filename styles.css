@@ -424,3 +424,47 @@ button.btn{font-family:var(--body);cursor:pointer}
 .totop:hover{background:var(--g800)}
 @media(max-width:860px){.try-grid{grid-template-columns:1fr}.totop{bottom:84px}}
 @media print{.totop,.try{display:none!important}}
+
+/* motion and polish pass */
+::selection{background:var(--g200);color:var(--g950)}
+.board-hero h1.split{animation:none}
+.board-hero h1 .w,.pagehead h1 .w{display:inline-block;opacity:0;transform:translateY(.55em);animation:rise .7s var(--ease) both;animation-delay:calc(.12s + var(--i,0)*.055s)}
+main h2.reveal::after{content:"";display:block;width:0;height:4px;border-radius:4px;background:var(--g500);margin-top:16px;transition:width .9s var(--ease) .3s}
+main h2.reveal.in::after{width:56px}
+.strip h2.reveal::after,.adband h2.reveal::after,.cta-band h2.reveal::after,.demo h2.reveal::after{background:var(--mint)}
+.split h2.reveal::after{margin-top:16px}
+
+.ticker{padding:0;background:var(--g950);border-block:1px solid rgba(255,255,255,.08);overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.ticker-track{display:flex;width:max-content;animation:ticker 38s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker ul{list-style:none;margin:0;padding:0;display:flex;flex:none}
+.ticker li{position:relative;padding:16px 34px 16px 52px;white-space:nowrap;color:#CFEBDD;font:600 .95rem var(--body);letter-spacing:.01em}
+.ticker li::before{content:"";position:absolute;left:30px;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(126,226,184,.18)}
+@keyframes ticker{to{transform:translateX(-50%)}}
+
+.fgrid li{position:relative;isolation:isolate;padding:22px 18px 18px;margin:-0px;border-radius:0 0 16px 16px;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.fgrid li::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:0 0 16px 16px;opacity:0;transition:opacity .3s;background:radial-gradient(240px circle at var(--mx,50%) var(--my,0%),rgba(79,191,146,.2),transparent 70%)}
+.fgrid li:hover{transform:translateY(-6px);box-shadow:0 26px 40px -30px rgba(6,42,33,.55)}
+.fgrid li:hover::before{opacity:1}
+
+.steps li::after{transform-origin:left;transform:scaleX(0);transition:transform 1s var(--ease) .35s}
+.steps li.in::after,.reveal-all .steps li::after{transform:scaleX(1)}
+html:not(.js) .steps li::after{transform:none}
+
+.hero-visual .phone{transition:transform .25s ease-out;will-change:transform}
+.btn.mag{transition:transform .2s ease-out,background .25s,box-shadow .25s}
+.cta-band::before{animation:drift 16s ease-in-out infinite alternate}
+.compare tbody tr{transition:background .25s}
+.compare tbody tr:hover{background:var(--g50)}
+.boards a{transition:color .3s,padding .3s var(--ease)}
+
+@media(prefers-reduced-motion:reduce){
+  .ticker-track{animation:none}
+  .board-hero h1 .w,.pagehead h1 .w{opacity:1;transform:none;animation:none}
+  main h2.reveal::after{width:56px;transition:none}
+  .steps li::after{transform:none;transition:none}
+}
+.js .fgrid li.reveal.in:hover{transform:translateY(-6px);transition-delay:0s}
+h1.split{text-wrap:wrap;word-spacing:0}
+h1.split .w{white-space:nowrap}
+h1.split{display:block}

@@ -323,3 +323,56 @@
   new IntersectionObserver(function(en){vis=en[0].isIntersecting&&en[0].intersectionRatio>=0.35;send()},{threshold:[0,.35,.6]}).observe(f);
   f.addEventListener('load',send);
 })();
+
+/* motion layer: headline words, card spotlight, hero tilt, magnetic buttons */
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine=window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches;
+  if(reduce) return;
+
+  /* headline: words rise one after another */
+  var h1=document.querySelector('.board-hero h1,.pagehead h1');
+  if(h1&&!h1.querySelector('.w')){
+    var words=h1.textContent.trim().split(/\s+/);
+    h1.setAttribute('aria-label',h1.textContent.trim());
+    h1.classList.add('split');
+    h1.textContent='';
+    words.forEach(function(w,i){
+      var s=document.createElement('span');
+      s.className='w';s.setAttribute('aria-hidden','true');s.style.setProperty('--i',i);s.textContent=w;
+      h1.appendChild(s);
+      if(i<words.length-1)h1.appendChild(document.createTextNode(' '));
+    });
+  }
+  if(!fine) return;
+
+  /* feature cards: soft light follows the cursor */
+  Array.prototype.forEach.call(document.querySelectorAll('.fgrid li'),function(li){
+    li.addEventListener('pointermove',function(e){
+      var r=li.getBoundingClientRect();
+      li.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      li.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+
+  /* hero phone: gentle tilt toward the pointer */
+  var hero=document.querySelector('.board-hero'),ph=document.querySelector('.hero-visual .phone');
+  if(hero&&ph){
+    hero.addEventListener('pointermove',function(e){
+      var r=hero.getBoundingClientRect();
+      var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      ph.style.transform='perspective(900px) rotateY('+(x*8).toFixed(2)+'deg) rotateX('+(-y*6).toFixed(2)+'deg)';
+    });
+    hero.addEventListener('pointerleave',function(){ph.style.transform=''});
+  }
+
+  /* primary buttons lean slightly toward the pointer */
+  Array.prototype.forEach.call(document.querySelectorAll('.board-hero .btn,.cta-band .btn,.pagehead .btn'),function(b){
+    b.classList.add('mag');
+    b.addEventListener('pointermove',function(e){
+      var r=b.getBoundingClientRect();
+      b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.12).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*.2).toFixed(1)+'px)';
+    });
+    b.addEventListener('pointerleave',function(){b.style.transform=''});
+  });
+})();
