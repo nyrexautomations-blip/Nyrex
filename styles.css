@@ -468,3 +468,36 @@ html:not(.js) .steps li::after{transform:none}
 h1.split{text-wrap:wrap;word-spacing:0}
 h1.split .w{white-space:nowrap}
 h1.split{display:block}
+
+/* pilot agreement */
+.agr-actions{margin:22px 0 6px;flex-wrap:wrap;gap:12px}
+.sign-table{width:100%;border-collapse:collapse;margin-top:8px}
+.sign-table th{width:36%;text-align:left;font-weight:700;color:var(--g900);padding:16px 8px;border-bottom:1px solid var(--g300)}
+.sign-table td{border-bottom:1px solid var(--g300)}
+@media print{.no-print,.agreement .agr-actions{display:none!important}.agreement{max-width:none}.prose p,.prose ul{color:#222}}
+
+/* pilot agreement */
+.agr-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 0 28px}
+.agr-tools .btn{padding:11px 18px;font-size:.95rem}
+.agr-status{font-weight:600;color:var(--g700);font-size:.95rem}
+.agr-parties{width:100%;border-collapse:collapse;margin:22px 0 8px}
+.agr-parties th{width:38%;text-align:left;font-weight:700;color:var(--g900);padding:12px 12px 12px 0;border-bottom:1px solid var(--line);vertical-align:bottom}
+.agr-parties td{padding:12px 0;border-bottom:1px solid var(--line)}
+.blank{display:block;min-height:1.6em;border-bottom:1px solid var(--g800)}
+.agr-parties .blank{border-bottom:0}
+.agr-sign{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:18px}
+.agr-sign .blank{height:44px;margin-top:8px}
+.agr-sign .blank.short{height:30px}
+.agr-sign small{display:block;color:var(--muted);font-size:.85rem;margin-top:4px}
+@media(max-width:640px){.agr-sign{grid-template-columns:1fr}}
+@media print{
+  .no-print{display:none!important}
+  .agreement{max-width:none!important;padding:0!important}
+  .agreement h1{font-size:22pt!important}
+  .agreement h2{font-size:12pt!important;margin-top:12pt!important}
+  .agreement h2::after{display:none!important}
+  body{font-size:10.5pt;line-height:1.4}
+  .agreement a::after{content:""!important}
+  section{padding:0!important}
+}
+@media print{footer.foot,.dock,.totop,.skip{display:none!important}}

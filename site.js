@@ -376,3 +376,36 @@
     b.addEventListener('pointerleave',function(){b.style.transform=''});
   });
 })();
+
+/* pilot agreement: print and copy */
+(function(){
+  var pr=document.getElementById('agr-print'),cp=document.getElementById('agr-copy'),st=document.getElementById('agr-status');
+  if(pr)pr.addEventListener('click',function(){window.print()});
+  if(cp)cp.addEventListener('click',function(){
+    var el=document.getElementById('agr-text');
+    var text='Nyrex Pilot Agreement\n\n'+el.innerText.replace(/\n{3,}/g,'\n\n').trim()+'\n';
+    var ok=function(){if(st)st.textContent='Copied. You can paste it into WhatsApp or an email.'};
+    var fail=function(){if(st)st.textContent='Could not copy automatically. Select the text and copy it by hand.'};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fail)}
+    else{var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')?ok():fail()}catch(e){fail()}document.body.removeChild(ta)}
+  });
+})();
+
+/* pilot agreement: print, copy as text */
+(function(){
+  var pr=document.getElementById('agr-print'),cp=document.getElementById('agr-copy'),st=document.getElementById('agr-status');
+  if(pr)pr.addEventListener('click',function(){window.print()});
+  if(cp)cp.addEventListener('click',function(){
+    var root=document.querySelector('.agreement'),out=[];
+    Array.prototype.forEach.call(root.children,function(el){
+      if(el.classList.contains('no-print'))return;
+      if(el.tagName==='TABLE'){Array.prototype.forEach.call(el.rows,function(r){out.push(r.cells[0].textContent.trim()+': ____________________')})}
+      else if(el.classList.contains('agr-sign')){out.push('For the business: ____________________  Date: __________');out.push('For Nyrex: ____________________  Date: __________')}
+      else if(el.tagName==='UL'){Array.prototype.forEach.call(el.children,function(li){out.push('- '+li.textContent.trim())})}
+      else out.push(el.textContent.trim());
+    });
+    var text=out.join('\n\n');
+    var ok=function(){if(st)st.textContent='Copied.'},fail=function(){if(st)st.textContent='Could not copy. Use Print or the PDF instead.'};
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(ok,fail);else fail();
+  });
+})();
