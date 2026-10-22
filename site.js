@@ -1,18 +1,119 @@
-/* Nyrex site script: nav, scroll motion, example chats, FAQ search, pilot form. No tracking, no external calls. */
+/* Nyrex site script: nav, optional Google sign-in, scroll motion, example chats, FAQ search, pilot form. No tracking. */
 (function(){
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* mobile nav */
+  /* mobile nav: toggles, closes on link, Escape, outside click, or when the window grows */
   var burger=document.querySelector('.burger');
   var nav=document.getElementById('nav');
+  function closeNav(){if(nav&&burger){nav.classList.remove('open');burger.setAttribute('aria-expanded','false')}}
   if(burger&&nav){
     burger.addEventListener('click',function(){
       var open=nav.classList.toggle('open');
       burger.setAttribute('aria-expanded',open?'true':'false');
     });
     nav.addEventListener('click',function(e){
-      if(e.target.tagName==='A'){nav.classList.remove('open');burger.setAttribute('aria-expanded','false')}
+      if(e.target.closest&&e.target.closest('a')) closeNav();
     });
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('open')){closeNav();burger.focus()}});
+    document.addEventListener('click',function(e){if(nav.classList.contains('open')&&!nav.contains(e.target)&&!burger.contains(e.target)) closeNav()});
+    window.addEventListener('resize',function(){if(window.innerWidth>980) closeNav()});
+  }
+
+  /* Sign in with Google (optional). Paste an OAuth "Web application" client ID below to switch it on;
+     until then the button stays hidden. Google's script is only loaded when someone uses the button.
+     The name, email and photo stay in this browser (localStorage) and are never sent to Nyrex servers. */
+  var GOOGLE_CLIENT_ID='';
+  var acct=document.getElementById('acct');
+  var USER_KEY='nyrex-user';
+  var gUser=null;
+  function readUser(){try{var u=JSON.parse(localStorage.getItem(USER_KEY));return u&&u.email?u:null}catch(e){return null}}
+  function saveUser(u){try{if(u)localStorage.setItem(USER_KEY,JSON.stringify(u));else localStorage.removeItem(USER_KEY)}catch(e){}}
+  function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n}
+  function avatar(u,size){
+    var a=el('span','av');
+    var letter=((u.name||u.email||'?').trim().charAt(0)||'?').toUpperCase();
+    if(u.picture&&/^https:\/\//.test(u.picture)){
+      var img=new Image();img.alt='';img.referrerPolicy='no-referrer';img.src=u.picture;
+      img.onerror=function(){a.textContent=letter;if(img.parentNode)img.parentNode.removeChild(img)};
+      a.appendChild(img);
+    }else a.textContent=letter;
+    return a;
+  }
+  var gScript=null;
+  function loadGoogle(){
+    if(window.google&&google.accounts&&google.accounts.oauth2) return Promise.resolve();
+    if(gScript) return gScript;
+    gScript=new Promise(function(res,rej){
+      var s=document.createElement('script');
+      s.src='https://accounts.google.com/gsi/client';s.async=true;
+      s.onload=res;s.onerror=function(){gScript=null;rej(new Error('load'))};
+      document.head.appendChild(s);
+    });
+    return gScript;
+  }
+  function note(msg){
+    var old=acct.querySelector('.anote');if(old)old.remove();
+    var n=el('div','anote',msg);n.setAttribute('role','status');acct.appendChild(n);
+    setTimeout(function(){if(n.parentNode)n.remove()},5000);
+  }
+  function startSignIn(btn){
+    btn.disabled=true;
+    var done=function(){btn.disabled=false};
+    loadGoogle().then(function(){
+      var tc=google.accounts.oauth2.initTokenClient({
+        client_id:GOOGLE_CLIENT_ID,
+        scope:'openid profile email',
+        callback:function(r){
+          if(!r||r.error||!r.access_token){done();return}
+          fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+r.access_token}})
+            .then(function(x){return x.json()})
+            .then(function(p){
+              if(!p||!p.email) throw new Error('profile');
+              gUser={name:p.name||p.email,first:p.given_name||(p.name||p.email).split(' ')[0],email:p.email,picture:p.picture||''};
+              saveUser(gUser);window.nyrexUser=gUser;renderAcct();
+            })
+            .catch(function(){done();note('Could not read your Google profile. Please try again.')});
+        },
+        error_callback:function(){done()}
+      });
+      tc.requestAccessToken({prompt:''});
+    }).catch(function(){done();note('Could not reach Google. Check your connection and try again.')});
+  }
+  function renderAcct(){
+    if(!acct) return;
+    acct.textContent='';
+    if(!gUser){
+      var b=el('button','gbtn');b.type='button';
+      b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7-7.27 2.09 0 3.71.89 4.76 1.85l2.05-2.05C16.97 2.97 14.74 2 12 2 6.48 2 2.4 6.48 2.4 12s4.04 10 9.6 10c5.01 0 8.6-3.54 8.6-8.5 0-.54-.05-.9-.15-1.4z"/></svg><span>Sign in</span>';
+      b.setAttribute('aria-label','Sign in with Google');
+      var warm=function(){loadGoogle().catch(function(){})};
+      b.addEventListener('pointerenter',warm,{once:true});b.addEventListener('focus',warm,{once:true});b.addEventListener('touchstart',warm,{once:true,passive:true});
+      b.addEventListener('click',function(){startSignIn(b)});
+      acct.appendChild(b);
+      return;
+    }
+    var t=el('button','avbtn');t.type='button';t.setAttribute('aria-haspopup','true');t.setAttribute('aria-expanded','false');
+    t.setAttribute('aria-label','Account menu for '+gUser.name);
+    t.appendChild(avatar(gUser));
+    t.appendChild(el('span','nm',gUser.first));
+    t.insertAdjacentHTML('beforeend','<svg class="chev" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    var m=el('div','amenu');m.hidden=true;
+    var who=el('div','who');who.appendChild(avatar(gUser));
+    var wt=el('div');wt.appendChild(el('b',null,gUser.name));wt.appendChild(el('span',null,gUser.email));who.appendChild(wt);
+    m.appendChild(who);
+    var pl=el('a',null,'Request a free pilot');pl.href='/pilot.html';m.appendChild(pl);
+    var so=el('button',null,'Sign out');so.type='button';
+    so.addEventListener('click',function(){gUser=null;window.nyrexUser=null;saveUser(null);renderAcct()});
+    m.appendChild(so);
+    t.addEventListener('click',function(e){e.stopPropagation();var o=m.hidden;m.hidden=!o;t.setAttribute('aria-expanded',o?'true':'false')});
+    m.addEventListener('click',function(e){e.stopPropagation()});
+    document.addEventListener('click',function(){if(!m.hidden){m.hidden=true;t.setAttribute('aria-expanded','false')}});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!m.hidden){m.hidden=true;t.setAttribute('aria-expanded','false');t.focus()}});
+    acct.appendChild(t);acct.appendChild(m);
+  }
+  if(acct&&GOOGLE_CLIENT_ID){
+    gUser=readUser();window.nyrexUser=gUser;
+    acct.hidden=false;renderAcct();
   }
 
   /* header shadow, reading progress bar and the mobile demo button */
@@ -191,6 +292,7 @@
       var f=new FormData(form);
       var g=function(k){return (f.get(k)||'').toString().trim()};
       var body='Business name: '+g('biz')+'\nType of business: '+g('type')+'\nCity: '+g('city')+'\nWhatsApp number customers message now: '+g('phone')+'\nWhat customers ask most:\n'+g('asks')+'\n';
+      if(window.nyrexUser) body+='\nContact (signed in with Google): '+window.nyrexUser.name+' <'+window.nyrexUser.email+'>\n';
       var url='mailto:nyrexautomations@gmail.com?subject='+encodeURIComponent('Nyrex pilot: '+(g('biz')||'new business'))+'&body='+encodeURIComponent(body);
       var st=document.getElementById('form-status');
       if(st) st.textContent='Your email app should open with these details filled in. Press send there. If nothing opened, email nyrexautomations@gmail.com.';
