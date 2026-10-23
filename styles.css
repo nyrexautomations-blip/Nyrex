@@ -547,3 +547,30 @@ h1.split{display:block}
   section{padding:0!important}
 }
 @media print{footer.foot,.dock,.totop,.skip{display:none!important}}
+
+/* ---------- checklist, four-column comparison, footer and contact bar additions ---------- */
+.cl-progress{margin:0 0 8px}
+.cl-bar{height:8px;border-radius:8px;background:var(--g100);overflow:hidden}
+.cl-bar i{display:block;height:100%;width:0;background:var(--g600);border-radius:8px;transition:width .4s var(--ease)}
+.cl-progress p{margin-top:10px;color:var(--muted);font-weight:600}
+.cl-progress b{color:var(--g900)}
+.cl-list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.cl-list label{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;transition:border-color .2s,background .2s}
+.cl-list label:hover{border-color:var(--g400)}
+.cl-list input{appearance:none;-webkit-appearance:none;flex:none;width:22px;height:22px;margin:2px 0 0;border:2px solid var(--g600);border-radius:7px;background:#fff;display:grid;place-content:center;cursor:pointer;transition:background .2s}
+.cl-list input::after{content:"";width:10px;height:6px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px) scale(0);transition:transform .2s var(--ease)}
+.cl-list input:checked{background:var(--g600)}
+.cl-list input:checked::after{transform:rotate(-45deg) translate(1px,-1px) scale(1)}
+.cl-list label:has(input:checked){background:var(--g50);border-color:var(--g300)}
+.cl-list span{color:var(--ink)}
+.cl-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:34px 0 14px}
+.compare4 th,.compare4 td{min-width:150px}
+.compare4 tbody th{min-width:140px}
+.foot .wrap{grid-template-columns:1.3fr 1fr 1fr 1fr}
+@media(max-width:760px){.foot .wrap{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+  .dock{gap:10px;padding:0;background:none;box-shadow:none}
+  .dock a{flex:1;display:flex;justify-content:center;align-items:center;padding:15px 16px;border-radius:14px;background:var(--g600);color:#fff;font-weight:700;text-decoration:none;box-shadow:0 18px 34px -14px rgba(6,42,33,.75)}
+  .dock a.alt{flex:0 0 auto;background:#fff;color:var(--g900);border:2px solid var(--g600)}
+}
+.foot .logo{display:inline-block;gap:0}
