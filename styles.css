@@ -574,3 +574,15 @@ h1.split{display:block}
   .dock a.alt{flex:0 0 auto;background:#fff;color:var(--g900);border:2px solid var(--g600)}
 }
 .foot .logo{display:inline-block;gap:0}
+
+/* guides list and contact steps */
+.guides-list{margin-top:0}
+.guides-list b{font-size:clamp(1.15rem,2.4vw,1.45rem);line-height:1.25;letter-spacing:-.015em}
+.guides-list p{text-align:left;max-width:34ch}
+@media(max-width:640px){.guides-list a{flex-direction:column;align-items:flex-start;gap:8px}.guides-list p{max-width:none}}
+.contact-steps{grid-template-columns:1fr;gap:26px;margin-top:28px}
+.contact-steps li{padding:0 0 0 68px;min-height:48px}
+.contact-steps li::before{position:absolute;left:0;top:0}
+.contact-steps li::after{display:none}
+.contact-steps h3{font-size:1.15rem}
+@media(min-width:641px){.guides-list a>b{flex:0 0 48%}.guides-list a>p{flex:1}}
