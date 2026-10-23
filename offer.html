@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Free 14-day pilot | Nyrex</title>
+<meta name="description" content="Nyrex replies to your customers' WhatsApp messages in seconds. Free for 14 days, no contract.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://nyrex.pages.dev/offer.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nyrex">
+<meta property="og:title" content="Free 14-day pilot | Nyrex">
+<meta property="og:description" content="Nyrex replies to your customers' WhatsApp messages in seconds. Free for 14 days, no contract.">
+<meta property="og:url" content="https://nyrex.pages.dev/offer.html">
+<meta property="og:image" content="https://nyrex.pages.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://nyrex.pages.dev/og-image.png">
+<meta name="theme-color" content="#0A3D30">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+.offer-top{display:flex;align-items:center;justify-content:space-between;height:72px}
+.offer{padding:clamp(28px,6vw,72px) 0 clamp(40px,7vw,88px)}
+.offer h1{font-size:clamp(2.3rem,6vw,4rem);max-width:16ch}
+.offer .lead{margin-top:18px}
+.offer ul{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:12px;max-width:520px}
+.offer li{display:flex;gap:12px;align-items:flex-start;font-weight:600;color:var(--g900)}
+.offer li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--g600) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/70% no-repeat}
+.offer .more{margin-top:26px;color:var(--muted);font-size:.95rem}
+.offer .more a{margin-right:14px}
+.offer-foot{border-top:1px solid var(--line);padding:22px 0 30px;color:var(--muted);font-size:.85rem}
+#for-link[hidden]{display:none}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap offer-top">
+  <a class="logo" href="/" aria-label="Nyrex home"><svg class="mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect width="64" height="64" rx="15" fill="#088560"/><path d="M19 47V21M19 33c0-6.5 5-11 11.5-11S42 26.5 42 33v14" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="51" cy="45" r="4.5" fill="#A8F0D1"/></svg><span>nyrex<i>.</i></span></a>
+</div></header>
+<main id="main" class="offer"><div class="wrap">
+  <h1>Never leave a customer waiting on WhatsApp.</h1>
+  <p class="lead">Nyrex replies to your customers in seconds, using your hours and services. Anything tricky goes straight to you.</p>
+  <ul>
+    <li>Free for 14 days, no contract</li>
+    <li>Set up with you, using your own details</li>
+    <li>You stay in control. A person confirms bookings</li>
+  </ul>
+  <div class="row">
+    <a class="btn" href="https://ig.me/m/nyrexai" rel="noopener">Message us on Instagram</a>
+    <a class="btn line" href="mailto:nyrexautomations@gmail.com?subject=Nyrex%20free%20pilot">Email us</a>
+  </div>
+  <p class="more">
+    <a id="for-link" href="/industries.html" hidden>See how it works for your business</a>
+    <a href="/how-it-works.html">How it works</a>
+    <a href="/agreement.html">Pilot agreement</a>
+  </p>
+</div></main>
+<footer class="offer-foot"><div class="wrap">Nyrex is an independent business. It is not affiliated with or endorsed by WhatsApp or Meta. WhatsApp is a trademark of Meta Platforms, Inc. Email: nyrexautomations@gmail.com</div></footer>
+<script>
+(function(){
+  var map={salon:['/for-salons.html','salons and spas'],clinic:['/for-clinics.html','clinics and dentists'],tuition:['/for-tuition.html','tuition and coaching'],cafe:['/for-cafes.html','restaurants and cafes'],repair:['/for-repair-shops.html','repair shops']};
+  var k=new URLSearchParams(location.search).get('for'),a=document.getElementById('for-link');
+  if(k&&map.hasOwnProperty(k)&&a){a.href=map[k][0];a.textContent='See how it works for '+map[k][1];a.hidden=false}
+})();
+</script>
+<script src="/site.js" defer></script>
+</body>
+</html>
