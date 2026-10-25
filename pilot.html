@@ -89,7 +89,7 @@
   <form class="form" id="pilot-form" aria-label="Request a free demo">
     <label>Business name<input name="biz" type="text" required autocomplete="organization" placeholder="For example, Glow Studio"></label>
     <div class="two">
-      <label>Type of business<select name="type"><option>Salon or spa</option><option>Clinic or dentist</option><option>Tuition or coaching</option><option>Restaurant or cafe</option><option>Repair shop</option><option>Something else</option></select></label>
+      <label>Type of business<input name="type" type="text" list="biz-types" required placeholder="For example, gym, salon, boutique" autocomplete="off"><datalist id="biz-types"><option value="Salon or spa"><option value="Clinic or dentist"><option value="Tuition or coaching"><option value="Restaurant or cafe"><option value="Repair shop"><option value="Gym or fitness studio"><option value="Shop or boutique"><option value="Photographer or studio"><option value="Travel or events"><option value="Home or local service"></datalist></label>
       <label>City<input name="city" type="text" autocomplete="address-level2" placeholder="Where you are"></label>
     </div>
     <label>WhatsApp number customers message now <span class="hint">Optional</span><input name="phone" type="tel" autocomplete="tel" placeholder="+91"></label>

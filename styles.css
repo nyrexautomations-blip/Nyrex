@@ -586,3 +586,5 @@ h1.split{display:block}
 .contact-steps li::after{display:none}
 .contact-steps h3{font-size:1.15rem}
 @media(min-width:641px){.guides-list a>b{flex:0 0 48%}.guides-list a>p{flex:1}}
+
+ a.sw-mint{--c:#06694B}
