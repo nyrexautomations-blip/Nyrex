@@ -284,19 +284,27 @@
     });
   }
 
-  /* pilot form: opens the visitor's email app with the details filled in */
+  /* pilot form: sends a demo request to the Nyrex lead inbox */
   var form=document.getElementById('pilot-form');
   if(form){
     form.addEventListener('submit',function(e){
       e.preventDefault();
       var f=new FormData(form);
       var g=function(k){return (f.get(k)||'').toString().trim()};
-      var body='Business name: '+g('biz')+'\nType of business: '+g('type')+'\nCity: '+g('city')+'\nWhatsApp number customers message now: '+g('phone')+'\nWhat customers ask most:\n'+g('asks')+'\n';
-      if(window.nyrexUser) body+='\nContact (signed in with Google): '+window.nyrexUser.name+' <'+window.nyrexUser.email+'>\n';
-      var url='mailto:nyrexautomations@gmail.com?subject='+encodeURIComponent('Nyrex pilot: '+(g('biz')||'new business'))+'&body='+encodeURIComponent(body);
       var st=document.getElementById('form-status');
-      if(st) st.textContent='Your email app should open with these details filled in. Press send there. If nothing opened, email nyrexautomations@gmail.com.';
-      window.location.href=url;
+      var btn=form.querySelector('button[type="submit"]');
+      if(btn)btn.disabled=true;
+      if(st)st.textContent='Sending your request…';
+      var payload={biz:g('biz'),owner:g('owner'),type:g('type'),city:g('city'),contact:g('contact'),best_time:g('best_time'),phone:g('phone'),asks:g('asks'),website:g('website')};
+      fetch('/api/demo-request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+        .then(function(res){if(!res.ok)throw new Error('send');return res.json()})
+        .then(function(){form.reset();if(st)st.textContent='Request sent. Nyrex will contact you about the demo and number fit.'})
+        .catch(function(){
+          var lines=['Salon name: '+payload.biz,'Owner/manager: '+payload.owner,'Business type: '+payload.type,'Area/city: '+payload.city,'Contact number: '+payload.contact,'Best time to call: '+payload.best_time,'WhatsApp number for compatibility check: '+payload.phone,'Common customer questions: '+payload.asks];
+          if(st)st.textContent='Direct form delivery is unavailable. Your email app will open with the request filled in; review it and press send.';
+          window.location.href='mailto:nyrexautomations@gmail.com?subject='+encodeURIComponent('Nyrex salon demo: '+payload.biz)+'&body='+encodeURIComponent(lines.join('\n'));
+        })
+        .finally(function(){if(btn)btn.disabled=false});
     });
   }
   /* estimator: the owner's own numbers, computed on the page, nothing is sent anywhere */

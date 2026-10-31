@@ -396,6 +396,9 @@ footer.foot{background:var(--g950);color:#fff;padding:60px 0 44px}
 .form button.btn{justify-self:start;cursor:pointer;font-family:var(--body)}
 .form-note{color:var(--muted);font-size:.9rem}
 .form-status{color:var(--g700);font-weight:600;min-height:1.4em}
+.form .check{display:flex;align-items:flex-start;gap:10px;font-weight:500;font-size:.9rem;line-height:1.5}
+.form .check input{width:18px;height:18px;flex:0 0 auto;margin-top:2px;accent-color:var(--g700)}
+.form .trap{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 @media(max-width:560px){.form .two{grid-template-columns:1fr}}
 .search{position:relative;margin-top:28px;max-width:520px}
 .search input{width:100%;font:400 1.05rem var(--body);padding:15px 18px 15px 48px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);transition:border-color .2s,box-shadow .2s}

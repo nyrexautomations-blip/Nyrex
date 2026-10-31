@@ -45,7 +45,7 @@
 <section><div class="wrap">
   <h2>How the 14 days go.</h2>
   <ol class="days">
-    <li><b>Before you start</b><span>We show you a 30-second demo of the assistant answering questions about your business, using the details you send us. You decide whether to go ahead.</span></li>
+    <li><b>Before you start</b><span><a href="/salon-demo.html">Watch the 30-second salon sample</a>. We can then show the assistant answering from your own approved details. You decide whether to go ahead.</span></li>
     <li><b>Day 1</b><span>After we confirm your number setup, the assistant goes live. We test it with you first, so you've seen the replies before a customer does.</span></li>
     <li><b>Day 7</b><span>We read the real conversations together and fix anything it got wrong.</span></li>
     <li><b>Day 14</b><span>You decide: continue, adjust, or stop. If you stop, you owe nothing.</span></li>
@@ -69,6 +69,20 @@
 </div></section>
 
 <section><div class="wrap narrow">
+  <h2>Six checks before the salon goes live.</h2>
+  <p class="lead">Run these with the owner using approved hours, services and prices. Fix any miss and repeat that case before customers use the assistant.</p>
+  <ol class="steps">
+    <li><h3>Approved service</h3><p>Ask about a service on the salon's list. The answer must match it.</p></li>
+    <li><h3>Approved price</h3><p>Ask for a price the owner chose to share. Check the amount exactly.</p></li>
+    <li><h3>Unknown price</h3><p>Ask for a price the owner did not approve. The assistant should hand it to staff.</p></li>
+    <li><h3>Opening hours</h3><p>Ask about a closed day. Check it uses the salon's current hours.</p></li>
+    <li><h3>Booking request</h3><p>Ask for a time. The assistant collects service, preferred time and name, then says staff will confirm.</p></li>
+    <li><h3>Human handoff</h3><p>Ask for a person. Check the team receives the message and a clear next action.</p></li>
+  </ol>
+  <p><a href="/salon-pilot-runbook.md" download>Download the 14-day pilot runbook and scorecard</a></p>
+</div></section>
+
+<section><div class="wrap narrow">
   <h2>After the pilot.</h2>
   <div class="stack" style="margin-top:20px">
     <p class="lead">If you continue, plans start at Rs 999 a month, and we agree the plan with you before anything is charged. See <a href="/pricing.html">pricing</a>.</p>
@@ -80,21 +94,25 @@
 <section id="request"><div class="wrap split">
   <div>
     <h2>Request your free demo.</h2>
-    <p class="lead" style="margin-top:16px">Tell us a little about your business. We'll come back with a 30-second demo on your own details.</p>
+    <p class="lead" style="margin-top:16px">First we check number fit, then prepare a 30-second demo using your approved details. Your current number is optional at this step.</p>
     <ul class="rules" style="margin-top:28px">
-      <li><b>Takes a minute.</b><span>Five short fields, and only the first one is required.</span></li>
-      <li><b>Nothing is sent until you press send.</b><span>The form opens your email app with your answers filled in.</span></li>
+      <li><b>Start with the number fit check.</b><span>No need to move or disconnect your current number to ask about compatibility.</span></li>
+      <li><b>Review before sending.</b><span>Your email app opens with the request details filled in; you press send there.</span></li>
     </ul>
   </div>
   <form class="form" id="pilot-form" aria-label="Request a free demo">
-    <label>Business name<input name="biz" type="text" required autocomplete="organization" placeholder="For example, Glow Studio"></label>
+    <label>Salon name<input name="biz" type="text" required autocomplete="organization" placeholder="For example, Glow Studio"></label>
+    <label>Your name<input name="owner" type="text" required autocomplete="name" placeholder="Owner or manager"></label>
     <div class="two">
       <label>Type of business<input name="type" type="text" list="biz-types" required placeholder="For example, gym, salon, boutique" autocomplete="off"><datalist id="biz-types"><option value="Salon or spa"><option value="Clinic or dentist"><option value="Tuition or coaching"><option value="Restaurant or cafe"><option value="Repair shop"><option value="Gym or fitness studio"><option value="Shop or boutique"><option value="Photographer or studio"><option value="Travel or events"><option value="Home or local service"></datalist></label>
-      <label>City<input name="city" type="text" autocomplete="address-level2" placeholder="Where you are"></label>
+      <label>Area / city<input name="city" type="text" autocomplete="address-level2" placeholder="For example, Vasai West"></label>
     </div>
-    <label>WhatsApp number customers message now <span class="hint">Optional</span><input name="phone" type="tel" autocomplete="tel" placeholder="+91"></label>
+    <div class="two"><label>Your contact number<input name="contact" type="tel" required autocomplete="tel" placeholder="+91"></label><label>Best time to call<input name="best_time" type="text" placeholder="For example, after 4 pm"></label></div>
+    <label>WhatsApp number customers message now <span class="hint">Optional, for compatibility check</span><input name="phone" type="tel" autocomplete="tel" placeholder="+91"></label>
     <label>What do customers ask most? <span class="hint">Optional</span><textarea name="asks" placeholder="Hours, prices, bookings, directions"></textarea></label>
-    <button class="btn" type="submit">Open my email with these details</button>
+    <label class="check"><input name="contact_ok" type="checkbox" required><span>Nyrex may contact me about this demo request. This does not sign me up for marketing.</span></label>
+    <label class="trap" aria-hidden="true">Leave this field empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+    <button class="btn" type="submit">Send number check request</button>
     <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
     <p class="note" style="margin-top:14px">Want to read the terms first? <a href="/agreement.html">Read the pilot agreement</a> (one short page, PDF available).</p>
     <p class="form-note">Prefer not to use a form? Email <a href="mailto:nyrexautomations@gmail.com">nyrexautomations@gmail.com</a> or message <a href="https://instagram.com/nyrexai">@nyrexai</a> on Instagram.</p>
