@@ -42,7 +42,7 @@
     <p class="lead">Nyrex is an assistant that replies to your customers on WhatsApp using your hours, services and booking rules. Anything it can't settle goes to you.</p>
     <div class="row">
       <a class="btn white" href="/pilot.html">Get a free demo</a>
-      <a class="btn line" href="#film">Watch the 24-second film</a>
+      <a class="btn line" href="#film">Watch the 24-second ad</a>
     </div>
     <p class="note">This example chat uses a made-up business, not a real client.</p>
   </div>
@@ -212,7 +212,7 @@
   <h2>Live in three steps.</h2>
   <ol class="steps">
     <li><h3>You tell us the basics</h3><p>Hours, services, how booking works, and what the assistant should never promise. A short form or a WhatsApp chat is enough.</p></li>
-    <li><h3>We connect your number</h3><p>Your business WhatsApp number gets the assistant. Customers keep messaging you the way they already do.</p></li>
+    <li><h3>We check the number first</h3><p>Our current setup needs a number not already registered in the regular WhatsApp or WhatsApp Business app. We explain the options and any impact before you decide.</p></li>
     <li><h3>It answers, you stay in control</h3><p>Customers get instant replies in their own language. Anything that needs you is flagged right away.</p></li>
   </ol>
   <div class="row"><a class="btn" href="/how-it-works.html">Read the full setup</a></div>
@@ -237,26 +237,26 @@
 </div></section>
 
 <section class="panel calc" id="estimate"><div class="wrap">
-  <h2>What unanswered chats may be costing you.</h2>
-  <p class="lead">Move the sliders to match your shop. It's a simple estimate built from your own numbers.</p>
+  <h2>Estimate the value of unanswered chats.</h2>
+  <p class="lead">Set the sliders to your own estimates. They start at zero; Nyrex has no proven savings figures yet.</p>
   <div class="calc-grid">
     <form class="calc-in" onsubmit="return false" aria-label="Your numbers">
-      <label for="c-day">Chats that wait too long, each day <output id="o-day" for="c-day">5</output></label>
-      <input id="c-day" type="range" min="0" max="30" step="1" value="5">
-      <label for="c-share">Share that would have become customers <output id="o-share" for="c-share">30%</output></label>
-      <input id="c-share" type="range" min="5" max="80" step="5" value="30">
-      <label for="c-val">Average spend per customer <output id="o-val" for="c-val">&#8377;500</output></label>
-      <input id="c-val" type="range" min="100" max="5000" step="100" value="500">
+      <label for="c-day">Chats that wait too long, each day <output id="o-day" for="c-day">0</output></label>
+      <input id="c-day" type="range" min="0" max="30" step="1" value="0">
+      <label for="c-share">Estimated share of those chats that might become customers <output id="o-share" for="c-share">0%</output></label>
+      <input id="c-share" type="range" min="0" max="80" step="5" value="0">
+      <label for="c-val">Average spend per customer <output id="o-val" for="c-val">&#8377;0</output></label>
+      <input id="c-val" type="range" min="0" max="5000" step="100" value="0">
     </form>
     <div class="calc-out">
-      <p class="calc-k">Each month</p>
+      <p class="calc-k">Potential monthly sales value at risk, based on your estimates</p>
       <p class="calc-big" aria-hidden="true"><span id="r-value">&#8377;0</span></p>
       <dl aria-hidden="true">
-        <div><dt>Chats left waiting</dt><dd id="r-chats">0</dd></div>
-        <div><dt>Customers who may go elsewhere</dt><dd id="r-cust">0</dd></div>
+        <div><dt>Chats that may wait each month</dt><dd id="r-chats">0</dd></div>
+        <div><dt>Potential customers in your estimate</dt><dd id="r-cust">0</dd></div>
       </dl>
       <p class="sr" id="r-sr" role="status" aria-live="polite"></p>
-      <p class="calc-note">Based on 30 days and the numbers you chose. It's an estimate, not a promise of results.</p>
+      <p class="calc-note">Uses 30 days and only the estimates you enter. This is a rough calculation, not a forecast or a promise of Nyrex results.</p>
     </div>
   </div>
 </div></section>
@@ -283,14 +283,14 @@
     <details><summary>Do my customers need to install anything?</summary><p>No. They message your WhatsApp number as usual.</p></details>
     <details><summary>Does it confirm bookings?</summary><p>No. It collects the name, service, day and time, then tells the customer your team will confirm. Your team makes the final call.</p></details>
     <details><summary>Will it make up prices or promises?</summary><p>It is told to use only the information you give it, and never to quote a price you haven't provided. It's AI, so it can still make mistakes. That's why a person confirms anything important, and why we read the real chats with you during the pilot.</p></details>
-    <details><summary>Does it need a new phone number?</summary><p>Yes. WhatsApp's business platform needs a number that isn't already used on regular WhatsApp. We'll walk you through it.</p></details>
-    <details><summary>What does it cost?</summary><p>The pilot is free for 14 days. After that, plans start at Rs 999 a month (Rs 1,999 for the Growth plan), with no setup fee and no contract. We confirm the plan with you before anything is charged. <a href="/pricing.html">See pricing</a>.</p></details>
+    <details><summary>Can I use my current WhatsApp number?</summary><p>Our current setup needs a number that is not already registered in the regular WhatsApp or WhatsApp Business app. If your customers already use your number, we will explain the available setup options and any impact before you decide. Do not move or disconnect your number before speaking with us.</p></details>
+    <details><summary>What does it cost?</summary><p>The Nyrex service is free for 14 days. Separate WhatsApp or provider fees may apply; we confirm them before setup. After that, plans start at Rs 999 a month (Rs 1,999 for Growth), with no setup fee or contract. We confirm the plan before charging. <a href="/pricing.html">See pricing</a>.</p></details>
   </div>
 </div></section>
 
 <section class="cta-band"><div class="wrap">
   <h2>Looking for one local business to pilot with.</h2>
-  <p class="lead" style="margin-top:16px">Free for 14 days, no contract. We show you a 30-second demo on your own business details first, then set it up with you.</p>
+  <p class="lead" style="margin-top:16px">The Nyrex service is free for 14 days, with no contract. WhatsApp or provider fees may apply; we confirm them before setup. We show a 30-second demo on your own details first.</p>
   <ul class="chips"><li>Free for 14 days</li><li>No contract</li><li>Demo on your own details first</li></ul>
   <div class="row">
     <a class="btn" href="/pilot.html">Start a free pilot</a>

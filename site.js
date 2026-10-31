@@ -318,7 +318,7 @@
       var chats=day*30,cust=Math.round(chats*share),value=cust*val;
       var to={v:value,c:chats,u:cust};
       clearTimeout(srTimer);
-      srTimer=setTimeout(function(){rSr.textContent='About \u20B9'+inr.format(value)+' a month: '+inr.format(chats)+' chats left waiting and '+inr.format(cust)+' customers who may go elsewhere.'},600);
+      srTimer=setTimeout(function(){rSr.textContent='Your estimate: about \u20B9'+inr.format(value)+' in potential monthly sales value, based on '+inr.format(chats)+' unanswered chats and '+inr.format(cust)+' potential customers.'},600);
       if(reduce||first){first=false;shown=to;render();return}
       cancelAnimationFrame(raf);
       var from={v:shown.v,c:shown.c,u:shown.u},t0=null,dur=550;
