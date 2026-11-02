@@ -930,3 +930,8 @@ html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-i
 .fx-trail{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:25}
 @media(prefers-reduced-motion:reduce){.fx-gl,.fx-trail{display:none}}
 @media print{.fx-gl,.fx-trail{display:none!important}}
+
+/* landing page: one goal, so the header is just the logo and one button */
+.landing .nav>a.cta{padding:13px 20px;font-size:.72rem;white-space:nowrap}
+.landing .nav>a.cta .arr{width:16px;height:16px;flex:none}
+@media(max-width:480px){.landing .nav>a.cta{padding:12px 14px;letter-spacing:.08em}}
