@@ -918,3 +918,15 @@ html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-i
   .board-hero h1 .w:nth-last-child(-n+2){animation:none;opacity:1;transform:none}
 }
 @media print{.fx-siri,.fx-wave{display:none!important}.phone::before{display:none}}
+
+/* =====================================================================
+   Heavy tier (fx-gl.js): only present on capable desktops.
+   The CSS orb steps aside when the WebGL orb is running.
+   ===================================================================== */
+.fx-gl{position:absolute;display:block;pointer-events:none}
+.fx-gl-orb{left:50%;top:56%;width:min(700px,150vw);height:min(700px,150vw);transform:translate(-50%,-50%);z-index:-2}
+.fx-gl-aurora{left:0;top:0;width:100%;height:100%;z-index:-1}
+.fx-heavy .fx-siri{display:none}
+.fx-trail{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:25}
+@media(prefers-reduced-motion:reduce){.fx-gl,.fx-trail{display:none}}
+@media print{.fx-gl,.fx-trail{display:none!important}}

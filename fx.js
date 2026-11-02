@@ -5,6 +5,17 @@
   'use strict';
   var LITE = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 2;
   if (LITE) document.documentElement.classList.add('fx-lite');
+  /* heavy tier (WebGL, particle trail) only on capable desktops; ?fx=heavy / ?fx=lite force it for previews */
+  var QS = location.search;
+  var HEAVY = false;
+  try {
+    HEAVY = !/[?&]fx=lite/.test(QS) && (/[?&]fx=heavy/.test(QS) || (
+      !LITE && window.innerWidth >= 1024 &&
+      matchMedia('(pointer: fine)').matches && matchMedia('(hover: hover)').matches &&
+      (navigator.hardwareConcurrency || 4) >= 6 &&
+      (navigator.deviceMemory == null || navigator.deviceMemory >= 4) &&
+      !(navigator.connection && navigator.connection.saveData)));
+  } catch (e) {}
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -292,6 +303,12 @@
   /* ---- start ---- */
   function start() {
     try {
+      if (HEAVY && !RM) {
+        document.documentElement.classList.add('fx-heavy');
+        var gs = document.createElement('script');
+        gs.src = '/fx-gl.js'; gs.async = true;
+        document.head.appendChild(gs);
+      }
       if (!RM) {
         if (!LITE) {
           $$('.board-hero,.pagehead').forEach(function (h) { bubbles(h, false); });
