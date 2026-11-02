@@ -70,6 +70,7 @@
 <section class="strip"><div class="wrap">
   <h2>Customers message when it suits them, not when you're open.</h2>
   <p class="lead">If nobody answers, they ask the next business on the list. Most small shops can't sit on WhatsApp all day.</p>
+  <div class="row"><a class="btn white" href="/landing.html#demo">Play the live demo</a></div>
   <div class="tl">
     <p class="tl-label">Without a reply</p>
     <div class="times">
@@ -88,97 +89,6 @@
   </div>
 </div></section>
 
-<section class="demo" id="demo"><div class="wrap">
-  <h2>See it on your kind of business.</h2>
-  <p class="lead">Pick a business. The chat plays out, then the alert the owner would get arrives. All of these are made-up businesses, and it works the same way for any business that gets WhatsApp messages.</p>
-  <div class="tabs" role="tablist" aria-label="Example businesses">
-    <button type="button" role="tab" id="tab-salon" aria-selected="true" aria-controls="demo-panel" data-k="salon">Salon</button>
-    <button type="button" role="tab" id="tab-clinic" aria-selected="false" aria-controls="demo-panel" data-k="clinic" tabindex="-1">Clinic</button>
-    <button type="button" role="tab" id="tab-tuition" aria-selected="false" aria-controls="demo-panel" data-k="tuition" tabindex="-1">Tuition</button>
-    <button type="button" role="tab" id="tab-cafe" aria-selected="false" aria-controls="demo-panel" data-k="cafe" tabindex="-1">Cafe</button>
-    <button type="button" role="tab" id="tab-repair" aria-selected="false" aria-controls="demo-panel" data-k="repair" tabindex="-1">Repair shop</button>
-    <button type="button" role="tab" id="tab-hinglish" aria-selected="false" aria-controls="demo-panel" data-k="hinglish" tabindex="-1">Hindi and English</button>
-  </div>
-  <div class="demo-grid" id="demo-panel" role="tabpanel" aria-labelledby="tab-salon">
-    <div class="phone demo-phone" aria-label="Example WhatsApp conversation">
-      <div class="screen">
-        <div class="chat-bar"><div class="avatar" id="demo-av">G</div><div><b id="demo-name">Glow Studio</b><small id="demo-sub">replies in seconds</small></div></div>
-        <div class="msgs" id="demo-msgs" aria-live="polite"></div>
-        <div class="chat-label">Example conversation, demo business</div>
-      </div>
-    </div>
-    <div class="mail" id="demo-mail" aria-live="polite">
-      <div class="mail-top"><span class="mail-dot"></span><b>Inbox</b><small>what the owner sees</small></div>
-      <div class="mail-empty" id="mail-empty">The alert appears here when the assistant hands a customer over to you.</div>
-      <div class="mail-card" id="mail-card" hidden>
-        <p class="mail-from">Nyrex alerts</p>
-        <p class="mail-subject" id="mail-subject"></p>
-        <dl>
-          <dt>Customer</dt><dd id="mail-customer"></dd>
-          <dt>They wrote</dt><dd id="mail-wrote"></dd>
-          <dt>Assistant replied</dt><dd id="mail-reply"></dd>
-        </dl>
-        <p class="mail-link">Tap to open a WhatsApp chat with this customer</p>
-      </div>
-    </div>
-  </div>
-  <script type="application/json" id="demo-data">{
-    "salon": {"name":"Glow Studio","sub":"hair and beauty salon","av":"G","time":"11:02 pm","msgs":[["me","are you open on sunday?"],["bot","Hi! Sunday is our day off. We're open Mon–Sat, 10 am to 7 pm. Anything I can help you book?"],["me","a haircut, tomorrow 5pm"],["bot","Got it. May I have your name?"],["me","Rohan"],["bot","Thanks Rohan! Haircut, tomorrow at 5 pm. Our team will confirm shortly."]],"alert":{"who":"Glow Studio","customer":"Rohan (+91 98xxx xxxxx)","wrote":"Rohan","reply":"Thanks Rohan! Haircut, tomorrow at 5 pm. Our team will confirm shortly."}},
-    "clinic": {"name":"Care Dental Clinic","sub":"replies in seconds","av":"C","time":"9:40 pm","msgs":[["me","Do you do teeth cleaning?"],["bot","Yes, we do. We're open Mon–Sat, 9 am to 6 pm. Would you like to request an appointment?"],["me","yes, saturday morning"],["bot","Happy to pass that on. May I have your name?"],["me","Anita Rao"],["bot","Thanks Anita! Teeth cleaning, Saturday morning. Our team will confirm a time shortly."]],"alert":{"who":"Care Dental Clinic","customer":"Anita Rao (+91 99xxx xxxxx)","wrote":"Anita Rao","reply":"Thanks Anita! Teeth cleaning, Saturday morning. Our team will confirm a time shortly."}},
-    "tuition": {"name":"Bright Minds Tuition","sub":"replies in seconds","av":"B","time":"8:15 pm","msgs":[["me","Do you have a batch for class 10 maths?"],["bot","Yes, class 10 maths runs Mon, Wed and Fri, 5 to 6:30 pm. Would you like to book a demo class?"],["me","yes, for my son"],["bot","Great! What's his name, and which day would you like to come?"],["me","Aarav, wednesday"],["bot","Thanks! Demo class for Aarav on Wednesday. Our team will confirm the time shortly."]],"alert":{"who":"Bright Minds Tuition","customer":"A parent (+91 98xxx xxxxx)","wrote":"Aarav, wednesday","reply":"Thanks! Demo class for Aarav on Wednesday. Our team will confirm the time shortly."}},
-    "cafe": {"name":"Brew and Bite Cafe","sub":"replies in seconds","av":"B","time":"6:50 pm","msgs":[["me","what time do you close tonight?"],["bot","We're open until 11 pm every day. Would you like a table?"],["me","table for 4 at 8"],["bot","I can pass that request on. May I have your name?"],["me","Imran"],["bot","Thanks Imran! Table for 4 tonight at 8 pm. Our team will confirm shortly."]],"alert":{"who":"Brew and Bite Cafe","customer":"Imran (+91 97xxx xxxxx)","wrote":"Imran","reply":"Thanks Imran! Table for 4 tonight at 8 pm. Our team will confirm shortly."}},
-    "repair": {"name":"FixIt Mobile Repair","sub":"replies in seconds","av":"F","time":"7:30 pm","msgs":[["me","how much to change an iphone screen?"],["bot","The price depends on the model and I don't have a figure to quote. Our team will send you a price. Which model is it?"],["me","iphone 12"],["bot","Thanks! I've noted iPhone 12, screen replacement. Our team will message you the price shortly."]],"alert":{"who":"FixIt Mobile Repair","customer":"A customer (+91 96xxx xxxxx)","wrote":"iphone 12","reply":"Thanks! I've noted iPhone 12, screen replacement. Our team will message you the price shortly."}},
-    "hinglish": {"name":"Glow Studio","sub":"replies in seconds","av":"G","time":"10:20 pm","msgs":[["me","Sunday ko khule ho kya?"],["bot","Sunday humari chhutti hoti hai. Hum Mon se Sat, subah 10 se shaam 7 baje tak khule hain. Booking note kar doon?"],["me","haan, kal 5 baje haircut"],["bot","Theek hai! Aapka naam bata dijiye?"],["me","Neha"],["bot","Shukriya Neha! Haircut, kal shaam 5 baje. Hamari team jaldi confirm karegi."]],"alert":{"who":"Glow Studio","customer":"Neha (+91 98xxx xxxxx)","wrote":"Neha","reply":"Shukriya Neha! Haircut, kal shaam 5 baje. Hamari team jaldi confirm karegi."}}
-  }</script>
-</div></section>
-
-<section class="try" id="try"><div class="wrap">
-  <h2>Try it with your own business.</h2>
-  <p class="lead">Type a few details, then tap a customer question. You'll see the kind of reply your customers would get. This is a quick preview built from your answers, not the live assistant.</p>
-  <div class="try-grid">
-    <form class="try-in" id="try-form" onsubmit="return false" aria-label="Your business details">
-      <label for="t-name">Business name</label>
-      <input id="t-name" type="text" value="Sharma Salon" maxlength="40" autocomplete="off">
-      <label for="t-service">One service you offer</label>
-      <input id="t-service" type="text" value="haircut" maxlength="30" autocomplete="off">
-      <label for="t-price">Its price <small>(leave empty if you'd rather your team quotes it)</small></label>
-      <input id="t-price" type="text" value="" placeholder="e.g. 300" maxlength="12" inputmode="numeric" autocomplete="off">
-      <div class="t-row">
-        <div><label for="t-open">Opens</label><select id="t-open"></select></div>
-        <div><label for="t-close">Closes</label><select id="t-close"></select></div>
-      </div>
-      <label for="t-off">Weekly day off</label>
-      <select id="t-off"><option>Sunday</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option value="">None</option></select>
-      <p class="t-ask" id="t-ask-label">Customer asks:</p>
-      <div class="tabs t-chips" role="group" aria-labelledby="t-ask-label">
-        <button type="button" data-q="hours">Are you open?</button>
-        <button type="button" data-q="off">Open on your day off?</button>
-        <button type="button" data-q="service">Do you do this service?</button>
-        <button type="button" data-q="price">How much?</button>
-        <button type="button" data-q="book">I want to book</button>
-        <button type="button" data-q="person">Can I talk to a person?</button>
-      </div>
-    </form>
-    <div class="phone demo-phone" aria-label="Preview of the reply">
-      <div class="screen">
-        <div class="chat-bar"><div class="avatar" id="t-av">S</div><div><b id="t-title">Sharma Salon</b><small>replies in seconds</small></div></div>
-        <div class="msgs" id="t-msgs" aria-live="polite"></div>
-        <div class="chat-label">Preview from your details</div>
-      </div>
-    </div>
-  </div>
-</div></section>
-
-<section class="adband" id="film"><div class="wrap">
-  <div class="adtext">
-    <h2>The 24&#8209;second version.</h2>
-    <p class="lead">What happens to a message sent at 11 PM, with and without a reply. Turn the sound on.</p>
-    <div class="row"><a class="btn white" href="/ad.html">Watch full screen</a></div>
-    <p class="note">The chat in the film uses a made-up salon, not a real client.</p>
-  </div>
-  <div class="adframe"><iframe src="/ad.html?embed=1" title="Nyrex 24-second ad, with sound" loading="lazy" allow="autoplay"></iframe></div>
-</div></section>
-
 <section class="panel features"><div class="wrap">
   <h2>What the assistant handles</h2>
   <p class="lead">Everything a front desk answers on WhatsApp, using only what you tell it.</p>
@@ -194,21 +104,6 @@
   </ul>
 </div></section>
 
-<section><div class="wrap split">
-  <div>
-    <h2>Stays inside your rules.</h2>
-    <p class="lead" style="margin-top:16px">You decide what it can say. It doesn't improvise about things you haven't told it.</p>
-    <div class="row"><a class="btn line" href="/faq.html#safety">How it stays safe</a></div>
-  </div>
-  <ul class="rules" style="margin-top:0">
-    <li><b>It only uses what you tell it.</b><span>Hours, services, prices and booking rules come from you.</span></li>
-    <li><b>It never confirms a booking itself.</b><span>It collects the details and your team confirms the slot.</span></li>
-    <li><b>It never makes up prices or promises.</b><span>If it doesn't know, it says so and flags you.</span></li>
-    <li><b>Customers can ask for a person.</b><span>The assistant tells them a team member will follow up, and you get an alert.</span></li>
-    <li><b>It says it's automated if asked.</b><span>No pretending to be a person.</span></li>
-  </ul>
-</div></section>
-
 <section class="panel"><div class="wrap">
   <h2>Live in three steps.</h2>
   <ol class="steps">
@@ -217,49 +112,6 @@
     <li><h3>It answers, you stay in control</h3><p>Customers get instant replies in their own language. Anything that needs you is flagged right away.</p></li>
   </ol>
   <div class="row"><a class="btn" href="/how-it-works.html">Read the full setup</a></div>
-</div></section>
-
-<section><div class="wrap">
-  <h2>Replying yourself, or with Nyrex.</h2>
-  <p class="lead">You can still reply to anyone, any time. Nyrex covers the moments you can't.</p>
-  <div class="tablewrap">
-  <table class="compare">
-    <caption class="sr">How WhatsApp replies compare with and without Nyrex</caption>
-    <thead><tr><th scope="col"><span class="sr">Situation</span></th><th scope="col">Replying yourself</th><th scope="col" class="us">With Nyrex</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">At 11 pm</th><td>The message waits until morning.</td><td class="us">Answered in seconds.</td></tr>
-      <tr><th scope="row">While you're with a customer</th><td>New chats pile up.</td><td class="us">Every chat gets a reply.</td></tr>
-      <tr><th scope="row">Taking a booking</th><td>Back and forth to collect the details.</td><td class="us">Name, service, day and time collected for you.</td></tr>
-      <tr><th scope="row">A tricky question</th><td>You answer it.</td><td class="us">Passed to you with an alert, never guessed.</td></tr>
-      <tr><th scope="row">Customer's language</th><td>The ones you speak.</td><td class="us">The one the customer writes in.</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div></section>
-
-<section class="panel calc" id="estimate"><div class="wrap">
-  <h2>Estimate the value of unanswered chats.</h2>
-  <p class="lead">Set the sliders to your own estimates. They start at zero; Nyrex has no proven savings figures yet.</p>
-  <div class="calc-grid">
-    <form class="calc-in" onsubmit="return false" aria-label="Your numbers">
-      <label for="c-day">Chats that wait too long, each day <output id="o-day" for="c-day">0</output></label>
-      <input id="c-day" type="range" min="0" max="30" step="1" value="0">
-      <label for="c-share">Estimated share of those chats that might become customers <output id="o-share" for="c-share">0%</output></label>
-      <input id="c-share" type="range" min="0" max="80" step="5" value="0">
-      <label for="c-val">Average spend per customer <output id="o-val" for="c-val">&#8377;0</output></label>
-      <input id="c-val" type="range" min="0" max="5000" step="100" value="0">
-    </form>
-    <div class="calc-out">
-      <p class="calc-k">Potential monthly sales value at risk, based on your estimates</p>
-      <p class="calc-big" aria-hidden="true"><span id="r-value">&#8377;0</span></p>
-      <dl aria-hidden="true">
-        <div><dt>Chats that may wait each month</dt><dd id="r-chats">0</dd></div>
-        <div><dt>Potential customers in your estimate</dt><dd id="r-cust">0</dd></div>
-      </dl>
-      <p class="sr" id="r-sr" role="status" aria-live="polite"></p>
-      <p class="calc-note">Uses 30 days and only the estimates you enter. This is a rough calculation, not a forecast or a promise of Nyrex results.</p>
-    </div>
-  </div>
 </div></section>
 
 <section><div class="wrap">
@@ -274,28 +126,13 @@
   </div>
 </div></section>
 
-<section class="panel"><div class="wrap split">
-  <div>
-    <h2>Questions owners ask first.</h2>
-    <p class="lead" style="margin-top:16px">Short answers here. The rest are on the FAQ page.</p>
-    <div class="row"><a class="btn line" href="/faq.html">Read every answer</a></div>
-  </div>
-  <div class="faqmini">
-    <details><summary>Do my customers need to install anything?</summary><p>No. They message your WhatsApp number as usual.</p></details>
-    <details><summary>Does it confirm bookings?</summary><p>No. It collects the name, service, day and time, then tells the customer your team will confirm. Your team makes the final call.</p></details>
-    <details><summary>Will it make up prices or promises?</summary><p>It is told to use only the information you give it, and never to quote a price you haven't provided. It's AI, so it can still make mistakes. That's why a person confirms anything important, and why we read the real chats with you during the pilot.</p></details>
-    <details><summary>Can I use my current WhatsApp number?</summary><p>Our current setup needs a number that is not already registered in the regular WhatsApp or WhatsApp Business app. If your customers already use your number, we will explain the available setup options and any impact before you decide. Do not move or disconnect your number before speaking with us.</p></details>
-    <details><summary>What does it cost?</summary><p>The Nyrex service is free for 14 days. Separate WhatsApp or provider fees may apply; we confirm them before setup. After that, plans start at Rs 999 a month (Rs 1,999 for Growth), with no setup fee or contract. We confirm the plan before charging. <a href="/pricing.html">See pricing</a>.</p></details>
-  </div>
-</div></section>
-
 <section class="cta-band"><div class="wrap">
   <h2>Looking for one local business to pilot with.</h2>
   <p class="lead" style="margin-top:16px">The Nyrex service is free for 14 days, with no contract. WhatsApp or provider fees may apply; we confirm them before setup. We show a 30-second demo on your own details first.</p>
   <ul class="chips"><li>Free for 14 days</li><li>No contract</li><li>Demo on your own details first</li></ul>
   <div class="row">
     <a class="btn" href="/pilot.html">Start a free pilot</a>
-    <a class="btn line" href="https://instagram.com/nyrexai">Message @nyrexai on Instagram</a>
+    <a class="btn line" href="/landing.html">See the full pitch</a>
   </div>
 </div></section>
 </main>
@@ -313,6 +150,7 @@
       <li><a href="/pricing.html">Pricing</a></li>
       <li><a href="/faq.html">FAQ</a></li>
       <li><a href="/ad.html">Watch the ad</a></li>
+      <li><a href="/landing.html">The full pitch</a></li>
       <li><a href="/about.html">About</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
