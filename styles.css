@@ -786,3 +786,90 @@ footer.foot{position:relative;overflow:hidden;padding:72px 0 0}
 main .plans .plan{border-radius:0;border:1px solid var(--rule)}
 main .plans .plan:hover{transform:none}
 main .plans .plan .tag{border-radius:0;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem}
+
+/* =====================================================================
+   Motion layer (fx.js). Decoration only; all of it is off or static
+   under prefers-reduced-motion.
+   ===================================================================== */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinr{to{transform:rotate(-360deg)}}
+
+/* bubble canvases */
+.fx-bubbles{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1}
+.strip,.pagehead{position:relative;isolation:isolate}
+.pagehead{overflow:hidden}
+
+/* cursor glow */
+.fx-spot{--spot:rgba(23,161,115,.11)}
+.strip.fx-spot,.cta-band.fx-spot{--spot:rgba(126,226,184,.13)}
+.fx-spot::before{display:block;content:"";position:absolute;inset:0;width:auto;height:auto;left:0;right:0;top:0;bottom:0;z-index:-1;pointer-events:none;border-radius:0;background:radial-gradient(520px circle at var(--mx,72%) var(--my,28%),var(--spot),transparent 62%);-webkit-mask-image:none;mask-image:none;animation:none}
+
+/* rings round the phone */
+.hero-visual{position:relative}
+.fx-orbit{position:absolute;left:50%;top:56%;width:0;height:0;pointer-events:none;z-index:-1}
+.fx-orbit i{position:absolute;border-radius:50%;left:0;top:0}
+.fx-orbit .o1{width:min(540px,112vw);height:min(540px,112vw);margin:calc(min(540px,112vw)/-2) 0 0 calc(min(540px,112vw)/-2);border:1px dashed rgba(8,133,96,.38);animation:spin 70s linear infinite}
+.fx-orbit .o2{width:min(400px,86vw);height:min(400px,86vw);margin:calc(min(400px,86vw)/-2) 0 0 calc(min(400px,86vw)/-2);border:1px solid rgba(8,133,96,.18);animation:spinr 48s linear infinite}
+.fx-orbit .d1,.fx-orbit .d2,.fx-orbit .d3{width:12px;height:12px;margin:-6px 0 0 -6px;background:var(--g500)}
+.fx-orbit .d1{--r:min(270px,56vw);animation:orb 16s linear infinite}
+.fx-orbit .d2{--r:min(200px,43vw);width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--g900);animation:orb 22s linear infinite reverse}
+.fx-orbit .d3{--r:min(270px,56vw);width:7px;height:7px;margin:-3.5px 0 0 -3.5px;background:var(--mint);box-shadow:0 0 0 4px rgba(126,226,184,.35);animation:orb 16s linear -8s infinite}
+@keyframes orb{from{transform:rotate(0) translateX(var(--r)) rotate(0)}to{transform:rotate(360deg) translateX(var(--r)) rotate(-360deg)}}
+
+/* big outlined headline band */
+.fx-mega{overflow:hidden;background:#fff;border-bottom:1px solid var(--rule);padding:clamp(18px,3vw,34px) 0;user-select:none}
+.fx-mega>div{white-space:nowrap;line-height:1}
+.fx-mega span{display:inline-block;font:900 clamp(3.6rem,11vw,9.5rem)/1 var(--display);letter-spacing:-.055em;text-transform:uppercase;will-change:transform}
+.fx-mega b{font-weight:900;color:var(--g500);-webkit-text-stroke:0;margin:0 .12em}
+.fx-mega .row1 span{color:transparent;-webkit-text-stroke:1.5px var(--g900)}
+.fx-mega .row2 span{color:var(--g900)}
+.fx-mega .row2{margin-top:clamp(-18px,-1.4vw,-6px)}
+
+/* clock in the "11:02 pm" band */
+.strip .wrap{position:relative}
+.fx-clock{position:absolute;right:24px;top:-8px;width:clamp(190px,24vw,300px);display:none}
+@media(min-width:960px){.fx-clock{display:block}}
+.fx-clock svg{display:block;width:100%;height:auto;overflow:visible}
+.fx-clock .ring{fill:none;stroke:rgba(126,226,184,.55);stroke-width:1.2}
+.fx-clock .ring2{fill:rgba(126,226,184,.05);stroke:rgba(126,226,184,.18);stroke-width:1}
+.fx-clock .tk{stroke:rgba(126,226,184,.4);stroke-width:1}
+.fx-clock .tk.big{stroke:var(--mint);stroke-width:2}
+.fx-clock .hh,.fx-clock .mh{stroke:#fff;stroke-linecap:round}
+.fx-clock .hh{stroke-width:5}.fx-clock .mh{stroke-width:3}
+.fx-clock .cd{fill:var(--mint)}
+.fx-clock .am{display:block;margin-top:10px;text-align:center;font:700 .78rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--mint);font-variant-numeric:tabular-nums}
+.fx-clock .ring{animation:clockpulse 3.4s ease-in-out infinite}
+@keyframes clockpulse{50%{stroke:rgba(126,226,184,.95)}}
+
+/* icons draw in when their card appears */
+.js .fx-draw path,.js .fx-draw circle,.js .fx-draw rect,.js .fx-draw line,.js .fx-draw polyline{stroke-dasharray:1;stroke-dashoffset:1}
+.js .reveal.in .fx-draw *,.js.reveal-all .fx-draw *{stroke-dashoffset:0;transition:stroke-dashoffset 1.3s var(--ease) .25s}
+
+/* industry rows: arrow slides in */
+.boards a::after{content:"\2192";position:relative;z-index:1;flex:none;font:400 clamp(1.6rem,3vw,2.2rem)/1 var(--body);opacity:0;transform:translateX(-18px);transition:opacity .3s,transform .4s var(--ease)}
+.boards a:hover::after,.boards a:focus-visible::after{opacity:1;transform:none}
+@media(max-width:700px){.boards a::after{display:none}}
+
+/* footer wordmark fills in as it scrolls into view */
+.foot::after{background:linear-gradient(90deg,rgba(126,226,184,.3),rgba(126,226,184,.3)) no-repeat left top/calc(var(--fp,0)*100%) 100%;-webkit-background-clip:text;background-clip:text}
+
+/* hero numeral/labels get a gentle shimmer line under the eyebrow */
+.board-hero .eyebrow{position:relative}
+.board-hero .eyebrow::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:120px;background:linear-gradient(90deg,var(--g500),transparent);transform:translateX(-120px);animation:sweep 5s var(--ease) 1.2s infinite}
+@keyframes sweep{0%{transform:translateX(-120px)}60%,100%{transform:translateX(1100px)}}
+
+/* first-visit curtain (home page only, once per session; set by an inline script) */
+html.fx-intro body::before{content:"";position:fixed;inset:0;z-index:200;background:var(--g900);pointer-events:none;animation:curtain 1.45s cubic-bezier(.77,0,.18,1) forwards}
+html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-index:201;text-align:center;font:900 clamp(4rem,14vw,8rem)/1 var(--display);letter-spacing:-.06em;color:var(--mint);pointer-events:none;transform:translateY(-50%);animation:curtainmark 1.45s ease forwards}
+@keyframes curtain{0%,52%{transform:none}100%{transform:translateY(-101%)}}
+@keyframes curtainmark{0%{opacity:0;transform:translateY(-35%) scale(.8)}22%{opacity:1;transform:translateY(-50%) scale(1)}48%{opacity:1}62%,100%{opacity:0;transform:translateY(-70%) scale(1.04)}}
+
+@media(prefers-reduced-motion:reduce){
+  .fx-bubbles,.fx-orbit{display:none}
+  .fx-mega span{transform:none!important}
+  .js .fx-draw *{stroke-dashoffset:0!important}
+  html.fx-intro body::before,html.fx-intro body::after{display:none}
+  .board-hero .eyebrow::after{display:none}
+  .foot::after{background-size:100% 100%}
+}
+@media print{.fx-bubbles,.fx-orbit,.fx-mega,.fx-clock{display:none!important}}
