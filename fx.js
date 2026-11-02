@@ -3,6 +3,8 @@
    parts (bubbles, scroll-driven bits) stay off when the visitor prefers reduced motion. */
 (function () {
   'use strict';
+  var LITE = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 2;
+  if (LITE) document.documentElement.classList.add('fx-lite');
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
@@ -42,7 +44,7 @@
       w = r.width; h = r.height;
       c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var n = Math.round(clamp(w * h / 80000, 6, 16));
+      var n = Math.round(clamp(w * h / 110000, 5, 10));
       while (items.length < n) items.push(make(true));
       items.length = n;
     }
@@ -88,7 +90,7 @@
     }
     function loop(t) {
       if (!running) return;
-      if (t - last > 15) { draw(t); last = t; }
+      if (t - last > 33) { draw(t); last = t; }
       requestAnimationFrame(loop);
     }
     function update() {
@@ -184,6 +186,84 @@
     clock.label.textContent = h12 + ':' + (mn < 10 ? '0' : '') + mn + ' ' + ap;
   }
 
+
+  /* ---- 8. Siri-style fluid orb behind the hero phone ---- */
+  function siriOrb() {
+    var hv = $('.hero-visual');
+    if (!hv) return;
+    var o = document.createElement('div');
+    o.className = 'fx-siri';
+    o.setAttribute('aria-hidden', 'true');
+    o.innerHTML = '<i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><i class="b5"></i>';
+    hv.insertBefore(o, hv.firstChild);
+  }
+
+  /* ---- 9. Siri-style layered wave along the bottom of the closing band ---- */
+  function siriWave(host) {
+    var c = document.createElement('canvas');
+    c.className = 'fx-wave';
+    c.setAttribute('aria-hidden', 'true');
+    host.insertBefore(c, host.firstChild);
+    var ctx = c.getContext('2d');
+    if (!ctx) return;
+    var w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var amp = 0.22, target = 0.22, t = 0, running = false, visible = false, last = 0;
+    var layers = [
+      { c: '8,133,96', f: 1.3, s: 0.9, a: 1.0, w: 2.2 },
+      { c: '23,161,115', f: 1.9, s: -1.2, a: 0.8, w: 2 },
+      { c: '79,191,146', f: 2.5, s: 1.5, a: 0.65, w: 1.8 },
+      { c: '126,226,184', f: 3.1, s: -1.9, a: 0.5, w: 1.6 },
+      { c: '255,255,255', f: 1.6, s: 2.2, a: 0.4, w: 1.2 }
+    ];
+    function size() {
+      var r = c.getBoundingClientRect();
+      w = r.width; h = r.height;
+      c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      var mid = h * 0.68, step = Math.max(3, w / 160);
+      for (var i = 0; i < layers.length; i++) {
+        var L = layers[i];
+        for (var pass = 0; pass < 2; pass++) {
+          ctx.beginPath();
+          for (var x = 0; x <= w + step; x += step) {
+            var u = x / w, env = Math.pow(Math.max(0, 1 - Math.pow(u * 2 - 1, 2)), 2);
+            var y = mid + Math.sin(u * Math.PI * 2 * L.f + t * L.s + i) * h * 0.42 * amp * L.a * env
+                        + Math.sin(u * Math.PI * 5 * L.f - t * L.s * 0.7) * h * 0.08 * amp * env;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.lineWidth = pass ? L.w : L.w * 5;
+          ctx.strokeStyle = 'rgba(' + L.c + ',' + (pass ? 0.9 : 0.07) + ')';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+        }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    function loop(ts) {
+      if (!running) return;
+      if (ts - last > 30) { t += 0.04; amp += (target - amp) * 0.06; target += (0.22 - target) * 0.03; draw(); last = ts; }
+      requestAnimationFrame(loop);
+    }
+    function update() {
+      var go = visible && !document.hidden && !RM;
+      if (go && !running) { running = true; requestAnimationFrame(loop); }
+      if (!go) running = false;
+    }
+    size();
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(size, 150); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) target = 0.8; update(); }, { rootMargin: '60px' }).observe(host);
+    }
+    document.addEventListener('visibilitychange', update);
+    host.addEventListener('pointermove', function () { target = Math.min(1, target + 0.06); }, { passive: true });
+    host.addEventListener('pointerdown', function () { target = 1; });
+  }
+
   /* ---- 7. one scroll handler for every scroll-linked effect ---- */
   var foot = $('footer.foot');
   var queued = false;
@@ -213,10 +293,14 @@
   function start() {
     try {
       if (!RM) {
-        $$('.board-hero,.pagehead').forEach(function (h) { bubbles(h, false); });
-        $$('.cta-band,.strip').forEach(function (h) { bubbles(h, true); });
+        if (!LITE) {
+          $$('.board-hero,.pagehead').forEach(function (h) { bubbles(h, false); });
+          $$('.cta-band,.strip').forEach(function (h) { bubbles(h, true); });
+        }
         orbit();
       }
+      siriOrb();
+      $$('.cta-band').forEach(siriWave);
       $$('.board-hero,.pagehead').forEach(spot);
       $$('.cta-band,.strip').forEach(spot);
       marquee();

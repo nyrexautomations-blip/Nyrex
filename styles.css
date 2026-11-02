@@ -809,7 +809,7 @@ main .plans .plan .tag{border-radius:0;text-transform:uppercase;letter-spacing:.
 .fx-orbit{position:absolute;left:50%;top:56%;width:0;height:0;pointer-events:none;z-index:-1}
 .fx-orbit i{position:absolute;border-radius:50%;left:0;top:0}
 .fx-orbit .o1{width:min(540px,112vw);height:min(540px,112vw);margin:calc(min(540px,112vw)/-2) 0 0 calc(min(540px,112vw)/-2);border:1px dashed rgba(8,133,96,.38);animation:spin 70s linear infinite}
-.fx-orbit .o2{width:min(400px,86vw);height:min(400px,86vw);margin:calc(min(400px,86vw)/-2) 0 0 calc(min(400px,86vw)/-2);border:1px solid rgba(8,133,96,.18);animation:spinr 48s linear infinite}
+.fx-orbit .o2{display:none;width:min(400px,86vw);height:min(400px,86vw);margin:calc(min(400px,86vw)/-2) 0 0 calc(min(400px,86vw)/-2);border:1px solid rgba(8,133,96,.18);animation:spinr 48s linear infinite}
 .fx-orbit .d1,.fx-orbit .d2,.fx-orbit .d3{width:12px;height:12px;margin:-6px 0 0 -6px;background:var(--g500)}
 .fx-orbit .d1{--r:min(270px,56vw);animation:orb 16s linear infinite}
 .fx-orbit .d2{--r:min(200px,43vw);width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--g900);animation:orb 22s linear infinite reverse}
@@ -873,3 +873,48 @@ html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-i
   .foot::after{background-size:100% 100%}
 }
 @media print{.fx-bubbles,.fx-orbit,.fx-mega,.fx-clock{display:none!important}}
+
+/* =====================================================================
+   Siri-inspired glow (greens and white only): flowing orb, rotating
+   glow edge on the phones, shimmer on the headline, live wave.
+   ===================================================================== */
+@property --ang{syntax:"<angle>";initial-value:0deg;inherits:false}
+@keyframes ang{to{--ang:360deg}}
+
+/* flowing orb behind the hero phone */
+.fx-siri{position:absolute;left:50%;top:56%;width:min(600px,140vw);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;z-index:-2}
+.fx-siri i{position:absolute;display:block;border-radius:50%;will-change:transform}
+.fx-siri .b1{width:62%;height:54%;left:8%;top:22%;background:radial-gradient(closest-side,rgba(23,161,115,.55),rgba(23,161,115,0));animation:bl1 13s ease-in-out infinite alternate}
+.fx-siri .b2{width:56%;height:62%;left:34%;top:12%;background:radial-gradient(closest-side,rgba(126,226,184,.75),rgba(126,226,184,0));animation:bl2 10s ease-in-out infinite alternate}
+.fx-siri .b3{display:none;width:50%;height:46%;left:22%;top:44%;background:radial-gradient(closest-side,rgba(8,133,96,.42),rgba(8,133,96,0));animation:bl3 15s ease-in-out infinite alternate}
+.fx-siri .b4{display:none;width:44%;height:44%;left:42%;top:40%;background:radial-gradient(closest-side,rgba(79,191,146,.5),rgba(79,191,146,0));animation:bl4 9s ease-in-out infinite alternate}
+.fx-siri .b5{width:34%;height:34%;left:30%;top:28%;background:radial-gradient(closest-side,rgba(168,240,209,.9),rgba(168,240,209,0));animation:bl5 7s ease-in-out infinite alternate}
+@keyframes bl1{from{transform:translate(-6%,-4%) rotate(0) scale(1)}to{transform:translate(10%,8%) rotate(40deg) scale(1.2)}}
+@keyframes bl2{from{transform:translate(8%,6%) rotate(0) scale(1.1)}to{transform:translate(-10%,-6%) rotate(-50deg) scale(.9)}}
+@keyframes bl3{from{transform:translate(0,8%) rotate(10deg) scale(.9)}to{transform:translate(8%,-10%) rotate(-30deg) scale(1.15)}}
+@keyframes bl4{from{transform:translate(-8%,0) scale(1)}to{transform:translate(8%,-8%) scale(1.25)}}
+@keyframes bl5{from{transform:translate(6%,6%) scale(.85)}to{transform:translate(-6%,-8%) scale(1.15)}}
+
+/* rotating glow edge round every phone */
+.phone{position:relative;isolation:isolate}
+.phone::before{content:"";position:absolute;inset:-9px;z-index:-1;border-radius:42px;pointer-events:none;background:conic-gradient(from var(--ang),#088560,#7EE2B8,#fff,#4FBF92,#0A3D30,#17A173,#A8F0D1,#088560);filter:blur(10px);opacity:.78;animation:none;transition:opacity .4s,inset .4s var(--ease)}
+.hero-visual .phone::before,.phone:hover::before{animation:ang 9s linear infinite}
+.phone:hover::before{opacity:1;inset:-14px}
+.fx-lite .phone::before,.fx-lite .fx-siri i{animation:none!important}
+
+/* shimmer across the last words of the hero headline */
+.board-hero h1 .w:nth-last-child(-n+2){background:linear-gradient(90deg,#0A3D30,#088560,#17A173,#088560,#0A3D30) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:rise .7s var(--ease) calc(.12s + var(--i,0)*.055s) both,shimmer 6s linear 1.4s infinite}
+@keyframes shimmer{to{background-position:-300% 0}}
+
+/* live wave in the closing band */
+.fx-wave{position:absolute;left:0;right:0;bottom:0;width:100%;height:42%;pointer-events:none;z-index:-1}
+
+/* WhatsApp button: soft breathing glow */
+.wa-chat{animation:wapulse 3.2s ease-in-out infinite}
+@keyframes wapulse{0%,100%{box-shadow:0 14px 28px -12px rgba(6,42,33,.65),0 0 0 0 rgba(126,226,184,.55)}55%{box-shadow:0 14px 28px -12px rgba(6,42,33,.65),0 0 0 12px rgba(126,226,184,0)}}
+
+@media(prefers-reduced-motion:reduce){
+  .fx-siri i,.phone::before,.wa-chat{animation:none!important}
+  .board-hero h1 .w:nth-last-child(-n+2){animation:none;opacity:1;transform:none}
+}
+@media print{.fx-siri,.fx-wave{display:none!important}.phone::before{display:none}}
