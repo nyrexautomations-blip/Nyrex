@@ -140,6 +140,17 @@
     }, { passive: true });
   }
 
+  /* ---- Siri-style glass orb under the hero phone ---- */
+  function glassOrb() {
+    var hv = $('.hero-visual');
+    if (!hv) return;
+    var o = document.createElement('div');
+    o.className = 'fx-orb2';
+    o.setAttribute('aria-hidden', 'true');
+    o.innerHTML = '<i class="sw"></i><i class="sw b"></i>';
+    hv.appendChild(o);
+  }
+
   /* ---- 4. rings orbiting the phone in the hero ---- */
   function orbit() {
     var hv = $('.hero-visual');
@@ -320,6 +331,7 @@
       $$('.cta-band').forEach(siriWave);
       $$('.board-hero,.pagehead').forEach(spot);
       $$('.cta-band,.strip').forEach(spot);
+      glassOrb();
       marquee();
       makeClock();
       if (!RM) {

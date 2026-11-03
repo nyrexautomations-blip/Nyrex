@@ -935,3 +935,25 @@ html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-i
 .landing .nav>a.cta{padding:13px 20px;font-size:.72rem;white-space:nowrap}
 .landing .nav>a.cta .arr{width:16px;height:16px;flex:none}
 @media(max-width:480px){.landing .nav>a.cta{padding:12px 14px;letter-spacing:.08em}}
+
+/* =====================================================================
+   Siri-page cues, in Nyrex greens: glass orb under the hero phone,
+   orb dots and a flowing gradient in the big headline band.
+   ===================================================================== */
+.board-hero{padding-bottom:clamp(120px,10vw,140px)}
+.fx-orb2{position:absolute;left:50%;bottom:-104px;width:92px;height:92px;margin-left:-46px;border-radius:50%;z-index:3;pointer-events:none;overflow:hidden;isolation:isolate;background:#062A21;box-shadow:0 0 0 5px #fff,0 0 0 6px rgba(8,133,96,.25),0 20px 38px -12px rgba(6,42,33,.55),0 0 46px rgba(126,226,184,.5);animation:orbbreath 3.6s ease-in-out infinite}
+.fx-orb2 .sw{position:absolute;inset:-35%;z-index:-1;background:conic-gradient(from var(--ang),#088560,#7EE2B8,#fff,#4FBF92,#0A3D30,#17A173,#A8F0D1,#088560);filter:blur(9px);animation:ang 5s linear infinite}
+.fx-orb2 .sw.b{background:conic-gradient(from calc(var(--ang)*-1 + 90deg),transparent,#4FBF92 18%,transparent 42%,#7EE2B8 62%,transparent 86%);mix-blend-mode:screen;animation:ang 8s linear infinite reverse;opacity:.85}
+.fx-orb2::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(6,42,33,0) 42%,rgba(6,42,33,.6) 100%)}
+.fx-orb2::after{content:"";position:absolute;left:16%;top:9%;width:52%;height:38%;border-radius:50%;background:radial-gradient(ellipse at 50% 40%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%);transform:rotate(-24deg)}
+@keyframes orbbreath{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.fx-lite .fx-orb2,.fx-lite .fx-orb2 .sw{animation:none!important}
+
+/* headline band: filled row flows through the greens, separators become little orbs */
+.fx-mega .row2 span{color:transparent;background:linear-gradient(90deg,#0A3D30 0,#088560 14%,#17A173 30%,#4FBF92 46%,#7EE2B8 58%,#17A173 74%,#088560 88%,#0A3D30 100%) 0 0/1500px 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flowtext 14s linear infinite}
+@keyframes flowtext{to{background-position:-1500px 0}}
+.fx-mega b{display:inline-block;width:.5em;height:.5em;margin:0 .26em;vertical-align:.02em;border-radius:50%;overflow:hidden;text-indent:-9999px;white-space:nowrap;-webkit-text-stroke:0;color:transparent;background:radial-gradient(circle at 32% 28%,#fff 0 7%,#A8F0D1 20%,#17A173 58%,#0A3D30 100%);box-shadow:0 .08em .22em -.06em rgba(6,42,33,.55)}
+.fx-mega .row1 b{background:radial-gradient(circle at 32% 28%,#fff 0 7%,#7EE2B8 22%,#088560 62%,#0A3D30 100%)}
+
+@media(prefers-reduced-motion:reduce){.fx-orb2,.fx-orb2 .sw,.fx-mega .row2 span{animation:none!important}}
+@media print{.fx-orb2{display:none!important}}
