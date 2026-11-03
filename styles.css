@@ -957,3 +957,9 @@ html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-i
 
 @media(prefers-reduced-motion:reduce){.fx-orb2,.fx-orb2 .sw,.fx-mega .row2 span{animation:none!important}}
 @media print{.fx-orb2{display:none!important}}
+
+/* landing page header: quiet link to the full site */
+.landing .nav{gap:14px}
+.landing .nav .sitelink{margin-left:auto;color:var(--g900);text-decoration:none;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:600;padding:10px 4px;background:linear-gradient(var(--g600),var(--g600)) no-repeat 4px calc(100% - 4px)/0 2px;transition:background-size .35s var(--ease)}
+.landing .nav .sitelink:hover{background-size:calc(100% - 8px) 2px}
+@media(max-width:560px){.landing .nav .sitelink{display:none}}
