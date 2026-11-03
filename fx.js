@@ -322,14 +322,14 @@
       }
       if (!RM) {
         if (!LITE) {
-          $$('.board-hero,.pagehead').forEach(function (h) { bubbles(h, false); });
+          $$('.board-hero,.pagehead,.land').forEach(function (h) { bubbles(h, false); });
           $$('.cta-band,.strip').forEach(function (h) { bubbles(h, true); });
         }
         orbit();
       }
       siriOrb();
       $$('.cta-band').forEach(siriWave);
-      $$('.board-hero,.pagehead').forEach(spot);
+      $$('.board-hero,.pagehead,.land').forEach(spot);
       $$('.cta-band,.strip').forEach(spot);
       glassOrb();
       marquee();

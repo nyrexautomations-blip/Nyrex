@@ -963,3 +963,70 @@ html.fx-intro body::after{content:"n.";position:fixed;left:0;right:0;top:50%;z-i
 .landing .nav .sitelink{margin-left:auto;color:var(--g900);text-decoration:none;text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;font-weight:600;padding:10px 4px;background:linear-gradient(var(--g600),var(--g600)) no-repeat 4px calc(100% - 4px)/0 2px;transition:background-size .35s var(--ease)}
 .landing .nav .sitelink:hover{background-size:calc(100% - 8px) 2px}
 @media(max-width:560px){.landing .nav .sitelink{display:none}}
+
+/* =====================================================================
+   Landing page: one immersive screen. Big flowing wordmark, a glass
+   orb, chat bubbles drifting around it, one line, two buttons.
+   Greens and white only. Motion is off for reduced-motion visitors.
+   ===================================================================== */
+body.landing{background:#fff}
+.land{position:relative;isolation:isolate;overflow:hidden;min-height:calc(100svh - 72px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(16px,2.6vh,34px) 24px clamp(24px,3.6vh,44px);background:radial-gradient(120% 80% at 50% 0%,#F3FAF6 0%,#fff 62%)}
+.land h1{font-size:clamp(1.45rem,2.7vw,2.3rem);line-height:1.1;letter-spacing:-.04em;max-width:26ch;margin:clamp(14px,2.4vh,26px) auto 0}
+.land .lead{margin:14px auto 0;font-size:1.05rem;max-width:50ch}
+.land .row{justify-content:center;margin-top:clamp(18px,3vh,30px)}
+.land .btn .arr{width:16px;height:16px;flex:none;transition:transform .3s var(--ease)}
+.land .btn:hover .arr{transform:translateX(4px)}
+.land .note{margin-top:16px;font-size:.84rem;color:var(--muted)}
+.land-eyebrow{margin-top:clamp(10px,2vh,22px);font:600 .74rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--g700)}
+@media(max-height:780px){.land .lead{display:none}}
+
+/* the stage: wordmark at the bottom, orb above it, bubbles round the orb */
+.land-stage{--o:clamp(150px,26vh,250px);position:relative;width:min(1100px,100%);height:clamp(290px,47vh,480px);margin:0 auto}
+.land-word{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:center;font:900 clamp(4.8rem,21vw,19rem)/.8 var(--display);letter-spacing:-.07em;white-space:nowrap;user-select:none}
+.land-word span{color:transparent;padding:0 .02em .04em 0;background:linear-gradient(90deg,#0A3D30,#088560 14%,#17A173 30%,#4FBF92 46%,#7EE2B8 58%,#17A173 74%,#088560 88%,#0A3D30) 0 0/220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:lflow 12s linear infinite}
+.land-word .dot{display:block;flex:none;width:.2em;height:.2em;margin:0 0 .09em .03em;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff 0 7%,#A8F0D1 20%,#17A173 58%,#0A3D30 100%);box-shadow:0 .05em .16em -.04em rgba(6,42,33,.55)}
+@keyframes lflow{to{background-position:-220% 0}}
+
+.orb-xl{position:absolute;left:50%;top:0;width:var(--o);height:var(--o);margin-left:calc(var(--o) / -2);border-radius:50%;overflow:hidden;isolation:isolate;background:#062A21;cursor:pointer;box-shadow:0 0 0 6px #fff,0 0 0 7px rgba(8,133,96,.25),0 34px 60px -22px rgba(6,42,33,.6),0 0 90px rgba(126,226,184,.55);animation:orbbreath 4.2s ease-in-out infinite;translate:calc(var(--px,0) * 14px) calc(var(--py,0) * 14px)}
+.orb-xl .sw{position:absolute;inset:-35%;z-index:-1;background:conic-gradient(from var(--ang),#088560,#7EE2B8,#fff,#4FBF92,#0A3D30,#17A173,#A8F0D1,#088560);filter:blur(16px);animation:ang 6s linear infinite}
+.orb-xl .sw.b{background:conic-gradient(from calc(var(--ang) * -1 + 90deg),transparent,#4FBF92 18%,transparent 42%,#7EE2B8 62%,transparent 86%);mix-blend-mode:screen;animation:ang 9s linear infinite reverse;opacity:.85}
+.orb-xl::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50% 50%,rgba(6,42,33,0) 42%,rgba(6,42,33,.6) 100%)}
+.orb-xl::after{content:"";position:absolute;left:15%;top:8%;width:54%;height:36%;border-radius:50%;background:radial-gradient(ellipse at 50% 40%,rgba(255,255,255,.95),rgba(255,255,255,0) 70%);transform:rotate(-24deg)}
+.ripple{position:absolute;left:50%;top:calc(var(--o) / 2);width:var(--o);height:var(--o);margin:calc(var(--o) / -2) 0 0 calc(var(--o) / -2);border-radius:50%;border:2px solid var(--g500);pointer-events:none;animation:ripple 1.6s ease-out forwards}
+@keyframes ripple{from{transform:scale(1);opacity:.7}to{transform:scale(2.6);opacity:0}}
+
+.chatter{list-style:none;margin:0;padding:0}
+.chatter li{position:absolute;max-width:min(230px,26vw);padding:10px 14px;border-radius:16px;font-size:.86rem;line-height:1.35;text-align:left;box-shadow:0 16px 30px -18px rgba(6,42,33,.55);animation:cpop .7s var(--ease) var(--d,0s) both,cfloat 7s ease-in-out calc(var(--d,0s) + .7s) infinite;translate:calc(var(--px,0) * var(--k,10px)) calc(var(--py,0) * var(--k,10px))}
+.chatter li:nth-child(2){animation-duration:.7s,8.5s}
+.chatter li:nth-child(3){animation-duration:.7s,6.2s}
+.chatter li:nth-child(4){animation-duration:.7s,9s}
+.chatter .me{background:#fff;color:var(--ink);border:1.5px solid var(--g200);border-bottom-left-radius:4px}
+.chatter .bot{background:var(--g600);color:#fff;border-bottom-right-radius:4px}
+@keyframes cpop{from{opacity:0;transform:translateY(14px) scale(.86)}to{opacity:1;transform:none}}
+@keyframes cfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@media(max-width:900px){.chatter li:nth-child(2),.chatter li:nth-child(3){display:none}.chatter li{max-width:34vw}}
+@media(max-width:560px){.chatter li{font-size:.74rem;padding:8px 11px}}
+
+/* WebGL aura behind the orb on capable desktops */
+.land-stage .fx-gl-orb{left:50%;top:calc(var(--o) / 2);width:min(820px,150vw);height:min(820px,150vw);transform:translate(-50%,-50%);z-index:-1}
+
+/* slim footer */
+.land-foot{background:var(--g950);color:#A9D2BF;padding:20px 0 26px;font-size:.85rem}
+.land-foot nav{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:12px}
+.land-foot a{color:#CFEBDD;text-decoration:none;font-weight:600;transition:color .2s}
+.land-foot a:hover{color:#fff;text-decoration:underline}
+.land-foot p{max-width:78ch;color:#8FBCA7}
+
+@media(prefers-reduced-motion:reduce){
+  .land-word span,.orb-xl,.orb-xl .sw,.chatter li{animation:none!important}
+  .land-word span{background-position:0 0}
+  .chatter li{opacity:1}
+  .ripple{display:none}
+}
+@media print{.land-stage .fx-gl-orb{display:none!important}}
+
+@media(max-width:560px){
+  .land-stage{height:calc(var(--o) + 140px)}
+  .land-word{font-size:30vw}
+}
+@media(max-width:860px){.landing .wa-chat{bottom:16px}}

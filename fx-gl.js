@@ -228,6 +228,7 @@
   function start() {
     try {
       mount($('.hero-visual'), ORB, 'fx-gl-orb', 0.6);
+      mount($('.land-stage'), ORB, 'fx-gl-orb', 0.6);
       mount($('.cta-band'), AURORA, 'fx-gl-aurora', 0.5);
       if (!inst.length) { fallback(); return; }
       trail = makeTrail();
