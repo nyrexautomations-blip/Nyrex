@@ -322,7 +322,7 @@
       }
       if (!RM) {
         if (!LITE) {
-          $$('.board-hero,.pagehead,.land').forEach(function (h) { bubbles(h, false); });
+          $$('.board-hero,.pagehead').forEach(function (h) { bubbles(h, false); });
           $$('.cta-band,.strip').forEach(function (h) { bubbles(h, true); });
         }
         orbit();
