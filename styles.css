@@ -1064,3 +1064,7 @@ body.landing{background:#fff}
 }
 @media print{.land-stage .fx-gl-orb{display:none!important}}
 @media(max-width:860px){.landing .wa-chat{left:auto;right:16px;bottom:16px}}
+
+/* wipe into the site when Enter is pressed (landing.js) */
+.wipe{position:fixed;width:12px;height:12px;border-radius:50%;background:#0A3D30;z-index:400;pointer-events:none;transform:translate(-50%,-50%) scale(0);transition:transform .72s cubic-bezier(.7,0,.2,1)}
+@media(prefers-reduced-motion:reduce){.wipe{display:none}}

@@ -1,14 +1,40 @@
-/* Landing screen: pointer parallax and a magnetic Enter button.
-   Decoration only; off for reduced motion, and no pointer effects on touch. */
+/* Landing screen: a wipe into the site when Enter is pressed, plus pointer parallax and a
+   magnetic Enter button. Decoration only: the button is an ordinary link and works without
+   any of this. The wipe is off for reduced motion; pointer effects are off on touch. */
 (function () {
   'use strict';
   var land = document.querySelector('.land');
   if (!land) return;
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var coarse = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  var btn = land.querySelector('.enter');
+
+  /* a green circle grows out of the button, then the site loads */
+  if (btn && !RM) {
+    btn.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      var r = btn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var w = document.createElement('div');
+      w.className = 'wipe';
+      w.style.left = x + 'px';
+      w.style.top = y + 'px';
+      document.body.appendChild(w);
+      var far = Math.sqrt(Math.pow(Math.max(x, innerWidth - x), 2) + Math.pow(Math.max(y, innerHeight - y), 2));
+      void w.getBoundingClientRect();
+      w.style.transform = 'translate(-50%,-50%) scale(' + ((far * 2.2) / 12).toFixed(1) + ')';
+      setTimeout(function () { location.href = btn.href; }, 740);
+    });
+  }
+  /* coming back with the browser's back button should not show a stuck wipe */
+  window.addEventListener('pageshow', function (ev) {
+    if (!ev.persisted) return;
+    var w = document.querySelector('.wipe');
+    if (w && w.parentNode) w.parentNode.removeChild(w);
+  });
+
   if (RM || coarse) return;
 
-  var btn = land.querySelector('.enter');
   var tx = 0, ty = 0, cx = 0, cy = 0, q = false;
 
   function step() {
