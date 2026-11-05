@@ -1127,3 +1127,6 @@ a.sw-pink,a.sw-teal,a.sw-purple,a.sw-orange,a.sw-slate,a.sw-mint{--c:var(--g600)
 .strip .tl-label,.cta-band .eyebrow{color:#3DFFB0}
 .land-word .dot{background:#00D17A}
 .enter .fill{background:#3DFFB0}
+
+/* bigger tap targets for footer links on phones */
+@media(max-width:700px){.foot li a,.foot nav a{display:inline-block;padding:7px 0}}
