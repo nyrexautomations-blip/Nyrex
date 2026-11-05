@@ -40,7 +40,7 @@
     if (!ctx) return;
     var w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
     var items = [], running = false, visible = false, mx = -1e4, my = -1e4, last = 0;
-    var line = dark ? '126,226,184' : '8,133,96';
+    var line = dark ? '61,255,176' : '0,168,99';
 
     function make(init) {
       var s = 24 + Math.random() * 56;
@@ -231,10 +231,10 @@
     var w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
     var amp = 0.22, target = 0.22, t = 0, running = false, visible = false, last = 0;
     var layers = [
-      { c: '8,133,96', f: 1.3, s: 0.9, a: 1.0, w: 2.2 },
-      { c: '23,161,115', f: 1.9, s: -1.2, a: 0.8, w: 2 },
+      { c: '0,168,99', f: 1.3, s: 0.9, a: 1.0, w: 2.2 },
+      { c: '0,194,114', f: 1.9, s: -1.2, a: 0.8, w: 2 },
       { c: '79,191,146', f: 2.5, s: 1.5, a: 0.65, w: 1.8 },
-      { c: '126,226,184', f: 3.1, s: -1.9, a: 0.5, w: 1.6 },
+      { c: '61,255,176', f: 3.1, s: -1.9, a: 0.5, w: 1.6 },
       { c: '255,255,255', f: 1.6, s: 2.2, a: 0.4, w: 1.2 }
     ];
     function size() {
@@ -314,25 +314,8 @@
   /* ---- start ---- */
   function start() {
     try {
-      if (HEAVY && !RM) {
-        document.documentElement.classList.add('fx-heavy');
-        var gs = document.createElement('script');
-        gs.src = '/fx-gl.js'; gs.async = true;
-        document.head.appendChild(gs);
-      }
-      if (!RM) {
-        if (!LITE) {
-          $$('.board-hero,.pagehead').forEach(function (h) { bubbles(h, false); });
-          $$('.cta-band,.strip').forEach(function (h) { bubbles(h, true); });
-        }
-        orbit();
-      }
-      siriOrb();
-      $$('.cta-band').forEach(siriWave);
-      $$('.board-hero,.pagehead,.land').forEach(spot);
-      $$('.cta-band,.strip').forEach(spot);
+      /* calm pass: no chat-bubble field, cursor spotlight, orbit rings, wave, marquee band or WebGL tier */
       glassOrb();
-      marquee();
       makeClock();
       if (!RM) {
         window.addEventListener('scroll', queue, { passive: true });

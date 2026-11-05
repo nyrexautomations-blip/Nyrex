@@ -22,7 +22,7 @@
       'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
       ' return mix(mix(h(i),h(i+vec2(1.,0.)),f.x),mix(h(i+vec2(0.,1.)),h(i+vec2(1.,1.)),f.x),f.y);}',
       'float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
-      /* Nyrex greens only: #0A3D30 #088560 #17A173 #4FBF92 #7EE2B8 */
+      /* Nyrex greens only: #04261C #00A863 #00C272 #2BDC93 #3DFFB0 */
       'const vec3 c0=vec3(.039,.239,.188);const vec3 c1=vec3(.031,.522,.376);',
       'const vec3 c2=vec3(.090,.631,.451);const vec3 c3=vec3(.310,.749,.573);const vec3 c4=vec3(.494,.886,.722);',
       'vec3 ramp(float t){t=clamp(t,0.,1.)*4.;vec3 c=mix(c0,c1,smoothstep(0.,1.,t));',
@@ -185,7 +185,7 @@
     var ctx = c.getContext('2d');
     if (!ctx) return null;
     var dpr = Math.min(window.devicePixelRatio || 1, 1.5), W = 0, H = 0, ps = [], on = false, lx = null, ly = null;
-    var cols = ['23,161,115', '79,191,146', '126,226,184', '8,133,96'];
+    var cols = ['0,194,114', '79,191,146', '61,255,176', '0,168,99'];
     function rs() { W = innerWidth; H = innerHeight; c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
     rs(); window.addEventListener('resize', rs);
     function emit(x, y, n, spd) {
