@@ -1130,3 +1130,10 @@ a.sw-pink,a.sw-teal,a.sw-purple,a.sw-orange,a.sw-slate,a.sw-mint{--c:var(--g600)
 
 /* bigger tap targets for footer links on phones */
 @media(max-width:700px){.foot li a,.foot nav a{display:inline-block;padding:7px 0}}
+
+/* landing: quiet section links (also helps crawling) */
+.land-links{display:flex;flex-wrap:wrap;justify-content:center;gap:0 12px;margin-bottom:2px;font-size:.68rem}
+.land-links a{color:#5F8575;font-weight:500;text-decoration:none;padding:3px 0}
+.land-links a:hover{color:var(--g700);text-decoration:underline}
+.landing .land{padding-bottom:clamp(46px,7vh,64px)}
+@media(max-width:560px){.land-links{justify-content:flex-start;gap:0 10px}}
