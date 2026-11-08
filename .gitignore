@@ -1,0 +1,8 @@
+.env
+.env.*
+.dev.vars
+*.pem
+*.key
+*.map
+node_modules/
+.wrangler/
