@@ -18,9 +18,9 @@
 <meta name="twitter:image" content="https://nyrex.pages.dev/og-image.png">
 <meta name="theme-color" content="#04261C">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/archivo-wdth.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/public-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
 <link rel="stylesheet" href="/styles.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Nyrex", "item": "https://nyrex.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://nyrex.pages.dev/faq.html"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Nyrex only for salons and clinics?", "acceptedAnswer": {"@type": "Answer", "text": "No. It works for any business that gets customer questions on WhatsApp, such as shops, studios, classes, restaurants and services. The examples on the site are only examples. You tell us your hours, what you offer and your rules, and it answers from those."}}, {"@type": "Question", "name": "Do my customers need to install anything?", "acceptedAnswer": {"@type": "Answer", "text": "No. They message your WhatsApp number as usual."}}, {"@type": "Question", "name": "How fast does it reply?", "acceptedAnswer": {"@type": "Answer", "text": "Within seconds, at any hour."}}, {"@type": "Question", "name": "Which languages does it reply in?", "acceptedAnswer": {"@type": "Answer", "text": "The language the customer writes in. How well it does depends on the language, so during the pilot we test the ones your customers actually use."}}, {"@type": "Question", "name": "What if someone sends a voice note or photo?", "acceptedAnswer": {"@type": "Answer", "text": "The assistant reads text only. It asks the customer to type what they need and offers a follow-up from your team."}}, {"@type": "Question", "name": "Can I use my current WhatsApp number?", "acceptedAnswer": {"@type": "Answer", "text": "Our current setup needs a number not already registered in the regular WhatsApp or WhatsApp Business app. If your customers already use your number, we will explain setup options and any impact before you decide. Do not move or disconnect your number before speaking with us."}}, {"@type": "Question", "name": "Is there a time limit on replies?", "acceptedAnswer": {"@type": "Answer", "text": "WhatsApp allows free-form replies for 24 hours after a customer's message, which covers normal customer chats."}}, {"@type": "Question", "name": "How long does setup take?", "acceptedAnswer": {"@type": "Answer", "text": "Most of the work is you sending us your hours, services and booking rules. Connecting a number can take longer if WhatsApp needs to review something, so we'll tell you what to expect when we start."}}, {"@type": "Question", "name": "What if it doesn't know the answer?", "acceptedAnswer": {"@type": "Answer", "text": "It says so and passes the conversation to you instead of guessing."}}, {"@type": "Question", "name": "Will it make up prices or promises?", "acceptedAnswer": {"@type": "Answer", "text": "It is told to use only the information you give it, and never to quote a price you haven't provided. It's AI, so it can still make mistakes. That's why a person confirms anything important, and why we read the real chats with you during the pilot."}}, {"@type": "Question", "name": "Does it confirm bookings?", "acceptedAnswer": {"@type": "Answer", "text": "No. It collects the name, service, day and time, then tells the customer your team will confirm. Your team makes the final call."}}, {"@type": "Question", "name": "Can a customer talk to a real person?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. If they ask, the assistant tells them a team member will follow up, and you get an alert."}}, {"@type": "Question", "name": "Can I still reply myself?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Anything the assistant can't settle is flagged to you right away, so you can follow up with the customer yourself whenever you like."}}, {"@type": "Question", "name": "Can I see the conversations?", "acceptedAnswer": {"@type": "Answer", "text": "Every conversation is logged, and we can send you a copy on request."}}, {"@type": "Question", "name": "Who can see my customers' messages?", "acceptedAnswer": {"@type": "Answer", "text": "Messages pass through WhatsApp, our automation platform and an AI service so replies can be written. We use them only to run your assistant, and we never sell or share them for anything else. The full details are on the privacy page."}}, {"@type": "Question", "name": "What does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "The Nyrex service is free for 14 days. Third-party WhatsApp or provider fees are separate and may apply; we confirm applicable costs before setup. After the pilot, we agree the monthly Nyrex price before anything is charged."}}, {"@type": "Question", "name": "Is there a contract?", "acceptedAnswer": {"@type": "Answer", "text": "No contract for the pilot. You can stop whenever you like."}}]}</script>
@@ -55,7 +55,7 @@
     <p>An assistant that answers your customers' WhatsApp messages, so nobody is left waiting.</p>
   </div>
   <div>
-    <h4>Explore</h4>
+    <p class="fh">Explore</p>
     <ul>
       <li><a href="/how-it-works.html">How it works</a></li>
       <li><a href="/industries.html">Who it's for</a></li>
@@ -69,7 +69,7 @@
     </ul>
   </div>
   <div>
-    <h4>Learn more</h4>
+    <p class="fh">Learn more</p>
     <ul>
       <li><a href="/compare.html">Why not reply yourself?</a></li>
       <li><a href="/pilot-checklist.html">Pilot checklist</a></li>
@@ -78,10 +78,14 @@
       <li><a href="/hinglish.html">Hinglish</a></li>
       <li><a href="/agreement.html">Pilot agreement</a></li>
       <li><a href="/privacy.html">Privacy</a></li>
+      <li><a href="/terms.html">Terms</a></li>
+      <li><a href="/refund-policy.html">Refunds</a></li>
+      <li><a href="/cookies.html">Cookies &amp; storage</a></li>
+      <li><a href="/delete-my-data.html">Delete my data</a></li>
     </ul>
   </div>
   <div>
-    <h4>Talk to us</h4>
+    <p class="fh">Talk to us</p>
     <ul>
       <li><a href="https://instagram.com/nyrexai">Instagram @nyrexai</a></li>
       <li><a href="mailto:nyrexautomations@gmail.com">nyrexautomations@gmail.com</a></li>
