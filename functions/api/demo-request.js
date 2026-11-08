@@ -7,7 +7,14 @@ function plain(value, limit) {
 export async function onRequestPost({ request, env }) {
   const origin = request.headers.get('Origin');
   const ownOrigin = new URL(request.url).origin;
-  if (origin && origin !== ownOrigin) return new Response('Forbidden', { status: 403 });
+  // Browsers always send Origin on a cross-site or fetch POST; require it to match this site.
+  if (origin !== ownOrigin) return new Response('Forbidden', { status: 403 });
+  if (!(request.headers.get('Content-Type') || '').includes('application/json')) {
+    return Response.json({ error: 'Invalid request' }, { status: 415 });
+  }
+  if (Number(request.headers.get('Content-Length') || 0) > 12000) {
+    return Response.json({ error: 'Invalid request' }, { status: 413 });
+  }
 
   let input;
   try { input = await request.json(); } catch { return Response.json({ error: 'Invalid request' }, { status: 400 }); }
