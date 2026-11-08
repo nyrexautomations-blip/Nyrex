@@ -287,6 +287,7 @@
   /* pilot form: sends a demo request to the Nyrex lead inbox */
   var form=document.getElementById('pilot-form');
   if(form){
+    try{var qp=new URLSearchParams(location.search);['biz','type','city'].forEach(function(k){var v=qp.get(k),el=form.elements[k];if(v&&el&&!el.value)el.value=v.slice(0,100)})}catch(e){}
     form.addEventListener('submit',function(e){
       e.preventDefault();
       var f=new FormData(form);
