@@ -1,0 +1,7 @@
+name = "nyrex"
+main = "index.js"
+compatibility_date = "2025-06-01"
+
+[[kv_namespaces]]
+binding = "NYREX"
+id = "4e9a4900446046b28b3e509719f6f470"
