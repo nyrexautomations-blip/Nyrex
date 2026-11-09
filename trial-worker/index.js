@@ -15,14 +15,14 @@ const TTL = 7 * 86400;
 const LIMITS = { name: 60, area: 60, hours: 300, services: 900, extra: 400 };
 
 const TYPES = {
-  gym:      { noun: "gym", head: "Membership plans and prices", collect: "the person's name, what they are looking for (membership, personal training or a trial) and a preferred day and time", med: false },
-  clinic:   { noun: "clinic", head: "Doctors, services and fees", collect: "the patient's name, which doctor or service they need and a preferred day and time", med: true },
-  dental:   { noun: "dental clinic", head: "Treatments and fees", collect: "the patient's name, the treatment they need and a preferred day and time", med: true },
-  physio:   { noun: "physiotherapy clinic", head: "Services and fees", collect: "the patient's name, the problem or service they need and a preferred day and time", med: true },
-  lab:      { noun: "diagnostic lab", head: "Tests, packages and prices", collect: "the person's name, which test or package, whether they want home collection, and a preferred day and time", med: true },
-  coaching: { noun: "coaching class", head: "Courses, batches and fees", collect: "the student's name, the class, the exam or subject, and a parent's phone number", med: false },
-  salon:    { noun: "salon", head: "Services and prices", collect: "the customer's name, the service and a preferred day and time", med: false },
-  other:    { noun: "business", head: "Services and prices", collect: "the person's name, what they need and a preferred day and time", med: false },
+  gym:      { label: "Gym", noun: "gym", head: "Membership plans and prices", collect: "the person's name, what they are looking for (membership, personal training or a trial) and a preferred day and time", med: false },
+  clinic:   { label: "Clinic", noun: "clinic", head: "Doctors, services and fees", collect: "the patient's name, which doctor or service they need and a preferred day and time", med: true },
+  dental:   { label: "Dental clinic", noun: "dental clinic", head: "Treatments and fees", collect: "the patient's name, the treatment they need and a preferred day and time", med: true },
+  physio:   { label: "Physiotherapy clinic", noun: "physiotherapy clinic", head: "Services and fees", collect: "the patient's name, the problem or service they need and a preferred day and time", med: true },
+  lab:      { label: "Diagnostic lab", noun: "diagnostic lab", head: "Tests, packages and prices", collect: "the person's name, which test or package, whether they want home collection, and a preferred day and time", med: true },
+  coaching: { label: "Coaching class", noun: "coaching class", head: "Courses, batches and fees", collect: "the student's name, the class, the exam or subject, and a parent's phone number", med: false },
+  salon:    { label: "Salon or spa", noun: "salon", head: "Services and prices", collect: "the customer's name, the service and a preferred day and time", med: false },
+  other:    { label: "Other", noun: "business", head: "Services and prices", collect: "the person's name, what they need and a preferred day and time", med: false },
 };
 
 const BOOKING = {
@@ -147,6 +147,8 @@ async function create(request, env) {
   const view = hex(24);
   const entry = {
     customer: name,
+    trial_type: t.label,
+    trial_area: area,
     timezone: "Asia/Kolkata",
     summary: false,
     message,
@@ -184,12 +186,18 @@ async function demo(url, env) {
   const bot = String(env.BOT_URL || DEFAULT_BOT).replace(/\/+$/, "");
   const name = esc(profile.customer || "Your business");
   const initial = esc(String(profile.customer || "N").trim().charAt(0).toUpperCase() || "N");
+  const q = new URLSearchParams();
+  q.set("biz", String(profile.customer || "").slice(0, 60));
+  if (profile.trial_type) q.set("type", String(profile.trial_type).slice(0, 40));
+  if (profile.trial_area) q.set("city", String(profile.trial_area).slice(0, 60));
+  const pilot = esc("https://nyrex.pages.dev/pilot.html?" + q.toString() + "#request");
   const html = DEMO_HTML
     .replaceAll("{{NAME}}", name)
     .replaceAll("{{INITIAL}}", initial)
     .replaceAll("{{C}}", esc(c))
     .replaceAll("{{KEY}}", esc(profile.widget_key))
-    .replaceAll("{{BOT}}", esc(bot));
+    .replaceAll("{{BOT}}", esc(bot))
+    .replaceAll("{{PILOT}}", pilot);
   return new Response(html, {
     headers: {
       "content-type": "text/html; charset=utf-8",
@@ -291,7 +299,7 @@ h1 em{font-style:normal;color:var(--mint)}
   <div class="cta">
     <h2>Like it? Put it on your own number.</h2>
     <p>Free 14-day pilot. We set it up with you, you see every conversation, and there is no contract.</p>
-    <div class="row"><a class="btn p" href="https://nyrex.pages.dev/pilot.html#request" rel="noreferrer">Start my free pilot</a><a class="btn l" href="https://nyrex.pages.dev/trial.html" rel="noreferrer">Try a different shop</a></div>
+    <div class="row"><a class="btn p" href="{{PILOT}}" rel="noreferrer">Start my free pilot</a><a class="btn l" href="https://nyrex.pages.dev/trial.html" rel="noreferrer">Try a different shop</a></div>
   </div>
   <p class="note">A short demo made from what you typed. It is deleted by itself after 7 days. Powered by <a href="https://nyrex.pages.dev/" rel="noreferrer">Nyrex</a>.</p>
 </div></section>
