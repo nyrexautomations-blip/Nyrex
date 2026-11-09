@@ -48,10 +48,11 @@
     <label>Services and prices <span class="hint">One per line</span><textarea id="tf-svc" name="services" maxlength="900" placeholder="1 month - Rs 1,500&#10;3 months - Rs 4,000"></textarea></label>
     <fieldset class="t-types"><legend>How do customers come to you?</legend><div class="chips-row" id="tf-book" role="group" aria-label="How customers come"></div></fieldset>
     <label>Anything else customers ask? <span class="hint">Optional</span><textarea id="tf-extra" name="extra" maxlength="400" placeholder="Free trial, parking, offers, women's timing"></textarea></label>
+    <label>Your WhatsApp number <span class="hint">Optional. If you add it, we can help you set this up on your real number.</span><input id="tf-phone" name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="98XXXXXXXX"></label>
     <div class="trap" aria-hidden="true"><label>Leave this empty<input id="tf-web" name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
     <p class="form-status" id="tf-status" role="alert"></p>
     <button class="btn" id="tf-go" type="submit">Start my assistant</button>
-    <p class="try-note">Only people with your link can open it. It is deleted by itself after 7 days. Nobody is charged.</p>
+    <p class="try-note">Only people with your link can open it. The demo is deleted by itself after 7 days. Nobody is charged. If you add your number, Nyrex may call or WhatsApp you about this demo.</p>
   </form>
   <aside class="try-stage">
     <div class="tr-steps">
@@ -122,7 +123,7 @@
   f.addEventListener('submit',function(e){
     e.preventDefault();stt.textContent='';stt.className='form-status';
     go.disabled=true;go.textContent='Setting up your assistant...';
-    var body={name:$('tf-name').value,type:st.type,area:$('tf-area').value,hours:$('tf-hours').value,services:$('tf-svc').value,booking:st.booking,extra:$('tf-extra').value,website:$('tf-web').value};
+    var body={name:$('tf-name').value,type:st.type,area:$('tf-area').value,hours:$('tf-hours').value,services:$('tf-svc').value,booking:st.booking,extra:$('tf-extra').value,phone:$('tf-phone').value,website:$('tf-web').value};
     fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)})
       .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j}})})
       .then(function(o){

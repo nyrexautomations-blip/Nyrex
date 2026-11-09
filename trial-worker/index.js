@@ -32,7 +32,7 @@ const BOOKING = {
 };
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (request.method === "OPTIONS" && url.pathname === "/create") {
       return new Response(null, { status: 204, headers: { ...CORS, "access-control-max-age": "86400" } });
@@ -40,7 +40,7 @@ export default {
     if (request.method === "GET" && url.pathname === "/") return Response.redirect(SITE + "/trial.html", 302);
     if (request.method === "GET" && url.pathname === "/plain") return page();
     if (request.method === "GET" && url.pathname === "/demo") return demo(url, env);
-    if (request.method === "POST" && url.pathname === "/create") return create(request, env);
+    if (request.method === "POST" && url.pathname === "/create") return create(request, env, ctx);
     return new Response("Not found", { status: 404, headers: { "content-type": "text/plain" } });
   },
 };
@@ -103,7 +103,7 @@ function newId() {
   return "91" + Array.from(a, b => String(b % 10)).join("");
 }
 
-async function create(request, env) {
+async function create(request, env, ctx) {
   let data;
   try { data = await request.json(); } catch { return json({ error: "Please fill in the form again." }, 400); }
   if (!data || typeof data !== "object" || Array.isArray(data)) return json({ error: "Please fill in the form again." }, 400);
@@ -116,6 +116,8 @@ async function create(request, env) {
   const hours = lines(clean(data.hours, LIMITS.hours), "; ");
   const services = lines(clean(data.services, LIMITS.services), "; ");
   const extra = clean(data.extra, LIMITS.extra);
+  const phoneDigits = String(data.phone == null ? "" : data.phone).replace(/[^\d]/g, "");
+  const phone = phoneDigits.length >= 10 && phoneDigits.length <= 13 ? phoneDigits.slice(-10) : "";
   const booking = Object.prototype.hasOwnProperty.call(BOOKING, data.booking) ? data.booking : "walkin";
 
   if (name.length < 2) return json({ error: "Please type the name of your business." }, 400);
@@ -149,6 +151,7 @@ async function create(request, env) {
     customer: name,
     trial_type: t.label,
     trial_area: area,
+    ...(phone ? { trial_phone: phone } : {}),
     timezone: "Asia/Kolkata",
     summary: false,
     message,
@@ -157,9 +160,42 @@ async function create(request, env) {
   };
   await env.NYREX.put("client_" + id, JSON.stringify(entry), { expirationTtl: TTL });
 
-  return json({ ok: true, url: new URL(request.url).origin + "/demo?c=" + id + "&k=" + view });
+  const link = new URL(request.url).origin + "/demo?c=" + id + "&k=" + view;
+  const job = notify(env, { name, type: t.label, area, phone, hours, services, link });
+  if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(job); else await job;
+  return json({ ok: true, url: link });
 }
 
+
+// ---------- Email the owner when someone makes a trial (needs the BREVO_API_KEY secret; skipped without it) ----------
+
+async function notify(env, d) {
+  if (!env.BREVO_API_KEY) return;
+  const to = String(env.OWNER_EMAIL || "nyrexautomations@gmail.com");
+  const lines = [
+    "Business: " + d.name,
+    "Type: " + d.type,
+    "Area: " + (d.area || "Not supplied"),
+    "Phone: " + (d.phone ? d.phone : "Not supplied"),
+    "Hours typed: " + (d.hours || "none"),
+    "Services typed: " + (d.services || "none"),
+    "",
+    "Their demo (valid for 7 days): " + d.link,
+  ];
+  if (d.phone) lines.push("Call or WhatsApp them: https://wa.me/91" + d.phone);
+  try {
+    await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: { "content-type": "application/json", "api-key": env.BREVO_API_KEY },
+      body: JSON.stringify({
+        sender: { name: "Nyrex trial", email: "nyrexautomations@gmail.com" },
+        to: [{ email: to, name: "Nyrex" }],
+        subject: "Trial: " + d.name + " (" + d.type + ")" + (d.phone ? " - has phone" : ""),
+        textContent: "Someone just tried the Nyrex demo.\n\n" + lines.join("\n"),
+      }),
+    });
+  } catch (e) { console.log("trial notify failed", String(e)); }
+}
 
 // ---------- The demo page (what the owner sees after the form) ----------
 

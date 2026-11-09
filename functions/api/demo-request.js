@@ -36,7 +36,7 @@ export async function onRequestPost({ request, env }) {
   if (!env.BREVO_API_KEY) return Response.json({ error: 'Form delivery is not configured.' }, { status: 503 });
 
   const lines = [
-    `Salon: ${data.biz}`, `Owner/manager: ${data.owner}`, `Business type: ${data.type}`,
+    `Business: ${data.biz}`, `Owner/manager: ${data.owner}`, `Business type: ${data.type}`,
     `Area/city: ${data.city || 'Not supplied'}`, `Contact number: ${data.contact}`,
     `Best time to call: ${data.best_time || 'Not supplied'}`,
     `WhatsApp number for compatibility check: ${data.phone || 'Not supplied'}`,
