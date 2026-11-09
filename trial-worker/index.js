@@ -138,7 +138,7 @@ async function create(request, env, ctx) {
     sentence("To book or enquire, collect " + t.collect),
     sentence(extra),
     t.med ? "Never give medical advice. For an emergency, tell the person to go to the nearest hospital." : "",
-    "This is a short trial set up by the owner to try the Nyrex assistant.",
+    "This is a short trial set up by the owner to try the Nyrex assistant. If a customer asks for a detail that is not listed here, say plainly that this detail has not been added to the trial yet and the owner can add it, and offer to note the question for the team. Never guess.",
   ].filter(Boolean).join(" ");
 
   let id = "";
