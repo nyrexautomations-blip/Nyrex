@@ -21,6 +21,8 @@ const TYPES = {
   physio:   { label: "Physiotherapy clinic", noun: "physiotherapy clinic", head: "Services and fees", collect: "the patient's name, the problem or service they need and a preferred day and time", med: true },
   lab:      { label: "Diagnostic lab", noun: "diagnostic lab", head: "Tests, packages and prices", collect: "the person's name, which test or package, whether they want home collection, and a preferred day and time", med: true },
   coaching: { label: "Coaching class", noun: "coaching class", head: "Courses, batches and fees", collect: "the student's name, the class, the exam or subject, and a parent's phone number", med: false },
+  cafe:     { label: "Cafe or restaurant", noun: "cafe", head: "Menu and prices", collect: "the person's name, what they want to order or book (table, party or takeaway), the number of people and a preferred day and time", med: false },
+  repair:   { label: "Repair shop", noun: "repair shop", head: "Repairs and prices", collect: "the person's name, the device or item, what is wrong with it and a phone number to reach them", med: false },
   salon:    { label: "Salon or spa", noun: "salon", head: "Services and prices", collect: "the customer's name, the service and a preferred day and time", med: false },
   other:    { label: "Other", noun: "business", head: "Services and prices", collect: "the person's name, what they need and a preferred day and time", med: false },
 };
