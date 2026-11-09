@@ -39,6 +39,7 @@ export default {
     }
     if (request.method === "GET" && url.pathname === "/") return Response.redirect(SITE + "/trial.html", 302);
     if (request.method === "GET" && url.pathname === "/plain") return page();
+    if (request.method === "GET" && url.pathname === "/demo") return demo(url, env);
     if (request.method === "POST" && url.pathname === "/create") return create(request, env);
     return new Response("Not found", { status: 404, headers: { "content-type": "text/plain" } });
   },
@@ -154,9 +155,147 @@ async function create(request, env) {
   };
   await env.NYREX.put("client_" + id, JSON.stringify(entry), { expirationTtl: TTL });
 
-  const bot = String(env.BOT_URL || DEFAULT_BOT).replace(/\/+$/, "");
-  return json({ ok: true, url: bot + "/widget-test?c=" + id + "&k=" + view });
+  return json({ ok: true, url: new URL(request.url).origin + "/demo?c=" + id + "&k=" + view });
 }
+
+
+// ---------- The demo page (what the owner sees after the form) ----------
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+function safeEq(a, b) {
+  a = String(a); b = String(b);
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
+
+async function demo(url, env) {
+  const c = url.searchParams.get("c") || "";
+  const k = url.searchParams.get("k") || "";
+  const gone = () => new Response("This demo link has expired or is not valid. Make a new one at https://nyrex.pages.dev/trial.html", { status: 404, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" } });
+  if (!/^\d{5,30}$/.test(c)) return gone();
+  let profile = null;
+  try { profile = JSON.parse((await env.NYREX.get("client_" + c)) || "null"); } catch {}
+  if (!profile || typeof profile.view_token !== "string" || profile.view_token.length < 16 || !safeEq(profile.view_token, k)) return gone();
+  if (typeof profile.widget_key !== "string" || profile.widget_key.length < 12) return gone();
+  const bot = String(env.BOT_URL || DEFAULT_BOT).replace(/\/+$/, "");
+  const name = esc(profile.customer || "Your business");
+  const initial = esc(String(profile.customer || "N").trim().charAt(0).toUpperCase() || "N");
+  const html = DEMO_HTML
+    .replaceAll("{{NAME}}", name)
+    .replaceAll("{{INITIAL}}", initial)
+    .replaceAll("{{C}}", esc(c))
+    .replaceAll("{{KEY}}", esc(profile.widget_key))
+    .replaceAll("{{BOT}}", esc(bot));
+  return new Response(html, {
+    headers: {
+      "content-type": "text/html; charset=utf-8",
+      "cache-control": "no-store",
+      "x-robots-tag": "noindex, nofollow",
+      "referrer-policy": "no-referrer",
+    },
+  });
+}
+
+const DEMO_HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#04261C">
+<title>{{NAME}} - live assistant demo</title>
+<style>
+:root{--g50:#F3FAF6;--g100:#E3F2EA;--g200:#C9E6D8;--g600:#00A863;--g700:#007A48;--g800:#07382A;--g900:#04261C;--g950:#021A13;--mint:#3DFFB0;--ink:#10241a;--mut:#5b7266}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.55;-webkit-font-smoothing:antialiased}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}
+.hero{background:var(--g900);color:#fff;position:relative;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;z-index:-1;right:-12%;top:-30%;width:min(720px,90vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(61,255,176,.30),rgba(61,255,176,0) 66%)}
+.hero::after{content:"";position:absolute;z-index:-1;left:-10%;bottom:-40%;width:min(520px,80vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(0,168,99,.35),rgba(0,168,99,0) 66%)}
+.bar{display:flex;align-items:center;gap:12px;padding:18px 0}
+.av{width:42px;height:42px;border-radius:12px;background:var(--g600);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none}
+.bar b{flex:1;min-width:0;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(61,255,176,.35);padding:7px 13px;border-radius:999px;white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(61,255,176,.6);animation:pl 2s infinite}
+@keyframes pl{70%{box-shadow:0 0 0 9px rgba(61,255,176,0)}100%{box-shadow:0 0 0 0 rgba(61,255,176,0)}}
+.hgrid{display:grid;gap:34px;padding:clamp(28px,6vw,72px) 0 clamp(44px,7vw,92px);align-items:center}
+@media(min-width:900px){.hgrid{grid-template-columns:1.15fr .85fr}}
+h1{margin:0;font-weight:800;letter-spacing:-.045em;line-height:1;font-size:clamp(2.3rem,6.4vw,4.6rem)}
+h1 em{font-style:normal;color:var(--mint)}
+.lead{margin:20px 0 0;font-size:clamp(1rem,2.2vw,1.2rem);color:#cfe6da;max-width:34ch}
+.pointer{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-weight:700;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:13px 20px;border-radius:999px}
+.pointer svg{width:20px;height:20px;animation:nd 1.6s ease-in-out infinite}
+@keyframes nd{50%{transform:translate(4px,4px)}}
+.try{background:#fff;color:var(--ink);border-radius:22px;padding:24px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.try h2{margin:0 0 4px;font-size:1.05rem;letter-spacing:-.01em}
+.try p.s{margin:0 0 16px;color:var(--mut);font-size:.9rem}
+.q{display:grid;gap:9px}
+.q span{display:flex;align-items:center;gap:10px;background:var(--g50);border:1px solid var(--g200);border-radius:14px;padding:12px 14px;font-weight:600;font-size:.95rem;color:var(--g800)}
+.q span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g600);flex:none}
+.sec{padding:clamp(44px,7vw,84px) 0}
+.sec h2.t{margin:0 0 8px;font-weight:800;letter-spacing:-.04em;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.05;max-width:20ch}
+.sec .sub{margin:0 0 30px;color:var(--mut);max-width:52ch}
+.cards{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:760px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{border:1px solid var(--g200);border-radius:20px;padding:24px;background:linear-gradient(180deg,var(--g50),#fff)}
+.card .n{width:40px;height:40px;border-radius:50%;background:var(--g900);color:var(--mint);display:grid;place-items:center;font-weight:800;margin-bottom:14px}
+.card h3{margin:0 0 6px;font-size:1.1rem;letter-spacing:-.01em}
+.card p{margin:0;color:var(--mut);font-size:.95rem}
+.cta{background:var(--g900);color:#fff;border-radius:28px;padding:clamp(28px,5vw,56px);display:grid;gap:22px;position:relative;overflow:hidden;isolation:isolate}
+.cta::before{content:"";position:absolute;z-index:-1;right:-10%;top:-60%;width:480px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(61,255,176,.28),rgba(61,255,176,0) 66%)}
+.cta h2{margin:0;font-weight:800;letter-spacing:-.04em;line-height:1.05;font-size:clamp(1.7rem,4vw,2.7rem);max-width:18ch}
+.cta p{margin:0;color:#cfe6da;max-width:46ch}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;font-weight:700;text-decoration:none;padding:15px 26px;border-radius:12px;font-size:1rem;min-height:50px}
+.btn.p{background:var(--g600);color:#fff}
+.btn.p:hover{background:var(--mint);color:var(--g900)}
+.btn.l{border:2px solid rgba(255,255,255,.35);color:#fff}
+.btn.l:hover{border-color:var(--mint);color:var(--mint)}
+.note{padding:28px 0 120px;text-align:center;color:var(--mut);font-size:.85rem}
+.note a{color:var(--g700)}
+@media(max-width:560px){.live{font-size:11px;padding:6px 10px}.try{padding:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<header class="hero"><div class="w">
+  <div class="bar"><div class="av">{{INITIAL}}</div><b>{{NAME}}</b><span class="live"><i></i>Live demo</span></div>
+  <div class="hgrid">
+    <div>
+      <h1>{{NAME}}'s assistant is <em>live.</em></h1>
+      <p class="lead">This is how your customers would be answered on WhatsApp, using only the details you typed.</p>
+      <span class="pointer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10M17 8v9H8"/></svg>Chat is open at the bottom right</span>
+    </div>
+    <div class="try">
+      <h2>Try asking it</h2>
+      <p class="s">Type it, or tap a suggestion inside the chat.</p>
+      <div class="q"><span>What are your timings?</span><span>How much does it cost?</span><span>Kal shaam ko aa sakta hoon?</span><span>Where are you located?</span></div>
+    </div>
+  </div>
+</div></header>
+
+<section class="sec"><div class="w">
+  <h2 class="t">What your customers get</h2>
+  <p class="sub">The same assistant, on your own WhatsApp number, from day one of the pilot.</p>
+  <div class="cards">
+    <div class="card"><div class="n">1</div><h3>Instant answers</h3><p>Timings, prices and questions answered in seconds, in English, Hindi or Hinglish. Voice notes too.</p></div>
+    <div class="card"><div class="n">2</div><h3>Open at 11pm on Sunday</h3><p>Customers get a reply at any hour, and you wake up to their details instead of missed messages.</p></div>
+    <div class="card"><div class="n">3</div><h3>Never guesses</h3><p>If it does not know something, it says so and passes it to you, so you stay in charge.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" style="padding-top:0"><div class="w">
+  <div class="cta">
+    <h2>Like it? Put it on your own number.</h2>
+    <p>Free 14-day pilot. We set it up with you, you see every conversation, and there is no contract.</p>
+    <div class="row"><a class="btn p" href="https://nyrex.pages.dev/pilot.html#request" rel="noreferrer">Start my free pilot</a><a class="btn l" href="https://nyrex.pages.dev/trial.html" rel="noreferrer">Try a different shop</a></div>
+  </div>
+  <p class="note">A short demo made from what you typed. It is deleted by itself after 7 days. Powered by <a href="https://nyrex.pages.dev/" rel="noreferrer">Nyrex</a>.</p>
+</div></section>
+
+<script>try{if(sessionStorage.getItem('nyrex_open_{{C}}')===null){sessionStorage.setItem('nyrex_open_{{C}}','1');}sessionStorage.setItem('nyrex_nudge_{{C}}','1');}catch(e){}</script>
+<script src="{{BOT}}/widget.js" data-client="{{C}}" data-key="{{KEY}}" data-title="{{NAME}}" data-color="#00A863" data-nudge="off" defer></script>
+</body></html>`;
 
 // ---------- The page ----------
 
