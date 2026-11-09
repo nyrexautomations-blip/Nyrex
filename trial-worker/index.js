@@ -4,6 +4,13 @@
 // This Worker only writes a client_<id> entry that expires after 7 days. It never touches the live bot.
 
 const DEFAULT_BOT = "https://nyrexbot2.nyrexautomations.workers.dev";
+const SITE = "https://nyrex.pages.dev";
+const CORS = {
+  "access-control-allow-origin": SITE,
+  "access-control-allow-methods": "POST, OPTIONS",
+  "access-control-allow-headers": "content-type",
+  "vary": "origin",
+};
 const TTL = 7 * 86400;
 const LIMITS = { name: 60, area: 60, hours: 300, services: 900, extra: 400 };
 
@@ -27,7 +34,11 @@ const BOOKING = {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (request.method === "GET" && url.pathname === "/") return page();
+    if (request.method === "OPTIONS" && url.pathname === "/create") {
+      return new Response(null, { status: 204, headers: { ...CORS, "access-control-max-age": "86400" } });
+    }
+    if (request.method === "GET" && url.pathname === "/") return Response.redirect(SITE + "/trial.html", 302);
+    if (request.method === "GET" && url.pathname === "/plain") return page();
     if (request.method === "POST" && url.pathname === "/create") return create(request, env);
     return new Response("Not found", { status: 404, headers: { "content-type": "text/plain" } });
   },
@@ -60,7 +71,7 @@ function dayFull() {
 function json(obj, status) {
   return new Response(JSON.stringify(obj), {
     status: status || 200,
-    headers: { "content-type": "application/json", "cache-control": "no-store" },
+    headers: { "content-type": "application/json", "cache-control": "no-store", ...CORS },
   });
 }
 
