@@ -40,6 +40,7 @@
 </div></div>
 <section class="try"><div class="wrap try-grid">
   <form class="form trial-form" id="tf" autocomplete="off" aria-label="Your business details">
+    <p class="tip"><b>The more you type, the better it answers.</b> The assistant only knows what you write here. Add every price, your address, offers and the questions customers ask. Anything you leave out, it will say it needs to check with you.</p>
     <label>Business name<input id="tf-name" name="name" type="text" maxlength="60" placeholder="As your customers say it" required></label>
     <fieldset class="t-types"><legend>Type of business</legend><div class="chips-row" id="tf-types" role="group" aria-label="Type of business"></div></fieldset>
     <label>Area <span class="hint">Optional</span><input id="tf-area" name="area" type="text" maxlength="60" placeholder="Vasai West"></label>
@@ -75,6 +76,8 @@
 .chips-row button{font:600 .9rem var(--body);padding:10px 16px;border-radius:999px;border:2px solid var(--line);background:#fff;color:var(--g900);cursor:pointer;min-height:44px;text-align:left;transition:background .2s,border-color .2s,color .2s}
 .chips-row button:hover{border-color:var(--g600)}
 .chips-row button[aria-pressed="true"]{background:var(--g900);border-color:var(--g900);color:#fff}
+.tip{margin:0;padding:14px 16px;background:var(--g50);border:1px solid var(--g200);border-left:4px solid var(--g600);font-size:.92rem;line-height:1.5;color:var(--g800)}
+.tip b{color:var(--g900)}
 .try-note{font-size:.85rem;color:var(--muted);margin:0}
 .trial-form .btn{justify-self:stretch;width:100%}
 .trial-form .btn:disabled{opacity:.65;cursor:wait}

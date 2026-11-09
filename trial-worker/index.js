@@ -233,6 +233,8 @@ h1 em{font-style:normal;color:var(--mint)}
 .try p.s{margin:0 0 16px;color:var(--mut);font-size:.9rem}
 .q{display:grid;gap:9px}
 .q span{display:flex;align-items:center;gap:10px;background:var(--g50);border:1px solid var(--g200);border-radius:14px;padding:12px 14px;font-weight:600;font-size:.95rem;color:var(--g800)}
+.hint{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--g100);font-size:.85rem;color:var(--mut)}
+.hint a{color:var(--g700);font-weight:700}
 .q span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g600);flex:none}
 .sec{padding:clamp(44px,7vw,84px) 0}
 .sec h2.t{margin:0 0 8px;font-weight:800;letter-spacing:-.04em;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.05;max-width:20ch}
@@ -270,6 +272,7 @@ h1 em{font-style:normal;color:var(--mint)}
       <h2>Try asking it</h2>
       <p class="s">Type it, or tap a suggestion inside the chat.</p>
       <div class="q"><span>What are your timings?</span><span>How much does it cost?</span><span>Kal shaam ko aa sakta hoon?</span><span>Where are you located?</span></div>
+      <p class="hint">It only knows what you typed. If it says it needs to check with the team, that detail was missing. <a href="https://nyrex.pages.dev/trial.html" rel="noreferrer">Add more details</a> and try again.</p>
     </div>
   </div>
 </div></header>
