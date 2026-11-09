@@ -48,8 +48,8 @@ export async function onRequestPost({ request, env }) {
     body: JSON.stringify({
       sender: { name: 'Nyrex website', email: 'nyrexautomations@gmail.com' },
       to: [{ email: 'nyrexautomations@gmail.com', name: 'Nyrex' }],
-      subject: `Salon demo request: ${data.biz}`,
-      textContent: `A new Nyrex salon demo request was submitted.\n\n${lines.join('\n')}\n\nThe person agreed to be contacted about this demo request. This is not marketing consent.`
+      subject: `Demo request: ${data.biz}`,
+      textContent: `A new Nyrex demo request was submitted.\n\n${lines.join('\n')}\n\nThe person agreed to be contacted about this demo request. This is not marketing consent.`
     })
   });
   if (!response.ok) return Response.json({ error: 'Email delivery failed.' }, { status: 502 });

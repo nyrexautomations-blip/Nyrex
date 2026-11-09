@@ -301,9 +301,9 @@
         .then(function(res){if(!res.ok)throw new Error('send');return res.json()})
         .then(function(){form.reset();if(st)st.textContent='Request sent. Nyrex will contact you about the demo and number fit.'})
         .catch(function(){
-          var lines=['Salon name: '+payload.biz,'Owner/manager: '+payload.owner,'Business type: '+payload.type,'Area/city: '+payload.city,'Contact number: '+payload.contact,'Best time to call: '+payload.best_time,'WhatsApp number for compatibility check: '+payload.phone,'Common customer questions: '+payload.asks];
+          var lines=['Business name: '+payload.biz,'Owner/manager: '+payload.owner,'Business type: '+payload.type,'Area/city: '+payload.city,'Contact number: '+payload.contact,'Best time to call: '+payload.best_time,'WhatsApp number for compatibility check: '+payload.phone,'Common customer questions: '+payload.asks];
           if(st)st.textContent='Direct form delivery is unavailable. Your email app will open with the request filled in; review it and press send.';
-          window.location.href='mailto:nyrexautomations@gmail.com?subject='+encodeURIComponent('Nyrex salon demo: '+payload.biz)+'&body='+encodeURIComponent(lines.join('\n'));
+          window.location.href='mailto:nyrexautomations@gmail.com?subject='+encodeURIComponent('Nyrex demo: '+payload.biz)+'&body='+encodeURIComponent(lines.join('\n'));
         })
         .finally(function(){if(btn)btn.disabled=false});
     });
