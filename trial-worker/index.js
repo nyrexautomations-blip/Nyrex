@@ -1,7 +1,8 @@
 // Nyrex trial page - Cloudflare Worker (free plan).
 // A shop owner types their own hours and prices and then chats with their own assistant on nyrexbot2.
 // Binding needed: KV namespace NYREX (the same namespace nyrexbot2 uses). Optional variable: BOT_URL
-// This Worker only writes a client_<id> entry that expires after 7 days. It never touches the live bot.
+// This Worker writes a client_<id> entry that expires after 7 days. It never touches the live bot.
+// /promote (link only in the owner's alert email) turns one of those trial entries into a permanent pilot entry.
 
 const DEFAULT_BOT = "https://nyrexbot2.nyrexautomations.workers.dev";
 const SITE = "https://nyrex.pages.dev";
@@ -33,9 +34,14 @@ const BOOKING = {
   walkonly: "Walk-ins only. No appointments are taken.",
 };
 
+const TRIAL_NOTE = "This is a short trial set up by the owner to try the Nyrex assistant. If a customer asks for a detail that is not listed here, say plainly that this detail has not been added to the trial yet and the owner can add it, and offer to note the question for the team. Never guess.";
+const PILOT_NOTE = "If a customer asks for a detail that is not listed here, say you will check with the team and the owner will reply. Never guess.";
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (request.method === "GET" && url.pathname === "/promote") return promotePage(url, env);
+    if (request.method === "POST" && url.pathname === "/promote") return promoteDo(request, env);
     if (request.method === "OPTIONS" && url.pathname === "/create") {
       return new Response(null, { status: 204, headers: { ...CORS, "access-control-max-age": "86400" } });
     }
@@ -138,7 +144,7 @@ async function create(request, env, ctx) {
     sentence("To book or enquire, collect " + t.collect),
     sentence(extra),
     t.med ? "Never give medical advice. For an emergency, tell the person to go to the nearest hospital." : "",
-    "This is a short trial set up by the owner to try the Nyrex assistant. If a customer asks for a detail that is not listed here, say plainly that this detail has not been added to the trial yet and the owner can add it, and offer to note the question for the team. Never guess.",
+    TRIAL_NOTE,
   ].filter(Boolean).join(" ");
 
   let id = "";
@@ -159,11 +165,14 @@ async function create(request, env, ctx) {
     message,
     view_token: view,
     widget_key: hex(20),
+    promote_token: hex(24),
   };
   await env.NYREX.put("client_" + id, JSON.stringify(entry), { expirationTtl: TTL });
 
-  const link = new URL(request.url).origin + "/demo?c=" + id + "&k=" + view;
-  const job = notify(env, { name, type: t.label, area, phone, hours, services, link });
+  const origin = new URL(request.url).origin;
+  const link = origin + "/demo?c=" + id + "&k=" + view;
+  const promote = origin + "/promote?c=" + id + "&p=" + entry.promote_token;
+  const job = notify(env, { name, type: t.label, area, phone, hours, services, link, promote });
   if (ctx && typeof ctx.waitUntil === "function") ctx.waitUntil(job); else await job;
   return json({ ok: true, url: link });
 }
@@ -185,6 +194,7 @@ async function notify(env, d) {
     "Their demo (valid for 7 days): " + d.link,
   ];
   if (d.phone) lines.push("Call or WhatsApp them: https://wa.me/91" + d.phone);
+  if (d.promote) lines.push("", "If they say yes, open this to make it a pilot (keeps their details, no retyping): " + d.promote);
   try {
     await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
@@ -197,6 +207,85 @@ async function notify(env, d) {
       }),
     });
   } catch (e) { console.log("trial notify failed", String(e)); }
+}
+
+// ---------- Make a trial a pilot (private link that only goes to the owner's alert email) ----------
+
+function htmlPage(title, body, status) {
+  const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>' + esc(title) + '</title><style>'
+    + 'body{margin:0;background:#F3FAF6;color:#10241a;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}'
+    + 'main{max-width:520px;margin:0 auto;padding:28px 18px}h1{margin:0 0 14px;font-size:24px;color:#04261C}'
+    + '.box{background:#fff;border:1px solid #C9E6D8;border-radius:16px;padding:18px;margin:0 0 14px}'
+    + '.box p{margin:0 0 6px}label{display:block;font-weight:600;font-size:14px;margin:12px 0 5px}'
+    + 'input{width:100%;font:inherit;font-size:16px;padding:12px;border:1px solid #C9E6D8;border-radius:10px;background:#f7fbf8}'
+    + 'button{margin-top:16px;width:100%;border:0;background:#00A863;color:#fff;font:inherit;font-size:17px;font-weight:700;padding:14px;border-radius:12px;cursor:pointer}'
+    + '.err{color:#8a3b2e;font-weight:600}code,.lnk{display:block;word-break:break-all;background:#E3F2EA;padding:10px;border-radius:8px;font-size:13px;margin:4px 0 10px}'
+    + '</style></head><body><main>' + body + '</main></body></html>';
+  return new Response(html, { status: status || 200, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex, nofollow", "referrer-policy": "no-referrer" } });
+}
+
+async function loadForPromote(env, c, p) {
+  if (!/^\d{5,30}$/.test(c) || typeof p !== "string" || p.length < 16) return null;
+  let prof = null;
+  try { prof = JSON.parse((await env.NYREX.get("client_" + c)) || "null"); } catch {}
+  if (!prof || typeof prof.promote_token !== "string" || !safeEq(prof.promote_token, p)) return null;
+  return prof;
+}
+
+function promoteBad() {
+  return htmlPage("Not valid", "<h1>Link not valid</h1><div class=\"box\"><p>This link is wrong, or the trial has already expired (trials last 7 days). Ask the owner to make a new one at https://nyrex.pages.dev/trial.html</p></div>", 404);
+}
+
+function promoteForm(prof, c, p, error) {
+  const rows = [
+    "<p><b>" + esc(prof.customer || "Business") + "</b> (" + esc(prof.trial_type || "business") + (prof.trial_area ? ", " + esc(prof.trial_area) : "") + ")</p>",
+    prof.trial_phone ? "<p>Phone: " + esc(prof.trial_phone) + "</p>" : "",
+    prof.pilot ? "<p><b>Already a pilot</b> since " + esc(prof.pilot_since || "") + ". You can change the alert email below.</p>" : "<p>Now a 7-day trial. This makes it a permanent pilot.</p>",
+  ].join("");
+  return htmlPage("Make this a pilot",
+    "<h1>Make this a pilot</h1><div class=\"box\">" + rows + "</div>"
+    + (error ? "<p class=\"err\">" + esc(error) + "</p>" : "")
+    + "<form method=\"POST\" action=\"/promote\" class=\"box\"><input type=\"hidden\" name=\"c\" value=\"" + esc(c) + "\"><input type=\"hidden\" name=\"p\" value=\"" + esc(p) + "\">"
+    + "<label for=\"email\">Owner's email for chat alerts and the weekly summary (optional)</label>"
+    + "<input id=\"email\" name=\"email\" type=\"email\" autocomplete=\"off\" placeholder=\"owner@example.com\" value=\"" + esc(prof.alert_email || "") + "\">"
+    + "<button type=\"submit\">Make it a pilot</button></form>", error ? 400 : 200);
+}
+
+async function promotePage(url, env) {
+  const c = url.searchParams.get("c") || "";
+  const p = url.searchParams.get("p") || "";
+  const prof = await loadForPromote(env, c, p);
+  if (!prof) return promoteBad();
+  return promoteForm(prof, c, p, "");
+}
+
+async function promoteDo(request, env) {
+  let form;
+  try { form = await request.formData(); } catch { return htmlPage("Error", "<h1>Could not read the form</h1>", 400); }
+  const c = String(form.get("c") || "");
+  const p = String(form.get("p") || "");
+  const prof = await loadForPromote(env, c, p);
+  if (!prof) return promoteBad();
+  const email = String(form.get("email") || "").trim().toLowerCase().slice(0, 254);
+  if (email && !/^[^\s@]{1,64}@[^\s@]{1,200}\.[^\s@]{2,}$/.test(email)) return promoteForm(prof, c, p, "That email does not look right.");
+
+  prof.pilot = true;
+  prof.pilot_since = prof.pilot_since || new Date().toISOString().slice(0, 10);
+  prof.message = String(prof.message || "").replace(TRIAL_NOTE, PILOT_NOTE);
+  if (email) { prof.alert_email = email; prof.summary_email = email; prof.summary = true; }
+  // No expirationTtl here, so the entry no longer expires.
+  await env.NYREX.put("client_" + c, JSON.stringify(prof));
+
+  const origin = new URL(request.url).origin;
+  const bot = String(env.BOT_URL || DEFAULT_BOT).replace(/\/+$/, "");
+  const demoLink = origin + "/demo?c=" + c + "&k=" + prof.view_token;
+  const viewLink = bot + "/view?c=" + c + "&k=" + prof.view_token;
+  return htmlPage("Pilot ready",
+    "<h1>Pilot is on</h1><div class=\"box\"><p><b>" + esc(prof.customer || "Business") + "</b> no longer expires.</p>"
+    + (email ? "<p>Alerts and weekly summary go to " + esc(email) + ".</p>" : "<p>No email added, so no alerts or summary yet. Open this link again to add one.</p>")
+    + "</div><div class=\"box\"><p>Chat link for the owner:</p><span class=\"lnk\">" + esc(demoLink) + "</span>"
+    + "<p>Private view of their conversations:</p><span class=\"lnk\">" + esc(viewLink) + "</span>"
+    + "<p>Their own WhatsApp number comes after they pay. Until then they use the chat link.</p></div>");
 }
 
 // ---------- The demo page (what the owner sees after the form) ----------
@@ -235,7 +324,10 @@ async function demo(url, env) {
     .replaceAll("{{C}}", esc(c))
     .replaceAll("{{KEY}}", esc(profile.widget_key))
     .replaceAll("{{BOT}}", esc(bot))
-    .replaceAll("{{PILOT}}", pilot);
+    .replaceAll("{{PILOT}}", pilot)
+    .replaceAll("{{NOTE}}", profile.pilot
+      ? "This is your pilot assistant, running on the details you gave us."
+      : "A short demo made from what you typed. It is deleted by itself after 7 days.");
   return new Response(html, {
     headers: {
       "content-type": "text/html; charset=utf-8",
@@ -339,7 +431,7 @@ h1 em{font-style:normal;color:var(--mint)}
     <p>Free 14-day pilot. We set it up with you, you see every conversation, and there is no contract.</p>
     <div class="row"><a class="btn p" href="{{PILOT}}" rel="noreferrer">Start my free pilot</a><a class="btn l" href="https://nyrex.pages.dev/trial.html" rel="noreferrer">Try a different shop</a></div>
   </div>
-  <p class="note">A short demo made from what you typed. It is deleted by itself after 7 days. Powered by <a href="https://nyrex.pages.dev/" rel="noreferrer">Nyrex</a>.</p>
+  <p class="note">{{NOTE}} Powered by <a href="https://nyrex.pages.dev/" rel="noreferrer">Nyrex</a>.</p>
 </div></section>
 
 <script>try{if(sessionStorage.getItem('nyrex_open_{{C}}')===null){sessionStorage.setItem('nyrex_open_{{C}}','1');}sessionStorage.setItem('nyrex_nudge_{{C}}','1');}catch(e){}</script>
