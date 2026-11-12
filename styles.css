@@ -4,8 +4,8 @@
   --g50:#F3FAF6; --g100:#E3F2EA; --g200:#C9E6D8; --g300:#9FD5BA; --g400:#2BDC93; --g500:#00C272;
   --g600:#00A863; --g700:#007A48; --g800:#07382A; --g900:#04261C; --g950:#021A13; --mint:#3DFFB0;
   --white:#FFFFFF; --ink:#0B1F19; --muted:#47615A; --line:#D5E7DD;
-  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 *,*::before,*::after{box-sizing:border-box}
