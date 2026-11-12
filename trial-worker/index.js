@@ -212,14 +212,14 @@ async function notify(env, d) {
 // ---------- Make a trial a pilot (private link that only goes to the owner's alert email) ----------
 
 function htmlPage(title, body, status) {
-  const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>' + esc(title) + '</title><style>'
-    + 'body{margin:0;background:#F3FAF6;color:#10241a;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}'
-    + 'main{max-width:520px;margin:0 auto;padding:28px 18px}h1{margin:0 0 14px;font-size:24px;color:#04261C}'
-    + '.box{background:#fff;border:1px solid #C9E6D8;border-radius:16px;padding:18px;margin:0 0 14px}'
-    + '.box p{margin:0 0 6px}label{display:block;font-weight:600;font-size:14px;margin:12px 0 5px}'
-    + 'input{width:100%;font:inherit;font-size:16px;padding:12px;border:1px solid #C9E6D8;border-radius:10px;background:#f7fbf8}'
-    + 'button{margin-top:16px;width:100%;border:0;background:#00A863;color:#fff;font:inherit;font-size:17px;font-weight:700;padding:14px;border-radius:12px;cursor:pointer}'
-    + '.err{color:#8a3b2e;font-weight:600}code,.lnk{display:block;word-break:break-all;background:#E3F2EA;padding:10px;border-radius:8px;font-size:13px;margin:4px 0 10px}'
+  const html = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#04261C"><title>' + esc(title) + '</title><style>@font-face{font-family:\'Bricolage Grotesque\';font-weight:200 800;font-display:swap;src:url(https://nyrex.pages.dev/fonts/bricolage.woff2) format(\'woff2\')}@font-face{font-family:\'Instrument Sans\';font-weight:400;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-400.woff2) format(\'woff2\')}@font-face{font-family:\'Instrument Sans\';font-weight:500;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-500.woff2) format(\'woff2\')}@font-face{font-family:\'Instrument Sans\';font-weight:600 700;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-600.woff2) format(\'woff2\')}'
+    + 'body{margin:0;background:#F3FAF6;color:#0B1F19;font-family:"Instrument Sans","Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}'
+    + 'main{max-width:520px;margin:0 auto;padding:28px 18px}h1{margin:0 0 14px;font-family:"Bricolage Grotesque",Archivo,"Helvetica Neue",Arial,sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.1;font-size:28px;color:#04261C}'
+    + '.box{background:#fff;border:1px solid #D5E7DD;border-radius:18px;padding:18px;margin:0 0 14px;box-shadow:0 14px 30px -22px rgba(2,26,19,.45)}'
+    + '.box p{margin:0 0 6px}label{display:block;font-weight:600;font-size:14px;margin:12px 0 5px;color:#07382A}'
+    + 'input{width:100%;font:inherit;font-size:16px;padding:12px 13px;border:1px solid #C9E6D8;border-radius:12px;background:#F3FAF6}input:focus{outline:3px solid #00C272;outline-offset:1px;background:#fff}'
+    + 'button{margin-top:16px;width:100%;border:0;background:#00A863;color:#fff;font:inherit;font-size:17px;font-weight:700;padding:14px;border-radius:12px;cursor:pointer;transition:background .2s,color .2s}button:hover{background:#04261C;color:#3DFFB0}'
+    + '.err{color:#8a3b2e;font-weight:600}code,.lnk{display:block;word-break:break-all;background:#E3F2EA;padding:10px;border-radius:10px;font-size:13px;margin:4px 0 10px;color:#07382A}'
     + '</style></head><body><main>' + body + '</main></body></html>';
   return new Response(html, { status: status || 200, headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex, nofollow", "referrer-policy": "no-referrer" } });
 }
@@ -344,10 +344,12 @@ const DEMO_HTML = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="theme-color" content="#04261C">
 <title>{{NAME}} - live assistant demo</title>
 <style>
+@font-face{font-family:'Bricolage Grotesque';font-weight:200 800;font-display:swap;src:url(https://nyrex.pages.dev/fonts/bricolage.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-weight:400;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-400.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-weight:500;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-500.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-weight:600 700;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-600.woff2) format('woff2')}
 :root{--g50:#F3FAF6;--g100:#E3F2EA;--g200:#C9E6D8;--g600:#00A863;--g700:#007A48;--g800:#07382A;--g900:#04261C;--g950:#021A13;--mint:#3DFFB0;--ink:#10241a;--mut:#5b7266}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:"Instrument Sans","Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.brand,.logo b{font-family:"Bricolage Grotesque","Archivo","Helvetica Neue",Arial,sans-serif;letter-spacing:-.03em}
 .w{max-width:1080px;margin:0 auto;padding:0 20px}
 .hero{background:var(--g900);color:#fff;position:relative;overflow:hidden;isolation:isolate}
 .hero::before{content:"";position:absolute;z-index:-1;right:-12%;top:-30%;width:min(720px,90vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(61,255,176,.30),rgba(61,255,176,0) 66%)}
@@ -456,27 +458,31 @@ const PAGE = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <title>Try the Nyrex assistant</title>
 <style>
-:root{--g9:#0b5a2d;--g8:#0f7a3d;--g6:#2e9d5c;--g2:#d6eadc;--g1:#eaf6ee;--g0:#f4fbf6;--ink:#10241a;--mut:#56705f;--bad:#8a3b2e}
+@font-face{font-family:'Bricolage Grotesque';font-weight:200 800;font-display:swap;src:url(https://nyrex.pages.dev/fonts/bricolage.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-weight:400;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-400.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-weight:500;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-500.woff2) format('woff2')}@font-face{font-family:'Instrument Sans';font-weight:600 700;font-display:swap;src:url(https://nyrex.pages.dev/fonts/instrument-sans-600.woff2) format('woff2')}
+:root{--g9:#04261C;--g8:#00A863;--g7:#007A48;--g6:#00C272;--g2:#D5E7DD;--g1:#E3F2EA;--g0:#F3FAF6;--ink:#0B1F19;--mut:#47615A;--mint:#3DFFB0;--bad:#8a3b2e;--disp:"Bricolage Grotesque","Archivo","Helvetica Neue",Arial,sans-serif}
 *{box-sizing:border-box}
-body{margin:0;background:var(--g0);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
-header{background:linear-gradient(135deg,var(--g9),var(--g6));color:#fff;padding:26px 18px 58px}
+body{margin:0;background:var(--g0);color:var(--ink);font-family:"Instrument Sans","Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+header{background:radial-gradient(520px 260px at 92% -10%,rgba(61,255,176,.26),transparent 70%),radial-gradient(420px 260px at -6% 120%,rgba(0,168,99,.34),transparent 70%),var(--g9);color:#fff;padding:26px 18px 62px}
+.eb{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mint);border:1px solid rgba(61,255,176,.35);padding:6px 12px;border-radius:999px;margin-bottom:14px}.eb i{width:8px;height:8px;border-radius:50%;background:var(--mint)}
 .in{max-width:560px;margin:0 auto}
-h1{margin:0 0 8px;font-size:26px;line-height:1.15}
-header p{margin:0;opacity:.93;font-size:15px}
+h1{margin:0 0 10px;font-family:var(--disp);font-weight:800;letter-spacing:-.04em;font-size:clamp(1.9rem,7vw,2.6rem);line-height:1.04}
+header p{margin:0;color:#cfe6da;font-size:15.5px}
 main{max-width:560px;margin:-38px auto 0;padding:0 14px 36px}
-form{background:#fff;border:1px solid var(--g2);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 24px rgba(15,122,61,.08);position:relative}
-label{font-size:13px;font-weight:600;color:var(--g9);display:block;margin-bottom:5px}
+form{background:#fff;border:1px solid var(--g2);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 24px 48px -28px rgba(2,26,19,.5);position:relative}
+label{font-size:13px;font-weight:600;color:#07382A;display:block;margin-bottom:5px}
 label small{font-weight:400;color:var(--mut)}
-input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#f7fbf8;border:1px solid var(--g2);border-radius:12px;padding:12px 13px}
+input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--g0);border:1px solid #C9E6D8;border-radius:12px;padding:12px 13px}
 textarea{min-height:92px;resize:vertical;line-height:1.45}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--g6);outline-offset:1px;background:#fff}
-button{border:0;background:var(--g8);color:#fff;font:inherit;font-size:17px;font-weight:650;padding:15px;border-radius:14px;cursor:pointer}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--g6);outline-offset:1px;background:#fff}
+button{border:0;background:var(--g8);color:#fff;font:inherit;font-size:17px;font-weight:700;padding:15px;border-radius:12px;cursor:pointer;transition:background .2s,color .2s,transform .2s}
+button:hover:not(:disabled){background:var(--g9);color:var(--mint);transform:translateY(-2px)}
 button:disabled{opacity:.6;cursor:default}
 .err{color:var(--bad);font-size:14px;min-height:20px;margin:0}
 .note{font-size:13px;color:var(--mut);text-align:center;margin:14px 6px 0}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style></head><body>
 <header><div class="in">
+<span class="eb"><i></i>Free, no sign-up</span>
 <h1>Try the assistant with your own shop</h1>
 <p>Type your timings and prices. In one minute you can chat with an assistant that already knows your business, the way your customers would.</p>
 </div></header>
