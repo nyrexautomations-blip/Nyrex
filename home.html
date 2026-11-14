@@ -87,6 +87,31 @@
   </div>
 </div></section>
 
+<section class="calc" id="estimate"><div class="wrap">
+  <h2>What do unanswered chats cost you?</h2>
+  <p class="lead">Move the sliders to your own numbers. Nothing you type here is sent anywhere.</p>
+  <div class="calc-grid">
+    <div class="calc-in">
+      <label for="c-day">New customer chats a day <output id="o-day">10</output></label>
+      <input id="c-day" type="range" min="1" max="60" value="10">
+      <label for="c-share">Chats that go unanswered or too late <output id="o-share">30%</output></label>
+      <input id="c-share" type="range" min="5" max="80" step="5" value="30">
+      <label for="c-val">What one customer is worth <output id="o-val">&#8377;500</output></label>
+      <input id="c-val" type="range" min="100" max="5000" step="100" value="500">
+    </div>
+    <div class="calc-out">
+      <div class="calc-k">Potential sales value each month</div>
+      <div class="calc-big" id="r-value">&#8377;0</div>
+      <dl>
+        <div><dt>Customer chats a month</dt><dd id="r-chats">0</dd></div>
+        <div><dt>Potential customers missed</dt><dd id="r-cust">0</dd></div>
+      </dl>
+      <p class="calc-note">An estimate from your own guesses, not a promise of results. The Starter plan is &#8377;999 a month, and the first 14 days are free.</p>
+      <p class="sr-only" id="r-sr" aria-live="polite"></p>
+    </div>
+  </div>
+</div></section>
+
 <section class="panel features"><div class="wrap">
   <h2>What the assistant handles</h2>
   <ul class="fgrid">

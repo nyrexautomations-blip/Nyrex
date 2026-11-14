@@ -1143,3 +1143,5 @@ a.sw-pink,a.sw-teal,a.sw-purple,a.sw-orange,a.sw-slate,a.sw-mint{--c:var(--g600)
 .prose a.btn,.prose a.btn:hover{color:#04261C;text-decoration:none}
 .prose a.btn:hover{color:#fff}
 .tablewrap:focus-visible{outline:3px solid var(--g700);outline-offset:2px}
+
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
