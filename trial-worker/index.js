@@ -25,6 +25,11 @@ const TYPES = {
   cafe:     { label: "Cafe or restaurant", noun: "cafe", head: "Menu and prices", collect: "the person's name, what they want to order or book (table, party or takeaway), the number of people and a preferred day and time", med: false },
   repair:   { label: "Repair shop", noun: "repair shop", head: "Repairs and prices", collect: "the person's name, the device or item, what is wrong with it and a phone number to reach them", med: false },
   salon:    { label: "Salon or spa", noun: "salon", head: "Services and prices", collect: "the customer's name, the service and a preferred day and time", med: false },
+  pet:      { label: "Pet clinic or vet", noun: "pet clinic", head: "Services and fees", collect: "the owner's name, the pet's name and kind, what the visit is for and a preferred day and time", med: false, note: "Never give medical advice about an animal. For an emergency, tell the owner to phone the clinic straight away." },
+  finance:  { label: "Sub-broker, insurance or loan agent", noun: "financial services office", head: "Services and charges", collect: "the person's name, which service they are interested in (for example account opening, insurance or a loan) and a phone number for a callback", med: false, note: "Never give investment tips, recommendations, predictions, returns or any financial, insurance, loan or tax advice. If asked, say plainly that you cannot help with that and offer a callback from the team." },
+  events:   { label: "Event planner", noun: "event planning business", head: "Packages and services", collect: "the person's name, the kind of event, the date, the number of guests and a phone number", med: false, note: "Never say a date is available or booked. The team confirms dates and quotes." },
+  photo:    { label: "Photographer or studio", noun: "photography studio", head: "Packages and rates", collect: "the person's name, the kind of shoot or event, the date and a phone number", med: false, note: "Never say a date is available or booked. The team confirms dates and quotes." },
+  class:    { label: "Music or dance class", noun: "music and dance class", head: "Classes, batches and fees", collect: "the student's name, the class and the student's age, and a parent's phone number", med: false },
   other:    { label: "Other", noun: "business", head: "Services and prices", collect: "the person's name, what they need and a preferred day and time", med: false },
 };
 
@@ -144,6 +149,7 @@ async function create(request, env, ctx) {
     sentence("To book or enquire, collect " + t.collect),
     sentence(extra),
     t.med ? "Never give medical advice. For an emergency, tell the person to go to the nearest hospital." : "",
+    t.note ? t.note : "",
     TRIAL_NOTE,
   ].filter(Boolean).join(" ");
 
@@ -499,6 +505,11 @@ button:disabled{opacity:.6;cursor:default}
 <option value="lab">Diagnostic lab</option>
 <option value="coaching">Coaching class</option>
 <option value="salon">Salon</option>
+<option value="pet">Pet clinic or vet</option>
+<option value="finance">Sub-broker, insurance or loan agent</option>
+<option value="events">Event planner</option>
+<option value="photo">Photographer or studio</option>
+<option value="class">Music or dance class</option>
 <option value="other">Something else</option>
 </select></div>
 <div><label for="area">Area <small>(optional)</small></label>
