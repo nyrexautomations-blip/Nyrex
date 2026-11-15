@@ -122,7 +122,9 @@
     });
   }
   function ph(k){$('tf-hours').placeholder=TYPES[k].h.replace(/\\n/g,'\n');$('tf-svc').placeholder=TYPES[k].s.replace(/\\n/g,'\n')}
-  var TEST=/[?&]test=1(&|$)/.test(location.search);
+  var TEST=/[?&]test=1(&|$)/.test(location.search)||location.hash==='#test'||/[?&]test=1/.test(document.referrer);
+  try{if(TEST)sessionStorage.setItem('nxtest','1');else if(sessionStorage.getItem('nxtest')==='1')TEST=true}catch(e){}
+  if(TEST){var bn=document.createElement('p');bn.className='tip';bn.textContent='Test mode on: tap a business type to fill sample details.';$('tf').insertBefore(bn,$('tf').firstChild)}
   function fill(k){
     $('tf-name').value='Test '+TYPES[k].l;
     $('tf-area').value='Vasai West';
