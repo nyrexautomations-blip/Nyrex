@@ -122,9 +122,17 @@
     });
   }
   function ph(k){$('tf-hours').placeholder=TYPES[k].h.replace(/\\n/g,'\n');$('tf-svc').placeholder=TYPES[k].s.replace(/\\n/g,'\n')}
-  chips($('tf-types'),TYPES,'type',ph);
+  var TEST=/[?&]test=1(&|$)/.test(location.search);
+  function fill(k){
+    $('tf-name').value='Test '+TYPES[k].l;
+    $('tf-area').value='Vasai West';
+    $('tf-hours').value=TYPES[k].h.replace(/\\n/g,'\n');
+    $('tf-svc').value=TYPES[k].s.replace(/\\n/g,'\n');
+  }
+  function onType(k){ph(k);if(TEST)fill(k)}
+  chips($('tf-types'),TYPES,'type',onType);
   chips($('tf-book'),BOOK,'booking');
-  ph('gym');
+  onType('gym');
   var f=$('tf'),go=$('tf-go'),stt=$('tf-status');
   function fail(m){stt.textContent=m;stt.className='form-status bad';go.disabled=false;go.textContent='Start my assistant'}
   f.addEventListener('submit',function(e){
