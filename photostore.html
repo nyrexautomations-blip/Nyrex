@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Chat</title>
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#141414;color:#f4efe6;font-family:Georgia,serif;text-align:center;padding:24px;box-sizing:border-box}
+  .box{max-width:420px}
+  h1{font-size:30px;font-weight:600;margin:0 0 10px}
+  p{font-size:16px;line-height:1.5;opacity:.8;margin:0 0 22px;font-family:system-ui,sans-serif}
+  button{border:0;border-radius:12px;padding:14px 26px;font-size:16px;font-weight:600;cursor:pointer}
+  small{display:block;margin-top:22px;opacity:.55;font-family:system-ui,sans-serif;font-size:12px}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 id="name"></h1>
+  <p id="tagline"></p>
+  <button id="open">Chat with us</button>
+  <small>Replies come from an AI assistant. The team follows up on every serious enquiry.</small>
+</div>
+<script>
+(function(){
+  /* One entry per business. Add a new block here for each new shop. */
+  var PRESETS={
+    photostore:{
+      c:'9180901858638249',
+      k:'ca43b1de635c31881648',
+      name:'The Photo Store',
+      color:'#1f1f1f',
+      bg:'#141414',
+      tagline:'Wedding photography and films. Ask about our work, share your wedding details and our team will get back to you.',
+      subtitle:'Wedding photography and films',
+      greeting:"Hi! Congratulations on your wedding. I'm The Photo Store's assistant. Tell me your wedding date and city and I'll help from there.",
+      chips:'Wedding photography|Wedding films|See your work|Talk to the team'
+    }
+  };
+  var q=new URLSearchParams(location.search);
+  var pr=PRESETS[q.get('p')]||{};
+  function g(key){return q.get(key)||pr[key]||'';}
+  var hex=/^#[0-9a-fA-F]{3,8}$/;
+  var c=g('c').replace(/\D/g,'');
+  var k=g('k').replace(/[^a-zA-Z0-9]/g,'');
+  var name=g('name')||'Chat with us';
+  var color=hex.test(g('color'))?g('color'):'#1f1f1f';
+  var bg=hex.test(g('bg'))?g('bg'):'#141414';
+  document.title=name;
+  document.getElementById('name').textContent=name;
+  document.getElementById('tagline').textContent=g('tagline');
+  document.body.style.background=bg;
+  var btn=document.getElementById('open');
+  btn.style.background=color;
+  btn.style.color='#fff';
+  if(!c||!k){document.getElementById('tagline').textContent='This chat link is incomplete.';btn.style.display='none';return;}
+  function openChat(){
+    try{
+      var kids=document.body.children;
+      for(var i=0;i<kids.length;i++){
+        var r=kids[i].shadowRoot;
+        if(!r)continue;
+        var b=r.querySelector('.btn'),p=r.querySelector('.panel');
+        if(b&&!(p&&p.classList.contains('open')))b.click();
+      }
+    }catch(e){}
+  }
+  var s=document.createElement('script');
+  s.src='https://nyrexbot2.nyrexautomations.workers.dev/widget.js';
+  s.setAttribute('data-client',c);
+  s.setAttribute('data-key',k);
+  s.setAttribute('data-title',name);
+  s.setAttribute('data-color',color);
+  s.setAttribute('data-nudge','off');
+  if(g('subtitle'))s.setAttribute('data-subtitle',g('subtitle'));
+  if(g('greeting'))s.setAttribute('data-greeting',g('greeting'));
+  if(g('chips'))s.setAttribute('data-chips',g('chips'));
+  s.onload=function(){setTimeout(openChat,500);};
+  document.body.appendChild(s);
+  btn.addEventListener('click',openChat);
+})();
+</script>
+</body>
+</html>
