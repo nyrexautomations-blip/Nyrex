@@ -65,6 +65,14 @@
       }
     }catch(e){}
   }
+  function isOpen(){
+    var kids=document.body.children;
+    for(var i=0;i<kids.length;i++){
+      var r=kids[i].shadowRoot,p=r&&r.querySelector('.panel');
+      if(p&&p.classList.contains('open'))return true;
+    }
+    return false;
+  }
   var s=document.createElement('script');
   s.src='https://nyrexbot2.nyrexautomations.workers.dev/widget.js';
   s.setAttribute('data-client',c);
@@ -75,9 +83,14 @@
   if(g('subtitle'))s.setAttribute('data-subtitle',g('subtitle'));
   if(g('greeting'))s.setAttribute('data-greeting',g('greeting'));
   if(g('chips'))s.setAttribute('data-chips',g('chips'));
+  try{sessionStorage.setItem('nyrex_open_'+c,'1');}catch(e){}
   s.onload=function(){setTimeout(openChat,500);};
   document.body.appendChild(s);
-  btn.addEventListener('click',openChat);
+  btn.addEventListener('click',function(){
+    try{sessionStorage.setItem('nyrex_open_'+c,'1');}catch(e){}
+    openChat();
+    setTimeout(function(){if(!isOpen())location.reload();},700);
+  });
 })();
 </script>
 </body>
