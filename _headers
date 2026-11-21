@@ -28,6 +28,8 @@
   Cache-Control: public, max-age=300, must-revalidate
 
 /og-image.png
+  ! Cross-Origin-Resource-Policy
+  Cross-Origin-Resource-Policy: cross-origin
   Cache-Control: public, max-age=86400
 
 /fonts/*
